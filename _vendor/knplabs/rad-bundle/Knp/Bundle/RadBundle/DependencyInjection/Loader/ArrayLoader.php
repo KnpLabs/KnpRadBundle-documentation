@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\Rad\DependencyInjection\Loader;
+namespace Knp\Bundle\RadBundle\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\Loader;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Knp\Rad;
+namespace Knp\Bundle\RadBundle;
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Yaml\Yaml;
 
-use Knp\Rad\DependencyInjection\Loader\ArrayLoader;
+use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -43,7 +43,7 @@ class AppKernel extends Kernel
 
     public function getRootDir()
     {
-        return realpath(__DIR__.'/../../../../../app');
+        return realpath(__DIR__.'/../../../../../../app');
     }
 
     public function getLogDir()

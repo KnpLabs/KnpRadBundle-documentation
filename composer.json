@@ -11,8 +11,8 @@
 
     "autoload": {
         "psr-0": {
-            "Test":      "src/",
-            "Knp\\Rad":  "_vendor/knplabs/rad/"
+            "Test":                    "src/",
+            "Knp\\Bundle\\RadBundle":  "_vendor/knplabs/rad-bundle/"
         }
     }
 }

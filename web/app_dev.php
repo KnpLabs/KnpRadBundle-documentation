@@ -18,6 +18,6 @@ require_once __DIR__.'/../waste/bootstrap.php.cache';
 
 use Symfony\Component\HttpFoundation\Request;
 
-$kernel = new Knp\Rad\AppKernel('dev', true);
+$kernel = new Knp\Bundle\RadBundle\AppKernel('dev', true);
 $kernel->loadClassCache();
 $kernel->handle(Request::createFromGlobals())->send();

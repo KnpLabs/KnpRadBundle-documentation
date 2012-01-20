@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\Rad;
+namespace Knp\Bundle\RadBundle;
 
 use Symfony\Bundle\FrameworkBundle\HttpCache\HttpCache;
 
