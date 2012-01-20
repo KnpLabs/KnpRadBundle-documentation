@@ -7,8 +7,7 @@
 
 set_time_limit(0);
 
-require_once __DIR__.'/app/bootstrap.php.cache';
-require_once __DIR__.'/app/AppKernel.php';
+require_once __DIR__.'/waste/bootstrap.php.cache';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -17,6 +16,6 @@ $input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev');
 $debug = !$input->hasParameterOption(array('--no-debug', ''));
 
-$kernel = new AppKernel($env, $debug);
+$kernel = new Knp\Rad\AppKernel($env, $debug);
 $application = new Application($kernel);
 $application->run();

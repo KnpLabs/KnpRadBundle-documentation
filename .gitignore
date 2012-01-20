@@ -1,8 +1,5 @@
-app/cache/*
-app/logs/*
-app/*.cache
+waste
+vendor
 web/bundles/*
 web/uploads/*
-vendor
-composer.phar
 composer.lock

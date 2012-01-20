@@ -1,0 +1,7 @@
+dev:
+    toolbar: true
+    intercept_redirects: false
+
+test:
+    toolbar: false
+    intercept_redirects: false

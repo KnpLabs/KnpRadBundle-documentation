@@ -1,4 +1,4 @@
-security:
+prod:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
 
