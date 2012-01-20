@@ -1,0 +1,7 @@
+parameters:
+#    knp_so_r.example.class: Knp\Bundle\SoRBundle\Example
+
+services:
+#    knp_so_r.example:
+#        class: %knp_so_r.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
