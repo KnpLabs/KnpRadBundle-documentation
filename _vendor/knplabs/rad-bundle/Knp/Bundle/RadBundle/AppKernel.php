@@ -3,20 +3,20 @@
 namespace Knp\Bundle\RadBundle;
 
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Yaml\Yaml;
-
-use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
+
+use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 
 class AppKernel extends Kernel
 {
