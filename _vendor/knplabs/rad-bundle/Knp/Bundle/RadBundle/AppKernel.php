@@ -20,27 +20,6 @@ use Symfony\Component\Finder\Finder;
 
 class AppKernel extends Kernel
 {
-    public function registerBundles()
-    {
-        $bundles = array(
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new \Symfony\Bundle\TwigBundle\TwigBundle(),
-            new \Symfony\Bundle\MonologBundle\MonologBundle(),
-            new \Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new \Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new \Test\BlogBundle\TestBlogBundle(),
-        );
-
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-            $bundles[] = new \Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
-            $bundles[] = new \Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new \Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-        }
-
-        return $bundles;
-    }
-
     public function getRootDir()
     {
         return realpath(__DIR__.'/../../../../../../app');
@@ -54,6 +33,13 @@ class AppKernel extends Kernel
     public function getCacheDir()
     {
         return realpath($this->rootDir.'/../waste/cache/'.$this->environment);
+    }
+
+    public function registerBundles()
+    {
+        $kernel = $this;
+
+        return require($this->rootDir.'/bundles.php');
     }
 
     /**
