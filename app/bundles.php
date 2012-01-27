@@ -12,6 +12,8 @@ $bundles = array(
     new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
     new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
+    new Knp\Bundle\RadBundle\KnpRadBundle(),
+
     //new Test\BlogBundle\TestBlogBundle(),
     new Knp\Bundle\RadBundle\Bundle\ConventionalBundle(AppKernel::$organization, 'BlogBundle')
 );
