@@ -20,6 +20,8 @@ use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 
 class AppKernel extends Kernel
 {
+    public static $organization;
+
     public function getRootDir()
     {
         return realpath(__DIR__.'/../../../../../../app');
