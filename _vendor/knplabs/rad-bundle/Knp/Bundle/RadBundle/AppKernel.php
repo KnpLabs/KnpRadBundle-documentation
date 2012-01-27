@@ -67,22 +67,28 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $dir = $this->rootDir.'/config';
-        $env = $this->getEnvironment();
 
-        foreach (Finder::create()->name('/^(?!routing|config).*\.yml/')->in($dir) as $file) {
-            $name    = basename($file, '.yml');
-            $configs = Yaml::parse($file);
-
-            if (isset($configs['all'])) {
-                $loader->load(array($name => $configs['all']));
-            }
-            if (isset($configs[$env])) {
-                $loader->load(array($name => $configs[$env]));
-            }
+        foreach (Finder::create()->name('*.yml')->notName('parameters.yml')->in($dir) as $file) {
+            $this->loadConfigFile($file, basename($file, '.yml'), $loader);
         }
 
-        if (file_exists($dir.'/config.yml')) {
-            $loader->load($dir.'/config.yml');
+        if (file_exists($parameters = $dir.'/parameters.yml')) {
+            $this->loadConfigFile($parameters, null, $loader);
+        }
+    }
+
+    protected function loadConfigFile($file, $name = null, LoaderInterface $loader)
+    {
+        $configs = Yaml::parse($file);
+        $env     = $this->getEnvironment();
+
+        if (isset($configs['all'])) {
+            $config = $name ? array($name => $configs['all']) : $configs['all'];
+            $loader->load($config, $file);
+        }
+        if (isset($configs[$env])) {
+            $config = $name ? array($name => $configs[$env]) : $configs[$env];
+            $loader->load($config, $file);
         }
     }
 }

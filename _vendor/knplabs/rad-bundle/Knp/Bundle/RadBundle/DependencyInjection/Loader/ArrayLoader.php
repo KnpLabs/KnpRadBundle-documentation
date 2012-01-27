@@ -34,11 +34,21 @@ class ArrayLoader extends Loader
      * Loads an array.
      *
      * @param array  $content The resource
-     * @param string $type    The resource type
+     * @param string $file    The resource file
      */
-    public function load($content, $type = null)
+    public function load($content, $file = null)
     {
         $configName = key($content);
+
+        // imports
+        $this->parseImports($content, $file);
+
+        // parameters
+        if (isset($content['parameters'])) {
+            foreach ($content['parameters'] as $key => $value) {
+                $this->container->setParameter($key, $this->resolveServices($value));
+            }
+        }
 
         // extensions
         $this->loadFromExtensions($content);
@@ -61,19 +71,37 @@ class ArrayLoader extends Loader
     }
 
     /**
+     * Parses all imports
+     *
+     * @param array $content
+     * @param string $file
+     */
+    private function parseImports($content, $file)
+    {
+        if (!isset($content['imports'])) {
+            return;
+        }
+
+        foreach ($content['imports'] as $import) {
+            $this->setCurrentDir(dirname($file));
+            $this->import($import['resource'], null, isset($import['ignore_errors']) ? (Boolean) $import['ignore_errors'] : false, $file);
+        }
+    }
+
+    /**
      * Parses definitions
      *
      * @param array $content
-     * @param string $configName
+     * @param string $file
      */
-    private function parseDefinitions($content, $configName)
+    private function parseDefinitions($content, $file)
     {
         if (!isset($content['services'])) {
             return;
         }
 
         foreach ($content['services'] as $id => $service) {
-            $this->parseDefinition($id, $service, $configName);
+            $this->parseDefinition($id, $service, $file);
         }
     }
 
@@ -82,9 +110,9 @@ class ArrayLoader extends Loader
      *
      * @param string $id
      * @param array $service
-     * @param string $configName
+     * @param string $file
      */
-    private function parseDefinition($id, $service, $configName)
+    private function parseDefinition($id, $service, $file)
     {
         if (is_string($service) && 0 === strpos($service, '@')) {
             $this->container->setAlias($id, substr($service, 1));
@@ -163,12 +191,12 @@ class ArrayLoader extends Loader
 
         if (isset($service['tags'])) {
             if (!is_array($service['tags'])) {
-                throw new InvalidArgumentException(sprintf('Parameter "tags" must be an array for service "%s" in %s.', $id, $configName));
+                throw new InvalidArgumentException(sprintf('Parameter "tags" must be an array for service "%s" in %s.', $id, $file));
             }
 
             foreach ($service['tags'] as $tag) {
                 if (!isset($tag['name'])) {
-                    throw new InvalidArgumentException(sprintf('A "tags" entry is missing a "name" key for service "%s" in %s.', $id, $configName));
+                    throw new InvalidArgumentException(sprintf('A "tags" entry is missing a "name" key for service "%s" in %s.', $id, $file));
                 }
 
                 $name = $tag['name'];
@@ -182,23 +210,35 @@ class ArrayLoader extends Loader
     }
 
     /**
-     * Validates an array.
+     * Loads a YAML file.
      *
-     * @param array $content
-     * @param string $configName
+     * @param string $file
+     *
+     * @return array The file content
+     */
+    private function loadFile($file)
+    {
+        return $this->validate(Yaml::parse($file), $file);
+    }
+
+    /**
+     * Validates a YAML file.
+     *
+     * @param mixed $content
+     * @param string $file
      *
      * @return array
      *
      * @throws InvalidArgumentException When service file is not valid
      */
-    private function validate($content, $configName)
+    private function validate($content, $file)
     {
         if (null === $content) {
             return $content;
         }
 
         if (!is_array($content)) {
-            throw new InvalidArgumentException(sprintf('The service file "%s" is not valid.', $configName));
+            throw new InvalidArgumentException(sprintf('The service file "%s" is not valid.', $file));
         }
 
         foreach (array_keys($content) as $namespace) {
@@ -211,7 +251,7 @@ class ArrayLoader extends Loader
                 throw new InvalidArgumentException(sprintf(
                     'There is no extension able to load the configuration for "%s" (in %s). Looked for namespace "%s", found %s',
                     $namespace,
-                    $configName,
+                    $file,
                     $namespace,
                     $extensionNamespaces ? sprintf('"%s"', implode('", "', $extensionNamespaces)) : 'none'
                 ));
