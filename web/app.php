@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../waste/bootstrap.php.cache';
+require_once __DIR__.'/../vendor/.composer/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 

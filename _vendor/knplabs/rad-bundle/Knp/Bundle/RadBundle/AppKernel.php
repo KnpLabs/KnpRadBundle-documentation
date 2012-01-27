@@ -69,22 +69,15 @@ class AppKernel extends Kernel
         $dir = $this->rootDir.'/config';
         $env = $this->getEnvironment();
 
-        if (file_exists($dir.'/parameters.ini')) {
-            $loader->load($dir.'/parameters.ini');
-        }
-
-        foreach (Finder::create()->files()->name('/^(?!routing).*\.yml/')->in($dir) as $file) {
+        foreach (Finder::create()->name('/^(?!routing|config).*\.yml/')->in($dir) as $file) {
             $name    = basename($file, '.yml');
             $configs = Yaml::parse($file);
 
-            if (isset($configs['prod'])) {
-                $loader->load(array($name => $configs['prod']));
+            if (isset($configs['all'])) {
+                $loader->load(array($name => $configs['all']));
             }
-            if (in_array($env, array('test', 'dev')) && isset($configs['dev'])) {
-                $loader->load(array($name => $configs['dev']));
-            }
-            if ('test' === $env && isset($configs['test'])) {
-                $loader->load(array($name => $configs['test']));
+            if (isset($configs[$env])) {
+                $loader->load(array($name => $configs[$env]));
             }
         }
 

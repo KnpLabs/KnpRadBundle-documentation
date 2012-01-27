@@ -14,7 +14,7 @@ if (!in_array(@$_SERVER['REMOTE_ADDR'], array(
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-require_once __DIR__.'/../waste/bootstrap.php.cache';
+require_once __DIR__.'/../vendor/.composer/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 
