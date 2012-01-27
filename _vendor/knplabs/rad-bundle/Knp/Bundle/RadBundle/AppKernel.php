@@ -22,6 +22,11 @@ class AppKernel extends Kernel
 {
     public static $organization;
 
+    public function getOrganizationName()
+    {
+        return self::$organization;
+    }
+
     public function getRootDir()
     {
         return realpath(__DIR__.'/../../../../../../app');

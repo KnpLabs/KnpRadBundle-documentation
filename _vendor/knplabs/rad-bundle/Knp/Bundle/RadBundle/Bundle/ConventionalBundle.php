@@ -9,20 +9,23 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Finder\Finder;
 
+use Knp\Bundle\RadBundle\Extension\ConventionalExtension;
+use Knp\Bundle\RadBundle\AppKernel;
+
 class ConventionalBundle extends ContainerAware implements BundleInterface
 {
     protected $name;
-    protected $organization;
+    protected $kernel;
     protected $parent;
     protected $namespace;
     protected $path;
     protected $extension;
 
-    public function __construct($organization, $name, $parent = null)
+    public function __construct(AppKernel $kernel, $name, $parent = null)
     {
-        $this->organization = $organization;
-        $this->name         = $name;
-        $this->parent       = $parent;
+        $this->kernel = $kernel;
+        $this->name   = $name;
+        $this->parent = $parent;
     }
 
     /**
@@ -80,7 +83,7 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
 
                 $this->extension = $extension;
             } else {
-                $this->extension = false;
+                $this->extension = new ConventionalExtension($this->getPath());
             }
         }
 
@@ -98,7 +101,7 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     {
         if (null === $this->namespace) {
             $this->namespace = sprintf('%s\\Bundle\\%s',
-                $this->getOrganization(), $this->getName()
+                $this->kernel->getOrganizationName(), $this->getName()
             );
         }
 
@@ -114,8 +117,8 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     {
         if (null === $this->path) {
             $this->path = realpath(sprintf('%s/../src/%s/Bundle/%s',
-                $this->container->getParameter('kernel.root_dir'),
-                $this->getOrganization(),
+                $this->kernel->getRootDir(),
+                $this->kernel->getOrganizationName(),
                 $this->getName()
             ));
         }
@@ -131,16 +134,6 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     public function getParent()
     {
         return $this->parent;
-    }
-
-    /**
-     * Returns bundle organization name.
-     *
-     * @return string The organization name
-     */
-    public function getOrganization()
-    {
-        return $this->organization;
     }
 
     /**

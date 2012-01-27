@@ -15,7 +15,7 @@ $bundles = array(
     new Knp\Bundle\RadBundle\KnpRadBundle(),
 
     //new Test\BlogBundle\TestBlogBundle(),
-    new Knp\Bundle\RadBundle\Bundle\ConventionalBundle(AppKernel::$organization, 'BlogBundle')
+    new Knp\Bundle\RadBundle\Bundle\ConventionalBundle($kernel, 'BlogBundle')
 );
 
 if (in_array($kernel->getEnvironment(), array('dev', 'test'))) {
