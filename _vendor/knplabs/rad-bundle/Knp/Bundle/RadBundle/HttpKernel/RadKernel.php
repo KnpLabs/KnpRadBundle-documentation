@@ -31,7 +31,7 @@ class RadKernel extends Kernel
         $this->configuration->load();
     }
 
-    static public function autoload($loader, $path)
+    static public function autoload($loader)
     {
         if (file_exists($custom = self::getProjectDir().'/app/autoload.php')) {
             return require($custom);
