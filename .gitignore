@@ -1,5 +1,7 @@
-waste
+cache
+logs
 vendor
+
 web/bundles/*
 web/uploads/*
 composer.lock

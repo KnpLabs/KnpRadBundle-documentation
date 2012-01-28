@@ -66,12 +66,12 @@ class RadKernel extends Kernel
 
     public function getLogDir()
     {
-        return self::getProjectDir().'/waste/logs';
+        return self::getProjectDir().'/logs';
     }
 
     public function getCacheDir()
     {
-        return self::getProjectDir().'/waste/cache/'.$this->environment;
+        return self::getProjectDir().'/cache/'.$this->environment;
     }
 
     public function getConfiguration()
