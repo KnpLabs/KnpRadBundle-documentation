@@ -26,10 +26,6 @@ class ConventionalExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor     = new Processor();
-        $configuration = new ConventionalConfiguration($this->getAlias());
-        $config        = $this->processConfiguration($configuration, $configs);
-
         if (file_exists($services = $this->path.'/config/services.xml')) {
             $loader = new XmlFileLoader($container, new FileLocator($this->path.'/config'));
             $loader->load($services);
@@ -40,8 +36,10 @@ class ConventionalExtension extends Extension
             $loader->load($services);
         }
 
-        foreach ($config['parameters'] as $key => $val) {
-            $container->setParameter($this->getAlias().'.'.$key, $val);
+        foreach ($configs as $config) {
+            foreach ($config as $key => $val) {
+                $container->setParameter($this->getAlias().'.'.$key, $val);
+            }
         }
     }
 
