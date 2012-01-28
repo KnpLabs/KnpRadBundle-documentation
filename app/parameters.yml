@@ -1,3 +1,5 @@
+organization: Acme
+
 all:
     parameters:
         database_driver:   pdo_mysql

@@ -30,14 +30,21 @@ class RadKernel extends Kernel
     public function getOrganizationName()
     {
         if (null === $this->organizationName) {
-            if (!file_exists($config = $this->getConfigDir().'/app.yml')) {
+            if (!file_exists($config = $this->getRootDir().'/parameters.yml')) {
                 throw new \RuntimeException(
-                    'Specify your `organization` name inside app/config/app.yml '.
+                    'Specify your `organization` name inside app/parameters.yml '.
                     'or by directly calling RadKernel::setOrganizationName().'
                 );
             }
 
             $config = Yaml::parse($config);
+
+            if (!isset($config['organization'])) {
+                throw new \RuntimeException(
+                    'Specify your `organization` name at the root of app/parameters.yml.'
+                );
+            }
+
             $this->organizationName = $config['organization'];
         }
 
@@ -102,15 +109,13 @@ class RadKernel extends Kernel
     {
         $configs = Finder::create()
             ->name('*.yml')
-            ->notName('parameters.yml')
-            ->notName('app.yml')
             ->in($this->getConfigDir());
 
         foreach ($configs as $file) {
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);
         }
 
-        if (file_exists($parameters = $this->getConfigDir().'/parameters.yml')) {
+        if (file_exists($parameters = $this->getRootDir().'/parameters.yml')) {
             $this->loadConfigFile($parameters, null, $loader);
         }
     }
