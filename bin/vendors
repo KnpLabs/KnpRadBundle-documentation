@@ -13,6 +13,7 @@
 set_time_limit(0);
 
 $rootDir   = dirname(__DIR__);
+$cacheDir  = $rootDir.'/cache';
 $vendorDir = $rootDir.'/vendor';
 
 array_shift($argv);
@@ -34,8 +35,8 @@ if (!in_array($command = array_shift($argv), array('install', 'update'))) {
 }
 
 // Download composer if not downloaded yet
-if (!file_exists($rootDir.'/composer.phar')) {
-    file_put_contents($rootDir.'/composer.phar',
+if (!file_exists($cacheDir.'/composer.phar')) {
+    file_put_contents($cacheDir.'/composer.phar',
         file_get_contents('http://getcomposer.org/composer.phar')
     );
 }
@@ -44,10 +45,10 @@ if (!file_exists($rootDir.'/composer.phar')) {
 $interpreter = defined('PHP_WINDOWS_VERSION_BUILD') ? 'php.exe' : 'php';
 
 // Install/update dependencies
-system(sprintf('%s %s %s', $interpreter, escapeshellarg($rootDir.'/composer.phar'), $command));
+system(sprintf('%s %s %s', $interpreter, escapeshellarg($cacheDir.'/composer.phar'), $command));
 
 // Update assets
-system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($rootDir.'/console'), escapeshellarg($rootDir.'/web/')));
+system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($rootDir.'/bin/console'), escapeshellarg($rootDir.'/web/')));
 
 // Remove the cache
-system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/console')));
+system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/bin/console')));

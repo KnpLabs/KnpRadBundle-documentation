@@ -5,4 +5,3 @@ vendor
 web/bundles/*
 web/uploads/*
 composer.lock
-composer.phar
