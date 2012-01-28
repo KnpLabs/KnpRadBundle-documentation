@@ -7,15 +7,17 @@
 
 set_time_limit(0);
 
-require_once __DIR__.'/app/autoload.php';
-
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
+
+$loader = require(__DIR__.'/vendor/.composer/autoload.php');
+RadKernel::autoload($loader, __DIR__);
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev');
 $debug = !$input->hasParameterOption(array('--no-debug', ''));
 
-$kernel = new Knp\Bundle\RadBundle\HttpKernel\RadKernel($env, $debug);
+$kernel = new RadKernel($env, $debug);
 $application = new Application($kernel);
 $application->run();

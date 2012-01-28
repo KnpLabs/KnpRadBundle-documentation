@@ -15,6 +15,7 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 
@@ -35,9 +36,32 @@ class RadKernel extends Kernel
         return $this->configuration;
     }
 
+    static public function autoload($loader, $path)
+    {
+        if (file_exists($custom = self::getProjectDir().'/app/autoload.php')) {
+            return require($custom);
+        }
+
+        // intl
+        if (!function_exists('intl_get_error_code')) {
+            require_once self::getProjectDir().'/vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs/functions.php';
+            $loader->add(null, self::getProjectDir().'/vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs');
+        }
+
+        // Swiftmailer needs a special autoloader to allow
+        // the lazy loading of the init file (which is expensive)
+        require_once self::getProjectDir().'/vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
+        \Swift::registerAutoload(self::getProjectDir().'/vendor/swiftmailer/swiftmailer/lib/swift_init.php');
+    }
+
+    static public function getProjectDir()
+    {
+        return realpath(__DIR__.'/../../../../../../..');
+    }
+
     public function getRootDir()
     {
-        return realpath(__DIR__.'/../../../../../../../app');
+        return self::getProjectDir().'/app';
     }
 
     public function getConfigDir()
@@ -45,19 +69,14 @@ class RadKernel extends Kernel
         return $this->getRootDir().'/config';
     }
 
-    public function getProjectDir()
-    {
-        return realpath($this->getRootDir().'/../');
-    }
-
     public function getLogDir()
     {
-        return $this->getProjectDir().'/waste/logs';
+        return self::getProjectDir().'/waste/logs';
     }
 
     public function getCacheDir()
     {
-        return $this->getProjectDir().'/waste/cache/'.$this->environment;
+        return self::getProjectDir().'/waste/cache/'.$this->environment;
     }
 
     public function registerBundles()
