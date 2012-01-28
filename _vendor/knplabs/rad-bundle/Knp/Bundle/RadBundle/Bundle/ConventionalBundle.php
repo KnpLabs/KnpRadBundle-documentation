@@ -101,7 +101,8 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     {
         if (null === $this->namespace) {
             $this->namespace = sprintf('%s\\Bundle\\%s',
-                $this->kernel->getOrganizationName(), $this->getName()
+                $this->kernel->getConfiguration()->getOrganizationName(),
+                $this->getName()
             );
         }
 
@@ -118,7 +119,7 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
         if (null === $this->path) {
             $this->path = sprintf('%s/src/%s/Bundle/%s',
                 $this->kernel->getProjectDir(),
-                $this->kernel->getOrganizationName(),
+                $this->kernel->getConfiguration()->getOrganizationName(),
                 $this->getName()
             );
         }

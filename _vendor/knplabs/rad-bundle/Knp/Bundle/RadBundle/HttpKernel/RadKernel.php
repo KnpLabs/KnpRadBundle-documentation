@@ -20,35 +20,19 @@ use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 
 class RadKernel extends Kernel
 {
-    private $organizationName;
+    private $configuration;
 
-    public function setOrganizationName($organizationName)
+    public function __construct($environment, $debug)
     {
-        $this->organizationName = $organizationName;
+        parent::__construct($environment, $debug);
+
+        $this->configuration = new KernelConfiguration($this);
+        $this->configuration->load();
     }
 
-    public function getOrganizationName()
+    public function getConfiguration()
     {
-        if (null === $this->organizationName) {
-            if (!file_exists($config = $this->getRootDir().'/parameters.yml')) {
-                throw new \RuntimeException(
-                    'Specify your `organization` name inside app/parameters.yml '.
-                    'or by directly calling RadKernel::setOrganizationName().'
-                );
-            }
-
-            $config = Yaml::parse($config);
-
-            if (!isset($config['organization'])) {
-                throw new \RuntimeException(
-                    'Specify your `organization` name at the root of app/parameters.yml.'
-                );
-            }
-
-            $this->organizationName = $config['organization'];
-        }
-
-        return $this->organizationName;
+        return $this->configuration;
     }
 
     public function getRootDir()
@@ -78,9 +62,7 @@ class RadKernel extends Kernel
 
     public function registerBundles()
     {
-        $kernel = $this;
-
-        return require($this->getRootDir().'/bundles.php');
+        return $this->configuration->getBundles();
     }
 
     /**
@@ -92,6 +74,10 @@ class RadKernel extends Kernel
      */
     protected function getContainerLoader(ContainerInterface $container)
     {
+        foreach ($this->configuration->getParameters() as $key => $val) {
+            $container->setParameter($key, $val);
+        }
+
         $locator = new FileLocator($this);
         $resolver = new LoaderResolver(array(
             new ArrayLoader($container),
@@ -132,6 +118,12 @@ class RadKernel extends Kernel
         if (isset($configs[$env])) {
             $config = $name ? array($name => $configs[$env]) : $configs[$env];
             $loader->load($config, $file);
+        }
+
+        foreach ($this->configuration->getConfigs() as $config) {
+            if (file_exists($config = $this->getRootDir().'/'.$config)) {
+                $loader->load($config);
+            }
         }
     }
 }
