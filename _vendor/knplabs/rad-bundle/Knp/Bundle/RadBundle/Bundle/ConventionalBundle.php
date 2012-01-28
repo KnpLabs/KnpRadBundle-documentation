@@ -10,7 +10,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Finder\Finder;
 
 use Knp\Bundle\RadBundle\Extension\ConventionalExtension;
-use Knp\Bundle\RadBundle\AppKernel;
+use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
 
 class ConventionalBundle extends ContainerAware implements BundleInterface
 {
@@ -21,7 +21,7 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     protected $path;
     protected $extension;
 
-    public function __construct(AppKernel $kernel, $name, $parent = null)
+    public function __construct(RadKernel $kernel, $name, $parent = null)
     {
         $this->kernel = $kernel;
         $this->name   = $name;

@@ -1,9 +1,5 @@
 <?php
 
-use Knp\Bundle\RadBundle\AppKernel;
-
-AppKernel::$organization = 'Acme';
-
 $bundles = array(
     new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
     new Symfony\Bundle\SecurityBundle\SecurityBundle(),

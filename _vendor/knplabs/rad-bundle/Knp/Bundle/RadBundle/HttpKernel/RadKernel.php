@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\Bundle\RadBundle;
+namespace Knp\Bundle\RadBundle\HttpKernel;
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Config\FileLocator;
@@ -18,18 +18,40 @@ use Symfony\Component\Yaml\Yaml;
 
 use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 
-class AppKernel extends Kernel
+class RadKernel extends Kernel
 {
-    public static $organization;
+    private $organizationName;
+
+    public function setOrganizationName($organizationName)
+    {
+        $this->organizationName = $organizationName;
+    }
 
     public function getOrganizationName()
     {
-        return self::$organization;
+        if (null === $this->organizationName) {
+            if (!file_exists($config = $this->getConfigDir().'/app.yml')) {
+                throw new \RuntimeException(
+                    'Specify your `organization` name inside app/config/app.yml '.
+                    'or by directly calling RadKernel::setOrganizationName().'
+                );
+            }
+
+            $config = Yaml::parse($config);
+            $this->organizationName = $config['organization'];
+        }
+
+        return $this->organizationName;
     }
 
     public function getRootDir()
     {
-        return realpath(__DIR__.'/../../../../../../app');
+        return realpath(__DIR__.'/../../../../../../../app');
+    }
+
+    public function getConfigDir()
+    {
+        return $this->getRootDir().'/config';
     }
 
     public function getProjectDir()
@@ -78,13 +100,17 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $dir = $this->getRootDir().'/config';
+        $configs = Finder::create()
+            ->name('*.yml')
+            ->notName('parameters.yml')
+            ->notName('app.yml')
+            ->in($this->getConfigDir());
 
-        foreach (Finder::create()->name('*.yml')->notName('parameters.yml')->in($dir) as $file) {
+        foreach ($configs as $file) {
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);
         }
 
-        if (file_exists($parameters = $dir.'/parameters.yml')) {
+        if (file_exists($parameters = $this->getConfigDir().'/parameters.yml')) {
             $this->loadConfigFile($parameters, null, $loader);
         }
     }

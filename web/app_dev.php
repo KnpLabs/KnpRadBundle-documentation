@@ -18,6 +18,6 @@ require_once __DIR__.'/../app/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 
-$kernel = new Knp\Bundle\RadBundle\AppKernel('dev', true);
+$kernel = new Knp\Bundle\RadBundle\HttpKernel\RadKernel('dev', true);
 $kernel->loadClassCache();
 $kernel->handle(Request::createFromGlobals())->send();
