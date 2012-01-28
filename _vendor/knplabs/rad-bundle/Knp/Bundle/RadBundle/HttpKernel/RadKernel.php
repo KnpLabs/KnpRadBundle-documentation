@@ -125,6 +125,18 @@ class RadKernel extends Kernel
         }
     }
 
+    protected function getKernelParameters()
+    {
+        return array_merge(
+            array(
+                'kernel.project_dir'       => self::getProjectDir(),
+                'kernel.organization_name' => $this->getConfiguration()->getOrganizationName(),
+                'kernel.application_name'  => $this->getConfiguration()->getApplicationName(),
+            ),
+            parent::getKernelParameters()
+        );
+    }
+
     protected function loadConfigFile($file, $name = null, LoaderInterface $loader)
     {
         $configs = Yaml::parse($file);
