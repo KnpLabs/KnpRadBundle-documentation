@@ -1,0 +1,40 @@
+organization: Acme
+application:  RadDemo
+
+all:
+    bundles:
+        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
+        Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
+        Symfony\Bundle\TwigBundle\TwigBundle:               ~
+        Symfony\Bundle\MonologBundle\MonologBundle:         ~
+        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
+        Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
+
+        Knp\Bundle\RadBundle\KnpRadBundle:                  ~
+        Knp\Bundle\RadBundle\Bundle\ConventionalBundle:     [@kernel, 'HelloBundle']
+
+    parameters:
+        database_driver:   pdo_mysql
+        database_host:     localhost
+        database_port:     ~
+        database_name:     symfony
+        database_user:     root
+        database_password: ~
+
+        mailer_transport:  smtp
+        mailer_host:       localhost
+        mailer_user:       ~
+        mailer_password:   ~
+
+        locale:            en
+        secret:            ThisTokenIsNotSoSecretChangeIt
+
+dev:
+    bundles:
+        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle: ~
+
+test:
+    bundles:
+        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle: ~

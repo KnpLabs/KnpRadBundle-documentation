@@ -1,0 +1,27 @@
+all:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    secret:          %secret%
+    charset:         UTF-8
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    session:
+        default_locale: %locale%
+        auto_start:     true
+
+prod:
+    router:   { resource: "%kernel.root_dir%/routing/prod.yml" }
+    profiler: { only_exceptions: false }
+
+dev:
+    router:   { resource: "%kernel.root_dir%/routing/dev.yml" }
+    profiler: { only_exceptions: false }
+
+test:
+    router:   { resource: "%kernel.root_dir%/routing/test.yml" }
+    profiler: { only_exceptions: false }
+    test: ~
+    session:
+        storage_id: session.storage.filesystem

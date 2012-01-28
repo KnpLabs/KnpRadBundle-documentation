@@ -1,0 +1,18 @@
+<?php
+
+namespace Acme\Bundle\HelloBundle\Name;
+
+class Wrapper
+{
+    private $pattern;
+
+    public function __construct($pattern)
+    {
+        $this->pattern = $pattern ?: '<strong>%s</strong>';
+    }
+
+    public function wrap($name)
+    {
+        return sprintf($this->pattern, $name);
+    }
+}

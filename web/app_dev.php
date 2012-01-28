@@ -14,11 +14,12 @@ if (!in_array(@$_SERVER['REMOTE_ADDR'], array(
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-require_once __DIR__.'/../app/bootstrap.php.cache';
-require_once __DIR__.'/../app/AppKernel.php';
-
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
 
-$kernel = new AppKernel('dev', true);
+$loader = require(__DIR__.'/../vendor/.composer/autoload.php');
+RadKernel::autoload($loader, __DIR__);
+
+$kernel = new RadKernel('dev', true);
 $kernel->loadClassCache();
 $kernel->handle(Request::createFromGlobals())->send();

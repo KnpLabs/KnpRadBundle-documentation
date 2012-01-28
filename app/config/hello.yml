@@ -1,0 +1,2 @@
+all:
+    name_pattern: <em>%s</em>

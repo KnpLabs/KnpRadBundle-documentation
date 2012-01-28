@@ -46,11 +46,8 @@ $interpreter = defined('PHP_WINDOWS_VERSION_BUILD') ? 'php.exe' : 'php';
 // Install/update dependencies
 system(sprintf('%s %s %s', $interpreter, escapeshellarg($rootDir.'/composer.phar'), $command));
 
-// Update the bootstrap files
-system(sprintf('%s %s', $interpreter, escapeshellarg($rootDir.'/bin/build_bootstrap')));
-
 // Update assets
-system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($rootDir.'/app/console'), escapeshellarg($rootDir.'/web/')));
+system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($rootDir.'/console'), escapeshellarg($rootDir.'/web/')));
 
 // Remove the cache
-system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/app/console')));
+system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/console')));

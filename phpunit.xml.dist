@@ -11,29 +11,26 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "bootstrap.php.cache" >
+    bootstrap                   = "app/bootstrap.php.cache" >
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>../src/*/*Bundle/Tests</directory>
-            <directory>../src/*/Bundle/*Bundle/Tests</directory>
+            <directory>src/*/*Bundle/tests</directory>
         </testsuite>
     </testsuites>
 
-    <!--
     <php>
-        <server name="KERNEL_DIR" value="/path/to/your/app/" />
+        <server name="KERNEL_DIR" value="/_vendor/knplabs/rad/" />
     </php>
-    -->
 
     <filter>
         <whitelist>
-            <directory>../src</directory>
+            <directory>src</directory>
             <exclude>
-                <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../src/*/*Bundle/Tests</directory>
-                <directory>../src/*/Bundle/*Bundle/Resources</directory>
-                <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/*/*Bundle/views</directory>
+                <directory>../src/*/*Bundle/config</directory>
+                <directory>../src/*/*Bundle/public</directory>
+                <directory>../src/*/*Bundle/tests</directory>
             </exclude>
         </whitelist>
     </filter>
