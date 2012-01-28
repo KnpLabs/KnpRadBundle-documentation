@@ -38,6 +38,10 @@ class KernelConfiguration
 
         if (!file_exists($cacheFile) || filemtime($path) > filemtime($cacheFile)) {
             $parsed = Yaml::parse($path);
+
+            if (!is_dir($cacheDir = dirname($cacheFile))) {
+                mkdir($cacheDir, 0777, true);
+            }
             file_put_contents($cacheFile, sprintf('<?php return %s;', var_export($parsed, true)));
         }
 
@@ -109,6 +113,10 @@ class KernelConfiguration
             }
 
             $bundles .= ");";
+
+            if (!is_dir($cacheDir = dirname($cacheFile))) {
+                mkdir($cacheDir, 0777, true);
+            }
             file_put_contents($cacheFile, $bundles);
         }
 
