@@ -116,11 +116,11 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     public function getPath()
     {
         if (null === $this->path) {
-            $this->path = realpath(sprintf('%s/../src/%s/Bundle/%s',
-                $this->kernel->getRootDir(),
+            $this->path = sprintf('%s/src/%s/Bundle/%s',
+                $this->kernel->getProjectDir(),
                 $this->kernel->getOrganizationName(),
                 $this->getName()
-            ));
+            );
         }
 
         return $this->path;

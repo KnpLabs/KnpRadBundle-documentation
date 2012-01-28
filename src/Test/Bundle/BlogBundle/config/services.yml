@@ -1,8 +1,0 @@
-parameters:
-#    test_blog.example.class: Test\BlogBundle\Example
-
-services:
-    blog.name_wrapper:
-        class: Test\Bundle\BlogBundle\Name\Wrapper
-        arguments:
-            - %blog.name_pattern%

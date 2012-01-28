@@ -10,7 +10,7 @@
 
     "autoload": {
         "psr-0": {
-            "Test":                    "src/",
+            "Acme":                    "src/",
             "Knp\\Bundle\\RadBundle":  "_vendor/knplabs/rad-bundle/"
         }
     }

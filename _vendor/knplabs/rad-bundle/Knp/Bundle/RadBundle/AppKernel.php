@@ -32,21 +32,26 @@ class AppKernel extends Kernel
         return realpath(__DIR__.'/../../../../../../app');
     }
 
+    public function getProjectDir()
+    {
+        return realpath($this->getRootDir().'/../');
+    }
+
     public function getLogDir()
     {
-        return realpath($this->rootDir.'/../waste/logs');
+        return $this->getProjectDir().'/waste/logs';
     }
 
     public function getCacheDir()
     {
-        return realpath($this->rootDir.'/../waste/cache/'.$this->environment);
+        return $this->getProjectDir().'/waste/cache/'.$this->environment;
     }
 
     public function registerBundles()
     {
         $kernel = $this;
 
-        return require($this->rootDir.'/bundles.php');
+        return require($this->getRootDir().'/bundles.php');
     }
 
     /**
@@ -73,7 +78,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $dir = $this->rootDir.'/config';
+        $dir = $this->getRootDir().'/config';
 
         foreach (Finder::create()->name('*.yml')->notName('parameters.yml')->in($dir) as $file) {
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);

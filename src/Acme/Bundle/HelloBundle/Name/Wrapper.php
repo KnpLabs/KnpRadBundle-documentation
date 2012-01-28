@@ -1,10 +1,7 @@
 <?php
 
-namespace Test\Bundle\BlogBundle\Name;
+namespace Acme\Bundle\HelloBundle\Name;
 
-/**
- * Wrapper.
- */
 class Wrapper
 {
     private $pattern;
