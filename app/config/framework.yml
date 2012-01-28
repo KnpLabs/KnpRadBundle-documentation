@@ -3,7 +3,6 @@ all:
     #translator:      { fallback: %locale% }
     secret:          %secret%
     charset:         UTF-8
-    router:          { resource: "%kernel.root_dir%/routing/all.yml" }
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
@@ -12,12 +11,16 @@ all:
         default_locale: %locale%
         auto_start:     true
 
+prod:
+    router:   { resource: "%kernel.root_dir%/routing/prod.yml" }
+    profiler: { only_exceptions: false }
+
 dev:
     router:   { resource: "%kernel.root_dir%/routing/dev.yml" }
     profiler: { only_exceptions: false }
 
 test:
-    router:   { resource: "%kernel.root_dir%/routing/dev.yml" }
+    router:   { resource: "%kernel.root_dir%/routing/test.yml" }
     profiler: { only_exceptions: false }
     test: ~
     session:
