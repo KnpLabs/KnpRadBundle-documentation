@@ -31,11 +31,6 @@ class RadKernel extends Kernel
         $this->configuration->load();
     }
 
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
     static public function autoload($loader, $path)
     {
         if (file_exists($custom = self::getProjectDir().'/app/autoload.php')) {
@@ -77,6 +72,11 @@ class RadKernel extends Kernel
     public function getCacheDir()
     {
         return self::getProjectDir().'/waste/cache/'.$this->environment;
+    }
+
+    public function getConfiguration()
+    {
+        return $this->configuration;
     }
 
     public function registerBundles()
