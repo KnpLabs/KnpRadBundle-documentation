@@ -1,7 +1,9 @@
-organization: Acme
-application:  RadDemo
+project: Acme\Hello
 
 all:
+    apps:
+        - Frontend
+
     bundles:
         Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
         Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
@@ -9,9 +11,7 @@ all:
         Symfony\Bundle\MonologBundle\MonologBundle:         ~
         Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
         Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
-
         Knp\Bundle\RadBundle\KnpRadBundle:                  ~
-        Knp\Bundle\RadBundle\Bundle\ConventionalBundle:     [@kernel, 'HelloBundle']
 
     parameters:
         database_driver:   pdo_mysql

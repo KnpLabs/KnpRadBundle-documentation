@@ -100,9 +100,9 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     public function getNamespace()
     {
         if (null === $this->namespace) {
-            $this->namespace = sprintf('%s\\Bundle\\%s',
-                $this->kernel->getConfiguration()->getOrganizationName(),
-                $this->getName()
+            $this->namespace = sprintf('%s\\%s',
+                $this->kernel->getConfiguration()->getProjectName(),
+                $this->getNamePrefix().$this->getName()
             );
         }
 
@@ -117,10 +117,16 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
     public function getPath()
     {
         if (null === $this->path) {
-            $this->path = sprintf('%s/src/%s/Bundle/%s',
+            $this->path = sprintf('%s/src/%s/%s',
                 $this->kernel->getProjectDir(),
-                $this->kernel->getConfiguration()->getOrganizationName(),
-                $this->getName()
+                str_replace('\\',
+                    DIRECTORY_SEPARATOR,
+                    $this->kernel->getConfiguration()->getProjectName()
+                ),
+                str_replace('\\',
+                    DIRECTORY_SEPARATOR,
+                    $this->getNamePrefix().$this->getName()
+                )
             );
         }
 
@@ -177,5 +183,15 @@ class ConventionalBundle extends ContainerAware implements BundleInterface
                 $application->add($r->newInstance());
             }
         }
+    }
+
+    /**
+     * Returns bundle name prefix (used to find bundle path and namesapce).
+     *
+     * @return string
+     */
+    protected function getNamePrefix()
+    {
+        return 'Bundle\\';
     }
 }

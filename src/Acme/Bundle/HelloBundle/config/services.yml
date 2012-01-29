@@ -1,8 +1,0 @@
-parameters:
-    hello.wrapper.class: Acme\Bundle\HelloBundle\Name\Wrapper
-
-services:
-    hello.name_wrapper:
-        class: %hello.wrapper.class%
-        arguments:
-            - %hello.name_pattern%

@@ -142,9 +142,8 @@ class RadKernel extends Kernel
     {
         return array_merge(
             array(
-                'kernel.project_dir'       => self::getProjectDir(),
-                'kernel.organization_name' => $this->getConfiguration()->getOrganizationName(),
-                'kernel.application_name'  => $this->getConfiguration()->getApplicationName(),
+                'kernel.project_dir'  => self::getProjectDir(),
+                'kernel.project_name' => $this->getConfiguration()->getProjectName(),
             ),
             parent::getKernelParameters()
         );

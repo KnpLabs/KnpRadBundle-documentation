@@ -11,6 +11,7 @@ use Symfony\Component\Config\Definition\Processor;
 
 class ConventionalExtension extends Extension
 {
+    private $alias;
     private $path;
 
     public function __construct($path)
@@ -45,6 +46,10 @@ class ConventionalExtension extends Extension
 
     public function getAlias()
     {
-        return strtolower(substr(basename($this->path), 0, -6));
+        if (null === $this->alias) {
+            $this->alias = strtolower(preg_replace('/Bundle$/', '', basename($this->path)));
+        }
+
+        return $this->alias;
     }
 }

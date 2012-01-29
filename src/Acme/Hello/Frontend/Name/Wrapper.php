@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\Bundle\HelloBundle\Name;
+namespace Acme\Hello\Frontend\Name;
 
 class Wrapper
 {

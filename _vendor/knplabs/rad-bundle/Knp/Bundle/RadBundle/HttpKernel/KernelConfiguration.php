@@ -11,9 +11,9 @@ class KernelConfiguration
 {
     private $kernel;
     private $configsMTime;
-    private $organizationName;
-    private $applicationName;
+    private $projectName;
     private $configs    = array();
+    private $apps       = array();
     private $bundles    = array();
     private $parameters = array();
 
@@ -48,11 +48,8 @@ class KernelConfiguration
         $this->configsMTime = filemtime($cacheFile);
         $config = require($cacheFile);
 
-        if (isset($config['organization'])) {
-            $this->organizationName = $config['organization'];
-        }
-        if (isset($config['application'])) {
-            $this->applicationName = $config['application'];
+        if (isset($config['project'])) {
+            $this->projectName = $config['project'];
         }
 
         if (isset($config['all'])) {
@@ -63,26 +60,15 @@ class KernelConfiguration
         }
     }
 
-    public function getOrganizationName()
+    public function getProjectName()
     {
-        if (null === $this->organizationName) {
+        if (null === $this->projectName) {
             throw new \RuntimeException(
-                'Specify your `organization` name inside app/app.yml or app/app.local.yml'
+                'Specify your `project` name inside app/app.yml or app/app.local.yml'
             );
         }
 
-        return $this->organizationName;
-    }
-
-    public function getApplicationName()
-    {
-        if (null === $this->applicationName) {
-            throw new \RuntimeException(
-                'Specify your `application` name inside app/app.yml or app/app.local.yml'
-            );
-        }
-
-        return $this->applicationName;
+        return $this->projectName;
     }
 
     public function getConfigs()
@@ -109,7 +95,16 @@ class KernelConfiguration
                     return '"'.$argument.'"';
                 }, (array) $arguments);
 
-                $bundles .= sprintf("    new %s(%s),\n", $class, implode(', ', $arguments));
+                $bundles .= sprintf(
+                    "    new %s(%s),\n", $class, implode(', ', $arguments)
+                );
+            }
+
+            foreach ($this->apps as $name) {
+                $bundles .= sprintf(
+                    "    new Knp\Bundle\RadBundle\Bundle\ApplicationBundle(\$kernel, '%s'),\n",
+                    $name
+                );
             }
 
             $bundles .= ");";
@@ -132,6 +127,14 @@ class KernelConfiguration
 
     private function loadSettings(array $settings)
     {
+        if (isset($settings['apps'])) {
+            foreach ($settings['apps'] as $name) {
+                if (!in_array($name, $this->apps)) {
+                    $this->apps[] = $name;
+                }
+            }
+        }
+
         if (isset($settings['bundles'])) {
             foreach ($settings['bundles'] as $class => $constr) {
                 $this->bundles[$class] = $constr;
