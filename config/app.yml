@@ -32,9 +32,7 @@ all:
 dev:
     bundles:
         Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
-        Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle: ~
 
 test:
     bundles:
         Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
-        Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle: ~
