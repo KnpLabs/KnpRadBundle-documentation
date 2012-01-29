@@ -1,4 +1,4 @@
-project: Acme\Hello
+name: Acme\Hello
 
 all:
     apps:

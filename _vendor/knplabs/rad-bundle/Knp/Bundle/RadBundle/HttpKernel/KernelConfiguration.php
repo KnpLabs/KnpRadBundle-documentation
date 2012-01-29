@@ -24,10 +24,10 @@ class KernelConfiguration
 
     public function load()
     {
-        if (file_exists($cfg = $this->kernel->getRootDir().'/app.yml')) {
+        if (file_exists($cfg = $this->kernel->getRootDir().'/project.yml')) {
             $this->updateFromFile($cfg, $this->kernel->getEnvironment());
         }
-        if (file_exists($cfg = $this->kernel->getRootDir().'/app.local.yml')) {
+        if (file_exists($cfg = $this->kernel->getRootDir().'/project.local.yml')) {
             $this->updateFromFile($cfg, $this->kernel->getEnvironment());
         }
     }
@@ -48,8 +48,8 @@ class KernelConfiguration
         $this->configsMTime = filemtime($cacheFile);
         $config = require($cacheFile);
 
-        if (isset($config['project'])) {
-            $this->projectName = $config['project'];
+        if (isset($config['name'])) {
+            $this->projectName = $config['name'];
         }
 
         if (isset($config['all'])) {
@@ -64,7 +64,7 @@ class KernelConfiguration
     {
         if (null === $this->projectName) {
             throw new \RuntimeException(
-                'Specify your `project` name inside app/app.yml or app/app.local.yml'
+                'Specify your project `name` inside app/project.yml or app/project.local.yml'
             );
         }
 
