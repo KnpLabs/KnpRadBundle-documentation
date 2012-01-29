@@ -47,17 +47,14 @@ Project structure changes
 -------------------------
 
 - `app/cache` and `app/logs` have been moved to the root.
-- new `config` folder have been created
-
-New `config` folder holds all the project configuration:
-
-- `config/project.yml` holds project-wide configuration such as project name, list of bundles
-  and project parameters.
-- `config/routing/*.yml` holds routing configurations.
-- `config/bundles/*.yml` holds bundles configurations, including your applications. Every
-  bundle has appropriate configuration file, that lives here. For example, `FOSRestBundle` will
-  have `config/bundles/fos_rest.yml` config file. Configuration for different environemnts of
-  this bundle live here.
+- new `config` folder have been created, which holds all the project configuration:
+    - `config/project.yml` holds project-wide configuration such as project name, list of bundles
+      and project parameters.
+    - `config/routing/*.yml` holds routing configurations.
+    - `config/bundles/*.yml` holds bundles configurations, including your applications. Every
+      bundle has appropriate configuration file, that lives here. For example, `FOSRestBundle` will
+      have `config/bundles/fos_rest.yml` config file. Configuration for different environemnts of
+      this bundle live here.
 
 Lets look at the default `config/project.yml`:
 
