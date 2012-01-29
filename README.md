@@ -66,37 +66,37 @@ all:
         - Frontend
 
     bundles:
-        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     -
-        Symfony\Bundle\SecurityBundle\SecurityBundle:       -
-        Symfony\Bundle\TwigBundle\TwigBundle:               -
-        Symfony\Bundle\MonologBundle\MonologBundle:         -
-        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: -
-        Symfony\Bundle\AsseticBundle\AsseticBundle:         -
-        Knp\Bundle\RadBundle\KnpRadBundle:                  -
+        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
+        Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
+        Symfony\Bundle\TwigBundle\TwigBundle:               ~
+        Symfony\Bundle\MonologBundle\MonologBundle:         ~
+        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
+        Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
+        Knp\Bundle\RadBundle\KnpRadBundle:                  ~
 
     parameters:
         database_driver:   pdo_mysql
         database_host:     localhost
-        database_port:     -
+        database_port:     ~
         database_name:     symfony
         database_user:     root
-        database_password: -
+        database_password: ~
 
         mailer_transport:  smtp
         mailer_host:       localhost
-        mailer_user:       -
-        mailer_password:   -
+        mailer_user:       ~
+        mailer_password:   ~
 
         locale:            en
         secret:            ThisTokenIsNotSoSecretChangeIt
 
 dev:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  -
+        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
 
 test:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  -
+        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
 ```
 
 `name` defines project namespace of your project. If you want to make your project namespace path
@@ -120,7 +120,7 @@ Now lets look at specific bundle configuration, `config/bundles/framework.yml`:
 
 ``` yaml
 all:
-    #esi:             -
+    #esi:             ~
     #translator:      { fallback: %locale% }
     secret:          %secret%
     charset:         UTF-8
