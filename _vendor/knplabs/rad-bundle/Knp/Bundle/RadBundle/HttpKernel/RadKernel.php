@@ -33,20 +33,31 @@ class RadKernel extends Kernel
 
     static public function autoload($loader)
     {
-        if (file_exists($custom = self::getProjectDir().'/config/autoload.php')) {
+        $projectDir = self::getProjectDir();
+
+        $autoloadIntl = function() use($projectDir, $loader) {
+            if (!function_exists('intl_get_error_code')) {
+                require_once $projectDir.
+                    '/vendor/symfony/symfony/src/'.
+                    'Symfony/Component/Locale/Resources/stubs/functions.php';
+                $loader->add(null, $projectDir.
+                    '/vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs'
+                );
+            }
+        };
+        $autoloadSwift = function() use($projectDir, $loader) {
+            require_once $projectDir.'/vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
+            \Swift::registerAutoload($projectDir.
+                '/vendor/swiftmailer/swiftmailer/lib/swift_init.php'
+            );
+        };
+
+        if (file_exists($custom = $projectDir.'/config/autoload.php')) {
             return require($custom);
         }
 
-        // intl
-        if (!function_exists('intl_get_error_code')) {
-            require_once self::getProjectDir().'/vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs/functions.php';
-            $loader->add(null, self::getProjectDir().'/vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs');
-        }
-
-        // Swiftmailer needs a special autoloader to allow
-        // the lazy loading of the init file (which is expensive)
-        require_once self::getProjectDir().'/vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
-        \Swift::registerAutoload(self::getProjectDir().'/vendor/swiftmailer/swiftmailer/lib/swift_init.php');
+        $autoloadIntl();
+        $autoloadSwift();
     }
 
     static public function getProjectDir()
