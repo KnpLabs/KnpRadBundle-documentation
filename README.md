@@ -13,14 +13,14 @@ the fact, that it totally changes your Symfony2 application development flow.
 Next section describes what this bundle changes in Symfony2.
 
 Composer
-~~~~~~~~
+--------
 
 Composer now is the main part of Symfony2. All dependencies and bundles are managed by it.
 You can define your project dependencies inside special `composer.json` file and load them by
 calling `bin/vendors install` or `bin/vendors update`.
 
 Hiding useless scripts and classes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------
 
 `app/AppKernel.php`, `app/AppCache.php` classes were been removed in favor of new `RadKernel`.
 Now you just need to use predefined by `RadBundle` kernel in your front controllers:
@@ -44,7 +44,7 @@ That's it. This `RadKernel` follows simple conventions with which you can config
 project without the need to maintain complex php class.
 
 Project structure changes
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 - `app/cache` and `app/logs` have been moved to the root.
 - new `config` folder have been created
@@ -69,37 +69,37 @@ all:
         - Frontend
 
     bundles:
-        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
-        Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
-        Symfony\Bundle\TwigBundle\TwigBundle:               ~
-        Symfony\Bundle\MonologBundle\MonologBundle:         ~
-        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
-        Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
-        Knp\Bundle\RadBundle\KnpRadBundle:                  ~
+        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     -
+        Symfony\Bundle\SecurityBundle\SecurityBundle:       -
+        Symfony\Bundle\TwigBundle\TwigBundle:               -
+        Symfony\Bundle\MonologBundle\MonologBundle:         -
+        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: -
+        Symfony\Bundle\AsseticBundle\AsseticBundle:         -
+        Knp\Bundle\RadBundle\KnpRadBundle:                  -
 
     parameters:
         database_driver:   pdo_mysql
         database_host:     localhost
-        database_port:     ~
+        database_port:     -
         database_name:     symfony
         database_user:     root
-        database_password: ~
+        database_password: -
 
         mailer_transport:  smtp
         mailer_host:       localhost
-        mailer_user:       ~
-        mailer_password:   ~
+        mailer_user:       -
+        mailer_password:   -
 
         locale:            en
         secret:            ThisTokenIsNotSoSecretChangeIt
 
 dev:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  -
 
 test:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  -
 ```
 
 `name` defines project namespace of your project. If you want to make your project namespace path
@@ -123,7 +123,7 @@ Now lets look at specific bundle configuration, `config/bundles/framework.yml`:
 
 ``` yaml
 all:
-    #esi:             ~
+    #esi:             -
     #translator:      { fallback: %locale% }
     secret:          %secret%
     charset:         UTF-8
@@ -146,7 +146,7 @@ dev:
 test:
     router:   { resource: "%kernel.root_dir%/routing/test.yml" }
     profiler: { only_exceptions: false }
-    test: ~
+    test: -
     session:
         storage_id: session.storage.filesystem
 ```
@@ -159,7 +159,7 @@ As you might see, every environment in this edition have it's own routing config
 inside `config/routing/*.yml`. It's the same old Symfony2 routing configuration files.
 
 Application bundles structure changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 
 Application bundles are very special type of Symfony2 bundles. Because they will be used
 only for one single project, they don't need to share same development requirements and rules, 
@@ -209,7 +209,7 @@ services.xml). The only requirement - they should be named `routing.yml` OR `ser
 `views` holds your application views.
 
 Application bundle configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 Ok, but if we don't have extension, then how to provide project-wide parameters for our application?
 Application bundles implicitly instanciate `ConventionalExtension`, which will automatically add
@@ -233,7 +233,7 @@ dev:
 ```
 
 View rendering inside controller
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 There's no need to specify view name in controller action anymore. You can just return array of view
 data:
