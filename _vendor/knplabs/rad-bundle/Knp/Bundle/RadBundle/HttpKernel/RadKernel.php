@@ -130,6 +130,12 @@ class RadKernel extends Kernel
         foreach ($configs as $file) {
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);
         }
+
+        foreach ($this->configuration->getConfigs() as $file) {
+            if (file_exists($file = $this->getRootDir().'/'.$file)) {
+                $loader->load($file);
+            }
+        }
     }
 
     protected function getKernelParameters()
@@ -156,12 +162,6 @@ class RadKernel extends Kernel
         if (isset($configs[$env])) {
             $config = $name ? array($name => $configs[$env]) : $configs[$env];
             $loader->load($config, $file);
-        }
-
-        foreach ($this->configuration->getConfigs() as $config) {
-            if (file_exists($config = $this->getRootDir().'/'.$config)) {
-                $loader->load($config);
-            }
         }
     }
 }
