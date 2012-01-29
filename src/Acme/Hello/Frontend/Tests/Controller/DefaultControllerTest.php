@@ -2,7 +2,7 @@
 
 namespace Acme\Hello\Frontend\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Knp\Bundle\RadBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -12,6 +12,6 @@ class DefaultControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/hello/Fabien');
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("Hello <em>Fabien</em>")')->count() > 0);
     }
 }
