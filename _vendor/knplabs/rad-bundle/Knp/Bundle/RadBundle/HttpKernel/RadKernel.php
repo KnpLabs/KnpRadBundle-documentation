@@ -56,12 +56,12 @@ class RadKernel extends Kernel
 
     public function getRootDir()
     {
-        return self::getProjectDir().'/app';
+        return self::getProjectDir().'/config';
     }
 
-    public function getConfigDir()
+    public function getBundlesConfigDir()
     {
-        return $this->getRootDir().'/config';
+        return $this->getRootDir().'/bundles';
     }
 
     public function getLogDir()
@@ -114,7 +114,7 @@ class RadKernel extends Kernel
     {
         $configs = Finder::create()
             ->name('*.yml')
-            ->in($this->getConfigDir());
+            ->in($this->getBundlesConfigDir());
 
         foreach ($configs as $file) {
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);
