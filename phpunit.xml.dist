@@ -11,26 +11,26 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "app/bootstrap.php.cache" >
+    bootstrap                   = "vendors/.composer/autoload.php" >
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>src/*/*Bundle/tests</directory>
+            <directory>src/*/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
 
     <php>
-        <server name="KERNEL_DIR" value="/_vendor/knplabs/rad/" />
+        <server name="KERNEL_DIR" value="_vendor/knplabs/rad-bundle/Knp/Bundle/RadBundle/HttpKernel" />
     </php>
 
     <filter>
         <whitelist>
             <directory>src</directory>
             <exclude>
+                <directory>../src/*/*Bundle/Tests</directory>
                 <directory>../src/*/*Bundle/views</directory>
                 <directory>../src/*/*Bundle/config</directory>
                 <directory>../src/*/*Bundle/public</directory>
-                <directory>../src/*/*Bundle/tests</directory>
             </exclude>
         </whitelist>
     </filter>
