@@ -11,8 +11,8 @@
  */
 
 set_time_limit(0);
+chdir($rootDir = dirname(__DIR__));
 
-$rootDir   = dirname(__DIR__);
 $cacheDir  = $rootDir.'/cache';
 $vendorDir = $rootDir.'/vendor';
 
