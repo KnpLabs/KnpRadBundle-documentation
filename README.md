@@ -252,3 +252,16 @@ class DefaultController extends Controller
 ```
 
 Appropriate view (`views/CONTROLLER_NAME/ACTION_NAME._FORMAT.twig`) will be loaded for you.
+
+Generators
+----------
+
+`RadBundle` comes with powerful generators to ease your development even more.
+
+TODO:
+
+- bundles installation / uninstallation
+- configuration generator
+- controller (bundle, actino) generator
+- entities generator / loader
+
