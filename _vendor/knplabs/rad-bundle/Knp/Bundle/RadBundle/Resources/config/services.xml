@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="file_locator" class="%file_locator.class%">
+            <argument type="service" id="kernel" />
+            <argument>%kernel.project_dir%</argument>
+        </service>
+
+        <service id="templating.finder" class="%templating.finder.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="templating.name_parser" />
+            <argument>%kernel.project_dir%</argument>
+        </service>
+
+        <service id="templating.helper.code" class="%templating.helper.code.class%">
+            <tag name="templating.helper" alias="code" />
+            <argument>%templating.helper.code.file_link_format%</argument>
+            <argument>%kernel.project_dir%</argument>
+            <argument>%kernel.charset%</argument>
+        </service>
+    </services>
+</container>

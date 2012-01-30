@@ -26,5 +26,6 @@ class KnpRadExtension extends Extension
         $loader->load('controller.xml');
         $loader->load('templating.xml');
         $loader->load('view.xml');
+        $loader->load('services.xml');
     }
 }
