@@ -1,5 +1,7 @@
 {% extends 'Frontend::base.html.twig' %}
 
 {% block body %}
-    Hello {{ name }}!
+    {{ app.session.locale }}:<br/>
+
+    {{ 'Hello'|trans }} {{ name }}!
 {% endblock %}

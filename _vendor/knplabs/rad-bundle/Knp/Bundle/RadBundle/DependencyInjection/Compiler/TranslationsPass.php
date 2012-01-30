@@ -4,12 +4,13 @@ namespace Knp\Bundle\RadBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\Finder\Finder;
 
 class TranslationsPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('translator')) {
+        if (!$container->hasDefinition('translator.default')) {
             return;
         }
 
@@ -18,7 +19,7 @@ class TranslationsPass implements CompilerPassInterface
 
         $dirs = array();
         foreach ($container->getParameter('kernel.bundles') as $name => $class) {
-            if (is_dir($dir = dirname($projectDir.'/'.str_replace('\\', '/', $name)).'/i18n')) {
+            if (is_dir($dir = $projectDir.'/'.str_replace('\\', '/', $name).'/i18n')) {
                 $dirs[] = $dir;
             }
         }
