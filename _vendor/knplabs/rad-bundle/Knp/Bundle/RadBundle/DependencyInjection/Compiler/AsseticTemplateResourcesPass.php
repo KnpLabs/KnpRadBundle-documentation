@@ -10,9 +10,21 @@ class AsseticTemplateResourcesPass extends BasePass
 {
     protected function setBundleDirectoryResources(ContainerBuilder $container, $engine, $bundleDirName, $bundleName)
     {
+        $bundles = $container->getParameter('kernel.bundles');
+        $class   = $bundles[$bundleName];
+
+        $r = new \ReflectionClass($class);
+        if ($r->isSubclassOf('Knp\Bundle\RadBundle\Bundle\ConventionalBundle')) {
+            $bundleDirName = sprintf('%s/%s',
+                $container->getParameter('kernel.project_dir'),
+                str_replace('\\', '/', $bundleName)
+            );
+        }
+
         $container->setDefinition(
             'assetic.'.$engine.'_directory_resource.'.$bundleName,
             new DirectoryResourceDefinition($bundleName, $engine, array(
+                $bundleDirName.'/Resources/views',
                 $bundleDirName.'/views',
             ))
         );
