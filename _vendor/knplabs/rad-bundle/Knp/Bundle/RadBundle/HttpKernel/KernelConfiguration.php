@@ -24,10 +24,10 @@ class KernelConfiguration
 
     public function load()
     {
-        if (file_exists($cfg = $this->kernel->getRootDir().'/project.yml')) {
+        if (file_exists($cfg = $this->kernel->getConfigDir().'/project.yml')) {
             $this->updateFromFile($cfg, $this->kernel->getEnvironment());
         }
-        if (file_exists($cfg = $this->kernel->getRootDir().'/project.local.yml')) {
+        if (file_exists($cfg = $this->kernel->getConfigDir().'/project.local.yml')) {
             $this->updateFromFile($cfg, $this->kernel->getEnvironment());
         }
     }

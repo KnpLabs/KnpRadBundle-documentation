@@ -33,26 +33,26 @@ class RadKernel extends Kernel
 
     static public function autoload($loader)
     {
-        $projectDir = self::getProjectDir();
+        $rootDir = realpath(__DIR__.'/../../../../../../..');
 
-        $autoloadIntl = function() use($projectDir, $loader) {
+        $autoloadIntl = function() use($rootDir, $loader) {
             if (!function_exists('intl_get_error_code')) {
-                require_once $projectDir.
+                require_once $rootDir.
                     '/vendor/symfony/symfony/src/'.
                     'Symfony/Component/Locale/Resources/stubs/functions.php';
-                $loader->add(null, $projectDir.
+                $loader->add(null, $rootDir.
                     '/vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs'
                 );
             }
         };
-        $autoloadSwift = function() use($projectDir, $loader) {
-            require_once $projectDir.'/vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
-            \Swift::registerAutoload($projectDir.
+        $autoloadSwift = function() use($rootDir, $loader) {
+            require_once $rootDir.'/vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
+            \Swift::registerAutoload($rootDir.
                 '/vendor/swiftmailer/swiftmailer/lib/swift_init.php'
             );
         };
 
-        if (file_exists($custom = $projectDir.'/config/autoload.php')) {
+        if (file_exists($custom = $rootDir.'/config/autoload.php')) {
             return require($custom);
         }
 
@@ -60,29 +60,37 @@ class RadKernel extends Kernel
         $autoloadSwift();
     }
 
-    static public function getProjectDir()
+    public function getRootDir()
     {
         return realpath(__DIR__.'/../../../../../../..');
     }
 
-    public function getRootDir()
+    public function getProjectDir()
     {
-        return self::getProjectDir().'/config';
+        return sprintf('%s/src/%s',
+            $this->getRootDir(),
+            str_replace('\\', '/', $this->configuration->getProjectName())
+        );
     }
 
-    public function getBundlesConfigDir()
+    public function getWebDir()
     {
-        return $this->getRootDir().'/bundles';
+        return $this->getRootDir().'/web';
+    }
+
+    public function getConfigDir()
+    {
+        return $this->getRootDir().'/config';
     }
 
     public function getLogDir()
     {
-        return self::getProjectDir().'/logs';
+        return $this->getRootDir().'/logs';
     }
 
     public function getCacheDir()
     {
-        return self::getProjectDir().'/cache/'.$this->environment;
+        return $this->getRootDir().'/cache/'.$this->environment;
     }
 
     public function getConfiguration()
@@ -125,7 +133,7 @@ class RadKernel extends Kernel
     {
         $configs = Finder::create()
             ->name('*.yml')
-            ->in($this->getBundlesConfigDir());
+            ->in($this->getConfigDir().'/bundles');
 
         foreach ($configs as $file) {
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);
@@ -142,8 +150,10 @@ class RadKernel extends Kernel
     {
         return array_merge(
             array(
-                'kernel.project_dir'  => self::getProjectDir(),
                 'kernel.project_name' => $this->getConfiguration()->getProjectName(),
+                'kernel.project_dir'  => $this->getProjectDir(),
+                'kernel.config_dir'   => $this->getConfigDir(),
+                'kernel.web_dir'      => $this->getWebDir(),
             ),
             parent::getKernelParameters()
         );

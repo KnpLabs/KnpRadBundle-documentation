@@ -12,15 +12,15 @@ all:
         auto_start:     true
 
 prod:
-    router:   { resource: "%kernel.root_dir%/routing/prod.yml" }
+    router:   { resource: "%kernel.config_dir%/routing/prod.yml" }
     profiler: { only_exceptions: false }
 
 dev:
-    router:   { resource: "%kernel.root_dir%/routing/dev.yml" }
+    router:   { resource: "%kernel.config_dir%/routing/dev.yml" }
     profiler: { only_exceptions: false }
 
 test:
-    router:   { resource: "%kernel.root_dir%/routing/test.yml" }
+    router:   { resource: "%kernel.config_dir%/routing/test.yml" }
     profiler: { only_exceptions: false }
     test: ~
     session:
