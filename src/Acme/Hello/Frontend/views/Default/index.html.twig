@@ -5,3 +5,9 @@
 
     {{ 'Hello'|trans }} {{ name }}!
 {% endblock %}
+
+{% block javascripts %}
+    {% javascripts 'bundles/frontend/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

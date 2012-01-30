@@ -10,12 +10,16 @@ class ControllerNameParser extends BaseNameParser
 {
     public function parse($controller)
     {
-        list($bundle, $class, $method) = explode(':', $controller);
+        if (3 != count($parts = explode(':', $controller))) {
+            throw new \InvalidArgumentException(sprintf('The "%s" controller is not a valid a:b:c controller string.', $controller));
+        }
+
+        list($bundle, $class, $method) = $parts;
 
         $controller = parent::parse($controller);
 
         if ($this->kernel->getBundle($bundle) instanceof ConventionalBundle) {
-            return substr($controller, 0, -6);
+            return preg_replace('/Action$/', '', $controller);
         }
 
         return $controller;
