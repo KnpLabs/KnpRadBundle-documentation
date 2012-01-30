@@ -1,5 +1,7 @@
 all:
     debug:          %kernel.debug%
+    read_from:      %kernel.web_dir%
+    write_to:       %kernel.web_dir%
     use_controller: false
     bundles:        [ ]
     # java: /usr/bin/java

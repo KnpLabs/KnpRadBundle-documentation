@@ -4,7 +4,9 @@ namespace Knp\Bundle\RadBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Knp\Bundle\PaginatorBundle\DependencyInjection\Compiler\PaginatorConfigurationPass;
+
+use Knp\Bundle\RadBundle\DependencyInjection\Compiler\AsseticTemplateResourcesPass;
+use Knp\Bundle\RadBundle\DependencyInjection\Compiler\TranslationsPass;
 
 class KnpRadBundle extends Bundle
 {
@@ -13,5 +15,7 @@ class KnpRadBundle extends Bundle
      */
     public function build(ContainerBuilder $container)
     {
+        $container->addCompilerPass(new AsseticTemplateResourcesPass);
+        $container->addCompilerPass(new TranslationsPass);
     }
 }
