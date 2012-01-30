@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Knp\Bundle\RadBundle\DependencyInjection\Compiler\AsseticTemplateResourcesPass;
 use Knp\Bundle\RadBundle\DependencyInjection\Compiler\TranslationsPass;
+use Knp\Bundle\RadBundle\DependencyInjection\Compiler\FileLocatorsPass;
 
 class KnpRadBundle extends Bundle
 {
@@ -17,5 +18,6 @@ class KnpRadBundle extends Bundle
     {
         $container->addCompilerPass(new AsseticTemplateResourcesPass);
         $container->addCompilerPass(new TranslationsPass);
+        $container->addCompilerPass(new FileLocatorsPass);
     }
 }
