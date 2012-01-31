@@ -25,13 +25,20 @@ class RadKernel extends Kernel
 
     public function __construct($environment, $debug)
     {
+        if ('Knp\\Bundle\\RadBundle\\HttpKernel\\RadKernel' === get_class($this)) {
+            throw new \RuntimeException(
+                "You can not use Knp\\Bundle\\RadBundle\\HttpKernel\\RadKernel as your application kernel.\n".
+                "Call RadKernel::createAppKernel(\$loader, '$environment', $debug) to create speicic application kernel."
+            );
+        }
+
         parent::__construct($environment, $debug);
 
         $this->configuration = new KernelConfiguration($this->getConfigDir(), $this->getCacheDir());
         $this->configuration->load($environment);
     }
 
-    static public function autoload($loader)
+    static public function createAppKernel($loader, $environment, $debug)
     {
         $rootDir = realpath(__DIR__.'/../../../../../../..');
 
@@ -52,12 +59,16 @@ class RadKernel extends Kernel
             );
         };
 
+        require_once __DIR__.'/RadAppKernel.php';
+
         if (file_exists($custom = $rootDir.'/config/autoload.php')) {
-            return require($custom);
+            require($custom);
+        } else {
+            $autoloadIntl();
+            $autoloadSwift();
         }
 
-        $autoloadIntl();
-        $autoloadSwift();
+        return new \RadAppKernel($environment, $debug);
     }
 
     public function getRootDir()

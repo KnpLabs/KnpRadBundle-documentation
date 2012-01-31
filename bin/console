@@ -12,12 +12,11 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
 
 $loader = require(__DIR__.'/../vendor/.composer/autoload.php');
-RadKernel::autoload($loader);
 
 $input = new ArgvInput();
-$env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev');
+$env   = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev');
 $debug = !$input->hasParameterOption(array('--no-debug', ''));
 
-$kernel = new RadKernel($env, $debug);
+$kernel = RadKernel::createAppKernel($loader, $env, $debug);
 $application = new Application($kernel);
 $application->run();
