@@ -5,6 +5,7 @@ namespace Knp\Bundle\RadBundle\Templating;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser as BaseNameParser;
 
 use Knp\Bundle\RadBundle\Bundle\ConventionalBundle;
+use Symfony\Component\Templating\TemplateReferenceInterface;
 
 /**
  * TemplateNameParser.

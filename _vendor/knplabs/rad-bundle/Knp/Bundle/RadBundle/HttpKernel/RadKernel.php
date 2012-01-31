@@ -27,8 +27,8 @@ class RadKernel extends Kernel
     {
         parent::__construct($environment, $debug);
 
-        $this->configuration = new KernelConfiguration($this);
-        $this->configuration->load();
+        $this->configuration = new KernelConfiguration($this->getConfigDir(), $this->getCacheDir());
+        $this->configuration->load($environment);
     }
 
     static public function autoload($loader)
@@ -100,7 +100,7 @@ class RadKernel extends Kernel
 
     public function registerBundles()
     {
-        return $this->configuration->getBundles();
+        return $this->configuration->getBundles($this);
     }
 
     /**

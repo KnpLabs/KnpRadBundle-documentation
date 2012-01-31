@@ -9,7 +9,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 class KernelConfiguration
 {
-    private $kernel;
+    private $configDir;
+    private $cacheDir;
     private $configsMTime;
     private $projectName;
     private $configs    = array();
@@ -17,30 +18,31 @@ class KernelConfiguration
     private $bundles    = array();
     private $parameters = array();
 
-    public function __construct(RadKernel $kernel)
+    public function __construct($configDir, $cacheDir)
     {
-        $this->kernel = $kernel;
+        $this->configDir = $configDir;
+        $this->cacheDir  = $cacheDir;
     }
 
-    public function load()
+    public function load($environment)
     {
-        if (file_exists($cfg = $this->kernel->getConfigDir().'/project.yml')) {
-            $this->updateFromFile($cfg, $this->kernel->getEnvironment());
+        if (file_exists($cfg = $this->configDir.'/project.yml')) {
+            $this->updateFromFile($cfg, $environment);
         }
-        if (file_exists($cfg = $this->kernel->getConfigDir().'/project.local.yml')) {
-            $this->updateFromFile($cfg, $this->kernel->getEnvironment());
+        if (file_exists($cfg = $this->configDir.'/project.local.yml')) {
+            $this->updateFromFile($cfg, $environment);
         }
     }
 
     public function updateFromFile($path, $environment)
     {
-        $cacheFile = $this->kernel->getCacheDir().'/'.basename($path).'.cache';
+        $cacheFile = $this->cacheDir.'/'.basename($path).'.cache';
 
         if (!file_exists($cacheFile) || filemtime($path) > filemtime($cacheFile)) {
             $parsed = Yaml::parse($path);
 
-            if (!is_dir($this->kernel->getCacheDir())) {
-                mkdir($this->kernel->getCacheDir(), 0777, true);
+            if (!is_dir($this->cacheDir)) {
+                mkdir($this->cacheDir, 0777, true);
             }
             file_put_contents($cacheFile, sprintf('<?php return %s;', var_export($parsed, true)));
         }
@@ -76,9 +78,9 @@ class KernelConfiguration
         return $this->configs;
     }
 
-    public function getBundles()
+    public function getBundles(RadKernel $kernel)
     {
-        $cacheFile = $this->kernel->getCacheDir().'/bundles.php.cache';
+        $cacheFile = $this->cacheDir.'/bundles.php.cache';
 
         if (!file_exists($cacheFile) || $this->configsMTime > filemtime($cacheFile)) {
             $bundles  = "<?php return array(\n";
@@ -109,13 +111,11 @@ class KernelConfiguration
 
             $bundles .= ");";
 
-            if (!is_dir($this->kernel->getCacheDir())) {
-                mkdir($this->kernel->getCacheDir(), 0777, true);
+            if (!is_dir($this->cacheDir)) {
+                mkdir($this->cacheDir, 0777, true);
             }
             file_put_contents($cacheFile, $bundles);
         }
-
-        $kernel = $this->kernel;
 
         return require($cacheFile);
     }
