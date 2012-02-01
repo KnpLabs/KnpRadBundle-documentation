@@ -138,14 +138,6 @@ class KernelConfiguration
 
     private function loadSettings(array $settings)
     {
-        if (isset($settings['apps'])) {
-            foreach ($settings['apps'] as $name) {
-                if (!in_array($name, $this->apps)) {
-                    $this->apps[] = $name;
-                }
-            }
-        }
-
         if (isset($settings['bundles'])) {
             foreach ($settings['bundles'] as $class => $constr) {
                 $this->bundles[$class] = $constr;
