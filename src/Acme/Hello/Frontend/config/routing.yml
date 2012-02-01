@@ -1,3 +1,0 @@
-frontend_index:
-    pattern:  /hello/{name}
-    defaults: { _controller: Frontend:Default:index }

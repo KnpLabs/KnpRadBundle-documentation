@@ -1,0 +1,8 @@
+parameters:
+    hello.name_wrapper.class: Acme\Hello\Name\Wrapper
+
+services:
+    hello.name_wrapper:
+        class: %hello.name_wrapper.class%
+        arguments:
+            - %hello.name_pattern%

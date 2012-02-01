@@ -18,12 +18,6 @@ class TranslationsPass implements CompilerPassInterface
         $projectDir = $container->getParameter('kernel.project_dir');
 
         $dirs = array();
-        foreach ($container->getParameter('kernel.bundles') as $name => $class) {
-            if (is_dir($dir = $projectDir.'/'.str_replace('\\', '/', $name).'/i18n')) {
-                $dirs[] = $dir;
-            }
-        }
-
         if (is_dir($dir = $projectDir.'/i18n')) {
             $dirs[] = $dir;
         }

@@ -8,9 +8,9 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Config\FileLocatorInterface;
 
-use Knp\Bundle\RadBundle\Bundle\ConventionalBundle;
+use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 
-class ConventionalBundlesLoader extends YamlFileLoader
+class ApplicationBundlesLoader extends YamlFileLoader
 {
     private $kernel;
 
@@ -22,7 +22,7 @@ class ConventionalBundlesLoader extends YamlFileLoader
     }
 
     /**
-     * Loads a all ConventionalBundles routes.
+     * Loads a all ApplicationBundles routes.
      *
      * @param string $file The anything
      * @param string $type The resource type
@@ -34,7 +34,7 @@ class ConventionalBundlesLoader extends YamlFileLoader
         $collection = new RouteCollection();
 
         foreach ($this->kernel->getBundles() as $bundle) {
-            if ($bundle instanceof ConventionalBundle) {
+            if ($bundle instanceof ApplicationBundle) {
                 if (file_exists($routing = $bundle->getPath().'/config/routing.yml')) {
                     $collection->addCollection(parent::load($routing));
                 }
