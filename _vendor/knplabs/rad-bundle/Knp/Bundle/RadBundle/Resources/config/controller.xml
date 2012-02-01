@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="controller_name_converter.class">Knp\Bundle\RadBundle\Controller\ControllerNameParser</parameter>
+        <parameter key="controller_resolver.class">Knp\Bundle\RadBundle\Controller\ControllerResolver</parameter>
     </parameters>
 
 </container>

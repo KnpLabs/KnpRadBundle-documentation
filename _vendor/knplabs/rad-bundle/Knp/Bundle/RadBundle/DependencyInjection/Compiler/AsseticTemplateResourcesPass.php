@@ -14,10 +14,9 @@ class AsseticTemplateResourcesPass extends BasePass
         $class   = $bundles[$bundleName];
 
         $r = new \ReflectionClass($class);
-        if ($r->isSubclassOf('Knp\Bundle\RadBundle\Bundle\ConventionalBundle')) {
+        if ($r->isSubclassOf('Knp\Bundle\RadBundle\Bundle\ApplicationBundle')) {
             $bundleDirName = sprintf('%s/%s',
-                $container->getParameter('kernel.project_dir'),
-                str_replace('\\', '/', $bundleName)
+                str_replace('\\', '/', $container->getParameter('kernel.project_dir'))
             );
         }
 

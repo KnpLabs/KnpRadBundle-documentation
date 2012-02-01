@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
-use Knp\Bundle\RadBundle\Bundle\ConventionalBundle;
+use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 
 class ViewListener
 {
@@ -31,25 +31,15 @@ class ViewListener
         if (false !== strpos($attributes->get('_controller'), '::')) {
             list($class, $method) = explode('::', $attributes->get('_controller'));
 
-            foreach ($this->kernel->getBundles() as $bundle) {
-                if (!$bundle instanceof ConventionalBundle) {
-                    continue;
-                }
-                if (false === strpos($class, $bundle->getNamespace())) {
-                    continue;
-                }
-
-                return $event->setResponse($this->templating->renderResponse(
-                    sprintf('%s:%s:%s.%s.%s',
-                        $bundle->getName(),
-                        substr(basename(str_replace('\\', '/', $class)), 0, -10),
-                        $method,
-                        $request->getRequestFormat(),
-                        $this->engine
-                    ),
-                    $event->getControllerResult()
-                ));
-            }
+            return $event->setResponse($this->templating->renderResponse(
+                sprintf('%s:%s.%s.%s',
+                    substr(basename(str_replace('\\', '/', $class)), 0, -10),
+                    $method,
+                    $request->getRequestFormat(),
+                    $this->engine
+                ),
+                $event->getControllerResult()
+            ));
         }
     }
 }

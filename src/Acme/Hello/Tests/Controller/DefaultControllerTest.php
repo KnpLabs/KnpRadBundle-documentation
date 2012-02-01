@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\Hello\Frontend\Tests\Controller;
+namespace Acme\Hello\Tests\Controller;
 
 use Knp\Bundle\RadBundle\Test\WebTestCase;
 

@@ -1,8 +1,0 @@
-parameters:
-    frontend.name_wrapper.class: Acme\Hello\Frontend\Name\Wrapper
-
-services:
-    frontend.name_wrapper:
-        class: %frontend.name_wrapper.class%
-        arguments:
-            - %frontend.name_pattern%

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Command\AssetsInstallCommand as BaseCommand;
 
-use Knp\Bundle\RadBundle\Bundle\ConventionalBundle;
+use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 
 class AssetsInstallCommand extends BaseCommand
 {
@@ -35,7 +35,7 @@ class AssetsInstallCommand extends BaseCommand
 
         foreach ($this->getContainer()->get('kernel')->getBundles() as $bundle) {
             $originDir = $bundle->getPath().'/Resources/public';
-            if ($bundle instanceof ConventionalBundle) {
+            if ($bundle instanceof ApplicationBundle) {
                 $originDir = $bundle->getPath().'/public';
             }
 

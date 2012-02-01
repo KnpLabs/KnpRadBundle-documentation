@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="router.options.generator_base_class">Knp\Bundle\RadBundle\Routing\Generator\UrlGenerator</parameter>
-        <parameter key="knp_rad.routing.loader.class">Knp\Bundle\RadBundle\Routing\Loader\ConventionalBundlesLoader</parameter>
+        <parameter key="knp_rad.routing.loader.class">Knp\Bundle\RadBundle\Routing\Loader\ApplicationBundlesLoader</parameter>
     </parameters>
 
     <services>

@@ -13,8 +13,8 @@ class KernelConfiguration
     private $cacheDir;
     private $configsMTime;
     private $projectName;
+    private $applicationName;
     private $configs    = array();
-    private $apps       = array();
     private $bundles    = array();
     private $parameters = array();
 
@@ -51,7 +51,8 @@ class KernelConfiguration
         $config = require($cacheFile);
 
         if (isset($config['name'])) {
-            $this->projectName = $config['name'];
+            $this->projectName     = $config['name'];
+            $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['name']);
         }
 
         if (isset($config['all'])) {
@@ -71,6 +72,17 @@ class KernelConfiguration
         }
 
         return $this->projectName;
+    }
+
+    public function getApplicationName()
+    {
+        if (null === $this->applicationName) {
+            throw new \RuntimeException(
+                'Specify your project `name` inside app/project.yml or app/project.local.yml'
+            );
+        }
+
+        return $this->applicationName;
     }
 
     public function getConfigs()
@@ -102,12 +114,11 @@ class KernelConfiguration
                 );
             }
 
-            foreach ($this->apps as $name) {
-                $bundles .= sprintf(
-                    "    new Knp\Bundle\RadBundle\Bundle\ApplicationBundle(\$kernel, '%s'),\n",
-                    $name
-                );
-            }
+            $bundles .= sprintf(
+                "    new Knp\Bundle\RadBundle\Bundle\ApplicationBundle('%s', '%s'),\n",
+                $this->getProjectName(),
+                $kernel->getRootDir().'/src'
+            );
 
             $bundles .= ");";
 
@@ -127,14 +138,6 @@ class KernelConfiguration
 
     private function loadSettings(array $settings)
     {
-        if (isset($settings['apps'])) {
-            foreach ($settings['apps'] as $name) {
-                if (!in_array($name, $this->apps)) {
-                    $this->apps[] = $name;
-                }
-            }
-        }
-
         if (isset($settings['bundles'])) {
             foreach ($settings['bundles'] as $class => $constr) {
                 $this->bundles[$class] = $constr;

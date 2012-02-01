@@ -1,9 +1,6 @@
 name: Acme\Hello
 
 all:
-    apps:
-        - Frontend
-
     bundles:
         Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
         Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
