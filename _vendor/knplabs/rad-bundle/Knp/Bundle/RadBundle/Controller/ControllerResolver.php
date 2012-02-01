@@ -1,18 +1,27 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver as BaseResolver;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
+/**
+ * Extends Symfony2 ControllerResolver with support
+ * of application bundle short notation.
+ */
 class ControllerResolver extends BaseResolver
 {
     /**
-     * Returns a callable for the given controller.
-     *
-     * @param string $controller A Controller string
-     *
-     * @return mixed A PHP callable
+     * {@inheritdoc}
      */
     protected function createController($controller)
     {

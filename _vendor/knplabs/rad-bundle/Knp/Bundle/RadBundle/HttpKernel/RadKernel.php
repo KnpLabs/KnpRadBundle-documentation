@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\HttpKernel;
 
 use Symfony\Component\HttpKernel\Kernel;
@@ -15,14 +24,24 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
+
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
 use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
 
+use Composer\Autoload\ClassLoader;
+
+/**
+ * RadBundle custom kernel with support for application bundles
+ * and new configuration system.
+ */
 class RadKernel extends Kernel
 {
     private $configuration;
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct($environment, $debug)
     {
         if ('Knp\\Bundle\\RadBundle\\HttpKernel\\RadKernel' === get_class($this)) {
@@ -38,7 +57,19 @@ class RadKernel extends Kernel
         $this->configuration->load($environment);
     }
 
-    static public function createAppKernel($loader, $environment, $debug)
+    /**
+     * Creates RAD app kernel, which you can use to manage your app.
+     *
+     * Loads intl, swift and then requires/initializes/returns custom
+     * app kernel.
+     *
+     * @param ClassLoader $loader      Composer class loader
+     * @param string      $environment Environment name
+     * @param Boolean     $debug       Debug mode?
+     *
+     * @return RadAppKernel
+     */
+    static public function createAppKernel(ClassLoader $loader, $environment, $debug)
     {
         $rootDir = realpath(__DIR__.'/../../../../../../..');
 
@@ -71,11 +102,21 @@ class RadKernel extends Kernel
         return new \RadAppKernel($environment, $debug);
     }
 
+    /**
+     * Returns project root directory.
+     *
+     * @return string
+     */
     public function getRootDir()
     {
         return realpath(__DIR__.'/../../../../../../..');
     }
 
+    /**
+     * Returns project directory.
+     *
+     * @return string
+     */
     public function getProjectDir()
     {
         return sprintf('%s/src/%s',
@@ -84,31 +125,59 @@ class RadKernel extends Kernel
         );
     }
 
+    /**
+     * Returns web directory.
+     *
+     * @return string
+     */
     public function getWebDir()
     {
         return $this->getRootDir().'/web';
     }
 
+    /**
+     * Returns configs directory.
+     *
+     * @return string
+     */
     public function getConfigDir()
     {
         return $this->getRootDir().'/config';
     }
 
+    /**
+     * Returns logs directory.
+     *
+     * @return string
+     */
     public function getLogDir()
     {
         return $this->getRootDir().'/logs';
     }
 
+    /**
+     * Returns cache directory.
+     *
+     * @return string
+     */
     public function getCacheDir()
     {
         return $this->getRootDir().'/cache/'.$this->environment;
     }
 
+    /**
+     * Returns configuration instance.
+     *
+     * @return KernelConfiguration
+     */
     public function getConfiguration()
     {
         return $this->configuration;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function registerBundles()
     {
         return $this->configuration->getBundles($this);
@@ -140,6 +209,9 @@ class RadKernel extends Kernel
         return new DelegatingLoader($resolver);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $configs = Finder::create()
@@ -157,6 +229,9 @@ class RadKernel extends Kernel
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getKernelParameters()
     {
         return array_merge(
@@ -170,6 +245,13 @@ class RadKernel extends Kernel
         );
     }
 
+    /**
+     * Loads DIC configuration file.
+     *
+     * @param string          $file   File path
+     * @param string          $name   Config name
+     * @param LoaderInterface $loader Container loader
+     */
     protected function loadConfigFile($file, $name = null, LoaderInterface $loader)
     {
         $configs = Yaml::parse($file);

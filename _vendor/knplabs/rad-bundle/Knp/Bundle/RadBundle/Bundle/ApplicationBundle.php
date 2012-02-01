@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
@@ -9,9 +18,15 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Finder\Finder;
 
-use Knp\Bundle\RadBundle\Extension\ConventionalExtension;
+use Knp\Bundle\RadBundle\Extension\ApplicationExtension;
 use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
 
+/**
+ * Application bundle.
+ *
+ * Each application have only one application bundle.
+ * It's the place of all application-related code.
+ */
 class ApplicationBundle extends ContainerAware implements BundleInterface
 {
     protected $name;
@@ -21,6 +36,13 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     protected $path;
     protected $extension;
 
+    /**
+     * Initializes bundle.
+     *
+     * @param string      $namespace Application namespace
+     * @param string      $rootDir   Src dir path
+     * @param string|null $parent    Parent bundle name (if has one)
+     */
     public function __construct($namespace, $rootDir, $parent = null)
     {
         $this->namespace = $namespace;
@@ -30,21 +52,21 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     }
 
     /**
-     * Boots the Bundle.
+     * Boots the application.
      */
     public function boot()
     {
     }
 
     /**
-     * Shutdowns the Bundle.
+     * Shutdowns the application.
      */
     public function shutdown()
     {
     }
 
     /**
-     * Builds the bundle.
+     * Builds the application.
      *
      * It is only ever called once when the cache is empty.
      *
@@ -58,9 +80,12 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     }
 
     /**
-     * Returns the bundle's container extension.
+     * Returns the application's container extension.
      *
-     * @return ExtensionInterface|null The container extension
+     * If application has DependencyInjection\{APP_NAME}Extension in
+     * it - it will be loaded. ApplicationExtension will be loaded otherwise.
+     *
+     * @return ExtensionInterface The container extension
      */
     public function getContainerExtension()
     {
@@ -69,7 +94,7 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
             if (class_exists($class)) {
                 $this->extension = new $class();
             } else {
-                $this->extension = new ConventionalExtension($this->getPath());
+                $this->extension = new ApplicationExtension($this->getPath());
             }
         }
 
@@ -79,9 +104,9 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     }
 
     /**
-     * Gets the Bundle namespace.
+     * Gets the application namespace.
      *
-     * @return string The Bundle namespace
+     * @return string The application namespace
      */
     public function getNamespace()
     {
@@ -89,9 +114,9 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     }
 
     /**
-     * Gets the Bundle directory path.
+     * Gets the application directory path.
      *
-     * @return string The Bundle absolute path
+     * @return string The application absolute path
      */
     public function getPath()
     {
@@ -115,9 +140,9 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     }
 
     /**
-     * Returns the bundle name (the class short name).
+     * Returns the application (bundle) name (the class short name).
      *
-     * @return string The Bundle name
+     * @return string The application name
      */
     public function getName()
     {

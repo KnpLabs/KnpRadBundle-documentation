@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\Routing\Loader;
 
 use Symfony\Component\Routing\RouteCollection;
@@ -10,10 +19,19 @@ use Symfony\Component\Config\FileLocatorInterface;
 
 use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 
+/**
+ * Automatically loads routes from application bundle
+ */
 class ApplicationBundlesLoader extends YamlFileLoader
 {
     private $kernel;
 
+    /**
+     * Initializes routing loader.
+     *
+     * @param KernelInterface      $kernel  Kernel instance
+     * @param FileLocatorInterface $locator File locator
+     */
     public function __construct(KernelInterface $kernel, FileLocatorInterface $locator)
     {
         parent::__construct($locator);

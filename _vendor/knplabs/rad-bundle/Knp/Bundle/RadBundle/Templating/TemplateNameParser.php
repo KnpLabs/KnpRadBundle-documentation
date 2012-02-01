@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\Templating;
 
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateNameParser as BaseNameParser;
@@ -8,7 +17,7 @@ use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 
 /**
- * TemplateNameParser.
+ * Extends basic name parser with application bundle short notation.
  */
 class TemplateNameParser extends BaseNameParser
 {
