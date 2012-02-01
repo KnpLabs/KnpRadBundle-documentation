@@ -19,7 +19,7 @@ class UrlGenerator extends BaseUrlGenerator
             $parameters = $this->readObjectParameters($parameters, $variables);
         }
 
-        return parent::doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $absolute)
+        return parent::doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $absolute);
     }
 
     private function readObjectParameters($object, array $variables)
