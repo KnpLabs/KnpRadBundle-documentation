@@ -11,6 +11,7 @@ all:
         Symfony\Bundle\MonologBundle\MonologBundle:         ~
         Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
         Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
+        Symfony\Bundle\DoctrineBundle\DoctrineBundle:       ~
         Knp\Bundle\RadBundle\KnpRadBundle:                  ~
 
     parameters:
