@@ -45,14 +45,25 @@ class ApplicationExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $xmlLoader = new XmlFileLoader($container, new FileLocator($this->path.'/config'));
+        $ymlLoader = new YamlFileLoader($container, new FileLocator($this->path.'/config'));
+
         if (file_exists($services = $this->path.'/config/services.xml')) {
-            $loader = new XmlFileLoader($container, new FileLocator($this->path.'/config'));
-            $loader->load($services);
+            $xmlLoader->load($services);
+        }
+        if (is_dir($dir = $this->path.'/config/services')) {
+            foreach (glob($dir.'/*.xml') as $services) {
+                $xmlLoader->load($services);
+            }
         }
 
         if (file_exists($services = $this->path.'/config/services.yml')) {
-            $loader = new YamlFileLoader($container, new FileLocator($this->path.'/config'));
-            $loader->load($services);
+            $ymlLoader->load($services);
+        }
+        if (is_dir($dir = $this->path.'/config/services')) {
+            foreach (glob($dir.'/*.yml') as $services) {
+                $ymlLoader->load($services);
+            }
         }
 
         foreach ($configs as $config) {

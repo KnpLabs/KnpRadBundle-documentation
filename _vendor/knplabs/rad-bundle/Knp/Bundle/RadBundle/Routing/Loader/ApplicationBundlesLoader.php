@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Config\Resource\FileResource;
 
 use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 
@@ -55,6 +56,14 @@ class ApplicationBundlesLoader extends YamlFileLoader
             if ($bundle instanceof ApplicationBundle) {
                 if (file_exists($routing = $bundle->getPath().'/config/routing.yml')) {
                     $collection->addCollection(parent::load($routing));
+                    $collection->addResource(new FileResource($routing));
+                }
+
+                if (is_dir($dir = $bundle->getPath().'/config/routing')) {
+                    foreach (glob($dir.'/*.yml') as $routing) {
+                        $collection->addCollection(parent::load($routing));
+                        $collection->addResource(new FileResource($routing));
+                    }
                 }
             }
         }
