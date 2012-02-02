@@ -37,6 +37,7 @@ use Composer\Autoload\ClassLoader;
  */
 class RadKernel extends Kernel
 {
+    static public $projectRootDir;
     private $configuration;
 
     /**
@@ -71,8 +72,6 @@ class RadKernel extends Kernel
      */
     static public function createAppKernel(ClassLoader $loader, $environment, $debug)
     {
-        $rootDir = realpath(__DIR__.'/../../../../../../..');
-
         $autoloadIntl = function($rootDir) use($loader) {
             if (!function_exists('intl_get_error_code')) {
                 require_once $rootDir.
@@ -92,11 +91,15 @@ class RadKernel extends Kernel
 
         require_once __DIR__.'/RadAppKernel.php';
 
-        if (file_exists($custom = $rootDir.'/config/autoload.php')) {
+        if (null === self::$projectRootDir) {
+            self::$projectRootDir = realpath(__DIR__.'/../../../../../../..');
+        }
+
+        if (file_exists($custom = self::$projectRootDir.'/config/autoload.php')) {
             require($custom);
         } else {
-            $autoloadIntl($rootDir);
-            $autoloadSwift($rootDir);
+            $autoloadIntl(self::$projectRootDir);
+            $autoloadSwift(self::$projectRootDir);
         }
 
         return new \RadAppKernel($environment, $debug);
@@ -109,7 +112,7 @@ class RadKernel extends Kernel
      */
     public function getRootDir()
     {
-        return realpath(__DIR__.'/../../../../../../..');
+        return self::$projectRootDir;
     }
 
     /**
