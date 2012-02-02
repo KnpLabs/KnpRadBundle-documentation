@@ -53,9 +53,7 @@ class RadKernel extends Kernel
 
         parent::__construct($environment, $debug);
 
-        $this->configuration = new KernelConfiguration(
-            $environment, $this->getConfigDir(), $this->getCacheDir(), $debug
-        );
+        $this->configuration = $this->initConfiguration();
         $this->configuration->load();
     }
 
@@ -229,6 +227,21 @@ class RadKernel extends Kernel
                 $loader->load($file);
             }
         }
+    }
+
+    /**
+     * Initializes kernel configuration instance.
+     *
+     * @return KernelConfiguration
+     */
+    protected function initConfiguration()
+    {
+        return new KernelConfiguration(
+            $this->getEnvironment(),
+            $this->getConfigDir(),
+            $this->getCacheDir(),
+            $this->isDebug()
+        );
     }
 
     /**
