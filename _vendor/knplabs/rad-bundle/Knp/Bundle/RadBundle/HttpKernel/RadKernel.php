@@ -48,7 +48,7 @@ class RadKernel extends Kernel
         if ('Knp\\Bundle\\RadBundle\\HttpKernel\\RadKernel' === get_class($this)) {
             throw new \RuntimeException(
                 "You can not use Knp\\Bundle\\RadBundle\\HttpKernel\\RadKernel as your application kernel.\n".
-                "Call RadKernel::createAppKernel(\$loader, '$environment', $debug) to create speicic application kernel."
+                "Call RadKernel::createAppKernel(\$loader, '$environment', $debug) to create specific application kernel."
             );
         }
 
