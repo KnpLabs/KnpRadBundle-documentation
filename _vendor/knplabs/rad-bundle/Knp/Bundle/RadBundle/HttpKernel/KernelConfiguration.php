@@ -79,6 +79,10 @@ class KernelConfiguration
         if (isset($config['name'])) {
             $this->projectName     = $config['name'];
             $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['name']);
+        } else {
+            throw new \InvalidArgumentException(
+                'Specify your project `name` inside config/project.yml or config/project.local.yml'
+            );
         }
 
         if (isset($config['all'])) {
@@ -96,12 +100,6 @@ class KernelConfiguration
      */
     public function getProjectName()
     {
-        if (null === $this->projectName) {
-            throw new \RuntimeException(
-                'Specify your project `name` inside config/project.yml or config/project.local.yml'
-            );
-        }
-
         return $this->projectName;
     }
 
@@ -112,12 +110,6 @@ class KernelConfiguration
      */
     public function getApplicationName()
     {
-        if (null === $this->applicationName) {
-            throw new \RuntimeException(
-                'Specify your project `name` inside config/project.yml or config/project.local.yml'
-            );
-        }
-
         return $this->applicationName;
     }
 
@@ -156,6 +148,13 @@ class KernelConfiguration
 
                     return '"'.$argument.'"';
                 }, (array) $arguments);
+
+                if (!class_exists($class)) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Bundle class "%s" does not exists or can not be found.',
+                        $class
+                    ));
+                }
 
                 $bundles .= sprintf(
                     "    new %s(%s),\n", $class, implode(', ', $arguments)
