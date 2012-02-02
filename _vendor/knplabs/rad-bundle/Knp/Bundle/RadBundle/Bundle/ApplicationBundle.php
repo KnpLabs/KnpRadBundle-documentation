@@ -11,7 +11,7 @@
 
 namespace Knp\Bundle\RadBundle\Bundle;
 
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Container;
@@ -27,7 +27,7 @@ use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
  * Each application have only one application bundle.
  * It's the place of all application-related code.
  */
-class ApplicationBundle extends ContainerAware implements BundleInterface
+class ApplicationBundle extends Bundle
 {
     protected $name;
     protected $parent;
@@ -49,34 +49,6 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
         $this->rootDir   = $rootDir;
         $this->name      = preg_replace("/^(?:.*\\\)?([^\\\]+)$/", '$1', $namespace);
         $this->parent    = $parent;
-    }
-
-    /**
-     * Boots the application.
-     */
-    public function boot()
-    {
-    }
-
-    /**
-     * Shutdowns the application.
-     */
-    public function shutdown()
-    {
-    }
-
-    /**
-     * Builds the application.
-     *
-     * It is only ever called once when the cache is empty.
-     *
-     * This method can be overridden to register compilation passes,
-     * other extensions, ...
-     *
-     * @param ContainerBuilder $container A ContainerBuilder instance
-     */
-    public function build(ContainerBuilder $container)
-    {
     }
 
     /**
@@ -137,47 +109,5 @@ class ApplicationBundle extends ContainerAware implements BundleInterface
     public function getParent()
     {
         return $this->parent;
-    }
-
-    /**
-     * Returns the application (bundle) name (the class short name).
-     *
-     * @return string The application name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Finds and registers Commands.
-     *
-     * Override this method if your bundle commands do not follow the conventions:
-     *
-     * * Commands are in the 'Command' sub-directory
-     * * Commands extend Symfony\Component\Console\Command\Command
-     *
-     * @param Application $application An Application instance
-     */
-    public function registerCommands(Application $application)
-    {
-        if (!$dir = realpath($this->getPath().'/Command')) {
-            return;
-        }
-
-        $finder = new Finder();
-        $finder->files()->name('*Command.php')->in($dir);
-
-        $prefix = $this->getNamespace().'\\Command';
-        foreach ($finder as $file) {
-            $ns = $prefix;
-            if ($relativePath = $file->getRelativePath()) {
-                $ns .= '\\'.strtr($relativePath, '/', '\\');
-            }
-            $r = new \ReflectionClass($ns.'\\'.$file->getBasename('.php'));
-            if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command') && !$r->isAbstract()) {
-                $application->add($r->newInstance());
-            }
-        }
     }
 }
