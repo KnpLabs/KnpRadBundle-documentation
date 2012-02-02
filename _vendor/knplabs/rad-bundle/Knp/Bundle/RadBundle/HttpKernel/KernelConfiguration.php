@@ -12,6 +12,8 @@
 namespace Knp\Bundle\RadBundle\HttpKernel;
 
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Config\ConfigCache;
 
 /**
  * RAD kernel configuration class.
@@ -19,13 +21,14 @@ use Symfony\Component\Yaml\Yaml;
 class KernelConfiguration
 {
     private $configDir;
-    private $cacheDir;
-    private $configsMTime;
+    private $projectCache;
+    private $bundlesCache;
+
     private $projectName;
     private $applicationName;
     private $configs    = array();
-    private $bundles    = array();
     private $parameters = array();
+    private $bundles    = array();
 
     /**
      * Initializes configuration.
@@ -35,8 +38,9 @@ class KernelConfiguration
      */
     public function __construct($configDir, $cacheDir)
     {
-        $this->configDir = $configDir;
-        $this->cacheDir  = $cacheDir;
+        $this->configDir    = $configDir;
+        $this->projectCache = new ConfigCache($cacheDir.'/project.yml.cache', true);
+        $this->bundlesCache = new ConfigCache($cacheDir.'/bundles.php.cache', true);
     }
 
     /**
@@ -46,50 +50,34 @@ class KernelConfiguration
      */
     public function load($environment)
     {
-        if (file_exists($cfg = $this->configDir.'/project.yml')) {
-            $this->updateFromFile($cfg, $environment);
-        }
-        if (file_exists($cfg = $this->configDir.'/project.local.yml')) {
-            $this->updateFromFile($cfg, $environment);
-        }
-    }
-
-    /**
-     * Updates configuration from specified configuration file.
-     *
-     * @param string $path        Configuration file path
-     * @param string $environment Environment name
-     */
-    public function updateFromFile($path, $environment)
-    {
-        $cacheFile = $this->cacheDir.'/'.basename($path).'.cache';
-
-        if (!file_exists($cacheFile) || filemtime($path) > filemtime($cacheFile)) {
-            $parsed = Yaml::parse($path);
-
-            if (!is_dir($this->cacheDir)) {
-                mkdir($this->cacheDir, 0777, true);
-            }
-            file_put_contents($cacheFile, sprintf('<?php return %s;', var_export($parsed, true)));
-        }
-
-        $this->configsMTime = filemtime($cacheFile);
-        $config = require($cacheFile);
-
-        if (isset($config['name'])) {
-            $this->projectName     = $config['name'];
-            $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['name']);
+        if ($this->projectCache->isFresh()) {
+            list(
+                $this->projectName,
+                $this->applicationName,
+                $this->configs,
+                $this->parameters,
+                $this->bundles
+            ) = require($this->projectCache);
         } else {
-            throw new \InvalidArgumentException(
-                'Specify your project `name` inside config/project.yml or config/project.local.yml'
-            );
-        }
+            $metadata = array();
 
-        if (isset($config['all'])) {
-            $this->loadSettings($config['all']);
-        }
-        if (isset($config[$environment])) {
-            $this->loadSettings($config[$environment]);
+            if (file_exists($cfg = $this->configDir.'/project.yml')) {
+                $this->updateFromFile($cfg, $environment);
+                $metadata[] = new FileResource($cfg);
+            }
+
+            if (file_exists($cfg = $this->configDir.'/project.local.yml')) {
+                $this->updateFromFile($cfg, $environment);
+                $metadata[] = new FileResource($cfg);
+            }
+
+            $this->projectCache->write('<?php return '.var_export(array(
+                $this->projectName,
+                $this->applicationName,
+                $this->configs,
+                $this->parameters,
+                $this->bundles
+            ), true).';', $metadata);
         }
     }
 
@@ -132,9 +120,7 @@ class KernelConfiguration
      */
     public function getBundles(RadKernel $kernel)
     {
-        $cacheFile = $this->cacheDir.'/bundles.php.cache';
-
-        if (!file_exists($cacheFile) || $this->configsMTime > filemtime($cacheFile)) {
+        if (!$this->bundlesCache->isFresh()) {
             $bundles  = "<?php return array(\n";
 
             foreach ($this->bundles as $class => $arguments) {
@@ -169,13 +155,12 @@ class KernelConfiguration
 
             $bundles .= ");";
 
-            if (!is_dir($this->cacheDir)) {
-                mkdir($this->cacheDir, 0777, true);
-            }
-            file_put_contents($cacheFile, $bundles);
+            $this->bundlesCache->write(
+                $bundles, array(new FileResource((string) $this->projectCache))
+            );
         }
 
-        return require($cacheFile);
+        return require($this->bundlesCache);
     }
 
     /**
@@ -186,6 +171,33 @@ class KernelConfiguration
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    /**
+     * Updates configuration from specified configuration file.
+     *
+     * @param string $path        Configuration file path
+     * @param string $environment Environment name
+     */
+    private function updateFromFile($path, $environment)
+    {
+        $config = Yaml::parse($path);
+
+        if (isset($config['name'])) {
+            $this->projectName     = $config['name'];
+            $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['name']);
+        } else {
+            throw new \InvalidArgumentException(
+                'Specify your project `name` inside config/project.yml or config/project.local.yml'
+            );
+        }
+
+        if (isset($config['all'])) {
+            $this->loadSettings($config['all']);
+        }
+        if (isset($config[$environment])) {
+            $this->loadSettings($config[$environment]);
+        }
     }
 
     /**
