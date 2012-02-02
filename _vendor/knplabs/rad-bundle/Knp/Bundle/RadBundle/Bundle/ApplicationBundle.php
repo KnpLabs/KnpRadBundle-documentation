@@ -12,14 +12,7 @@
 namespace Knp\Bundle\RadBundle\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Finder\Finder;
-
 use Knp\Bundle\RadBundle\Extension\ApplicationExtension;
-use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
 
 /**
  * Application bundle.
