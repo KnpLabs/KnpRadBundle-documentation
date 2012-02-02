@@ -40,7 +40,7 @@ class ControllerNameParser extends BaseNameParser
                 return $parsed;
             }
 
-            return preg_replace('/Action$/', '', $parsed);
+            return $parts[0].'::'.substr($parts[1], 0, -6);
         }
 
         return $parsed;

@@ -4,7 +4,7 @@ namespace Acme\Hello\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class MainController extends Controller
 {
     public function index($name)
     {
