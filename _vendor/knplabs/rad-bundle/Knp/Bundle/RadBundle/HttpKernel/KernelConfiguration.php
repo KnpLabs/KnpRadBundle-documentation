@@ -11,45 +11,51 @@
 
 namespace Knp\Bundle\RadBundle\HttpKernel;
 
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\Yaml\Yaml;
+
+use RadAppKernel;
 
 /**
  * RAD kernel configuration class.
  */
 class KernelConfiguration
 {
-    private $configDir;
-    private $projectCache;
-    private $bundlesCache;
-
     private $projectName;
     private $applicationName;
     private $configs    = array();
     private $parameters = array();
     private $bundles    = array();
 
+    protected $environment;
+    protected $configDir;
+    protected $projectCache;
+    protected $bundlesCache;
+
     /**
      * Initializes configuration.
      *
-     * @param string $configDir Directory to confgs
-     * @param string $cacheDir  Directory to cache
+     * @param string  $environment Configuration environment
+     * @param string  $configDir   Directory to confgs
+     * @param string  $cacheDir    Directory to cache
+     * @param Boolean $debug       Whether debugging in enabled or not
      */
-    public function __construct($configDir, $cacheDir)
+    public function __construct($environment, $configDir, $cacheDir, $debug)
     {
+        $this->environment  = $environment;
         $this->configDir    = $configDir;
-        $this->projectCache = new ConfigCache($cacheDir.'/project.yml.cache', true);
-        $this->bundlesCache = new ConfigCache($cacheDir.'/bundles.php.cache', true);
+        $this->projectCache = new ConfigCache($cacheDir.'/project.yml.cache', $debug);
+        $this->bundlesCache = new ConfigCache($cacheDir.'/bundles.php.cache', $debug);
     }
 
     /**
      * Loads conventional configs for specific configuration.
-     *
-     * @param string $environment Environment name
      */
-    public function load($environment)
+    public function load()
     {
+        $environment = $this->environment;
+
         if ($this->projectCache->isFresh()) {
             list(
                 $this->projectName,
@@ -114,49 +120,16 @@ class KernelConfiguration
     /**
      * Returns array of initialized bundles.
      *
-     * @param RadKernel $kernel RadAppKernel instance
+     * @param RadAppKernel $kernel Project kernel
      *
      * @return array
      */
-    public function getBundles(RadKernel $kernel)
+    public function getBundles(RadAppKernel $kernel)
     {
         if (!$this->bundlesCache->isFresh()) {
-            $bundles  = "<?php return array(\n";
-
-            foreach ($this->bundles as $class => $arguments) {
-                $arguments = array_map(function($argument) {
-                    if ('@' === substr($argument, 0, 1)) {
-                        return '$'.substr($argument, 1);
-                    }
-                    if (is_numeric($argument)) {
-                        return $argument;
-                    }
-
-                    return '"'.$argument.'"';
-                }, (array) $arguments);
-
-                if (!class_exists($class)) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Bundle class "%s" does not exists or can not be found.',
-                        $class
-                    ));
-                }
-
-                $bundles .= sprintf(
-                    "    new %s(%s),\n", $class, implode(', ', $arguments)
-                );
-            }
-
-            $bundles .= sprintf(
-                "    new Knp\Bundle\RadBundle\Bundle\ApplicationBundle('%s', '%s'),\n",
-                $this->getProjectName(),
-                $kernel->getRootDir().'/src'
-            );
-
-            $bundles .= ");";
-
             $this->bundlesCache->write(
-                $bundles, array(new FileResource((string) $this->projectCache))
+                $this->generateBundlesCache($kernel, $this->bundles),
+                array(new FileResource((string) $this->projectCache))
             );
         }
 
@@ -224,5 +197,52 @@ class KernelConfiguration
                 $this->configs[] = $config;
             }
         }
+    }
+
+    /**
+     * Generates bundles cache string (*.php array file).
+     *
+     * @param RadAppKernel $kernel  Project kernel
+     * @param array        $bundles List of bundle classes
+     *
+     * @return string
+     */
+    private function generateBundlesCache(RadAppKernel $kernel, array $bundles)
+    {
+        $cache = "<?php return array(\n";
+
+        foreach ($bundles as $class => $arguments) {
+            $arguments = array_map(function($argument) {
+                if ('@' === substr($argument, 0, 1)) {
+                    return '$'.substr($argument, 1);
+                }
+                if (is_numeric($argument)) {
+                    return $argument;
+                }
+
+                return '"'.$argument.'"';
+            }, (array) $arguments);
+
+            if (!class_exists($class)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Bundle class "%s" does not exists or can not be found.',
+                    $class
+                ));
+            }
+
+            $cache .= sprintf(
+                "    new %s(%s),\n", $class, implode(', ', $arguments)
+            );
+        }
+
+        $cache .= sprintf(
+            "    new Knp\Bundle\RadBundle\Bundle\ApplicationBundle('%s', '%s'),\n",
+            $this->getProjectName(),
+            $kernel->getRootDir().'/src'
+        );
+
+        $cache .= ");";
+
+        return $cache;
     }
 }
