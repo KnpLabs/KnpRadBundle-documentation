@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\Finder\Finder;
 
+/**
+ * Patches internal Symfony2 services to be RAD.
+ */
 class InternalServicesPatchingPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
