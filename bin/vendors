@@ -48,7 +48,7 @@ $interpreter = defined('PHP_WINDOWS_VERSION_BUILD') ? 'php.exe' : 'php';
 system(sprintf('%s %s %s', $interpreter, escapeshellarg($cacheDir.'/composer.phar'), $command));
 
 // Update assets
-system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($rootDir.'/bin/console'), escapeshellarg($rootDir.'/web/')));
+system(sprintf('%s %s assets:install', $interpreter, escapeshellarg($rootDir.'/bin/console')));
 
 // Remove the cache
 system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/bin/console')));
