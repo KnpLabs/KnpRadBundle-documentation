@@ -64,4 +64,3 @@ class AppExtension extends Extension
     {
     }
 }
-
