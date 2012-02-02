@@ -73,7 +73,7 @@ class RadKernel extends Kernel
     {
         $rootDir = realpath(__DIR__.'/../../../../../../..');
 
-        $autoloadIntl = function() use($rootDir, $loader) {
+        $autoloadIntl = function($rootDir) use($loader) {
             if (!function_exists('intl_get_error_code')) {
                 require_once $rootDir.
                     '/vendor/symfony/symfony/src/'.
@@ -83,7 +83,7 @@ class RadKernel extends Kernel
                 );
             }
         };
-        $autoloadSwift = function() use($rootDir, $loader) {
+        $autoloadSwift = function($rootDir) use($loader) {
             require_once $rootDir.'/vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
             \Swift::registerAutoload($rootDir.
                 '/vendor/swiftmailer/swiftmailer/lib/swift_init.php'
@@ -95,8 +95,8 @@ class RadKernel extends Kernel
         if (file_exists($custom = $rootDir.'/config/autoload.php')) {
             require($custom);
         } else {
-            $autoloadIntl();
-            $autoloadSwift();
+            $autoloadIntl($rootDir);
+            $autoloadSwift($rootDir);
         }
 
         return new \RadAppKernel($environment, $debug);
