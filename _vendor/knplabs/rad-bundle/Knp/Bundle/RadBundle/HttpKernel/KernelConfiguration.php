@@ -54,26 +54,16 @@ class KernelConfiguration
      */
     public function load()
     {
-        $environment = $this->environment;
-
-        if ($this->projectCache->isFresh()) {
-            list(
-                $this->projectName,
-                $this->applicationName,
-                $this->configs,
-                $this->parameters,
-                $this->bundles
-            ) = require($this->projectCache);
-        } else {
+        if (!$this->projectCache->isFresh()) {
             $metadata = array();
 
             if (file_exists($cfg = $this->configDir.'/project.yml')) {
-                $this->updateFromFile($cfg, $environment);
+                $this->updateFromFile($cfg, $this->environment);
                 $metadata[] = new FileResource($cfg);
             }
 
             if (file_exists($cfg = $this->configDir.'/project.local.yml')) {
-                $this->updateFromFile($cfg, $environment);
+                $this->updateFromFile($cfg, $this->environment);
                 $metadata[] = new FileResource($cfg);
             }
 
@@ -85,6 +75,14 @@ class KernelConfiguration
                 $this->bundles
             ), true).';', $metadata);
         }
+
+        list(
+            $this->projectName,
+            $this->applicationName,
+            $this->configs,
+            $this->parameters,
+            $this->bundles
+        ) = require($this->projectCache);
     }
 
     /**
