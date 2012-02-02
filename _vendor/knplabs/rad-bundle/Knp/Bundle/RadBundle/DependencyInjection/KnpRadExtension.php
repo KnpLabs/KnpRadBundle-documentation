@@ -22,10 +22,8 @@ class KnpRadExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        $loader->load('routing.xml');
-        $loader->load('controller.xml');
-        $loader->load('templating.xml');
-        $loader->load('view.xml');
         $loader->load('doctrine.xml');
+        $loader->load('routing.xml');
+        $loader->load('view.xml');
     }
 }
