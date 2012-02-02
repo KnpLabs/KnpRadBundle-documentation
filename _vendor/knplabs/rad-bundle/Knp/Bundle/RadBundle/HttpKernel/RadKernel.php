@@ -72,6 +72,11 @@ class RadKernel extends Kernel
      */
     static public function createAppKernel(ClassLoader $loader, $environment, $debug)
     {
+        require_once __DIR__.'/RadAppKernel.php';
+        if (null === self::$projectRootDir) {
+            self::$projectRootDir = realpath(__DIR__.'/../../../../../../..');
+        }
+
         $autoloadIntl = function($rootDir) use($loader) {
             if (!function_exists('intl_get_error_code')) {
                 require_once $rootDir.
@@ -88,12 +93,6 @@ class RadKernel extends Kernel
                 '/vendor/swiftmailer/swiftmailer/lib/swift_init.php'
             );
         };
-
-        require_once __DIR__.'/RadAppKernel.php';
-
-        if (null === self::$projectRootDir) {
-            self::$projectRootDir = realpath(__DIR__.'/../../../../../../..');
-        }
 
         if (file_exists($custom = self::$projectRootDir.'/config/autoload.php')) {
             require($custom);
