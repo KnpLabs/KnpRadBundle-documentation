@@ -24,7 +24,6 @@ use Symfony\Component\Config\Definition\Processor;
  */
 class ApplicationExtension extends Extension
 {
-    private $alias;
     private $path;
 
     /**
@@ -45,22 +44,20 @@ class ApplicationExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $xmlLoader = new XmlFileLoader($container, new FileLocator($this->path.'/config'));
-        $ymlLoader = new YamlFileLoader($container, new FileLocator($this->path.'/config'));
+        $xmlLoader = $this->getXmlFileLoader();
+        $ymlLoader = $this->getYamlFileLoader();
 
         if (file_exists($services = $this->path.'/config/services.xml')) {
             $xmlLoader->load($services);
         }
+        if (file_exists($services = $this->path.'/config/services.yml')) {
+            $ymlLoader->load($services);
+        }
+
         if (is_dir($dir = $this->path.'/config/services')) {
             foreach (glob($dir.'/*.xml') as $services) {
                 $xmlLoader->load($services);
             }
-        }
-
-        if (file_exists($services = $this->path.'/config/services.yml')) {
-            $ymlLoader->load($services);
-        }
-        if (is_dir($dir = $this->path.'/config/services')) {
             foreach (glob($dir.'/*.yml') as $services) {
                 $ymlLoader->load($services);
             }
@@ -81,5 +78,25 @@ class ApplicationExtension extends Extension
     public function getAlias()
     {
         return 'app';
+    }
+
+    /**
+     * Returns new container XmlFileLoader.
+     *
+     * @return XmlFileLoader
+     */
+    protected function getXmlFileLoader()
+    {
+        return new XmlFileLoader($container, new FileLocator($this->path.'/config'));
+    }
+
+    /**
+     * Returns new container YamlFileLoader.
+     *
+     * @return YamlFileLoader
+     */
+    protected function getYamlFileLoader()
+    {
+        return new YamlFileLoader($container, new FileLocator($this->path.'/config'));
     }
 }
