@@ -11,12 +11,13 @@
 
 namespace Knp\Bundle\RadBundle\Routing\Loader;
 
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Finder\Finder;
 
 use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
 
@@ -60,9 +61,9 @@ class ApplicationBundlesLoader extends YamlFileLoader
                 }
 
                 if (is_dir($dir = $bundle->getPath().'/config/routing')) {
-                    foreach (glob($dir.'/*.yml') as $routing) {
-                        $collection->addCollection(parent::load($routing));
-                        $collection->addResource(new FileResource($routing));
+                    foreach (Finder::create()->files()->name('*.yml')->depth(0)->sortByName()->in($dir) as $file) {
+                        $collection->addCollection(parent::load($file));
+                        $collection->addResource(new FileResource($file));
                     }
                 }
             }

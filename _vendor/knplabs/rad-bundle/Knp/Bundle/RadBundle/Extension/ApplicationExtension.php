@@ -14,9 +14,10 @@ namespace Knp\Bundle\RadBundle\Extension;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Application extension automatically loads service
@@ -55,11 +56,11 @@ class ApplicationExtension extends Extension
         }
 
         if (is_dir($dir = $this->path.'/config/services')) {
-            foreach (glob($dir.'/*.xml') as $services) {
-                $xmlLoader->load($services);
+            foreach (Finder::create()->files()->name('*.xml')->depth(0)->sortByName()->in($dir) as $file) {
+                $xmlLoader->load($file);
             }
-            foreach (glob($dir.'/*.yml') as $services) {
-                $ymlLoader->load($services);
+            foreach (Finder::create()->files()->name('*.yml')->depth(0)->sortByName()->in($dir) as $file) {
+                $ymlLoader->load($file);
             }
         }
 
