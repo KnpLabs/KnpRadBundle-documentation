@@ -105,10 +105,12 @@ class ApplicationExtensionTest extends \PHPUnit_Framework_TestCase
         $extension
             ->expects($this->any())
             ->method('getXmlFileLoader')
+            ->with($this->container)
             ->will($this->returnValue($this->xmlLoader));
         $extension
             ->expects($this->any())
             ->method('getYamlFileLoader')
+            ->with($this->container)
             ->will($this->returnValue($this->ymlLoader));
 
         return $extension;

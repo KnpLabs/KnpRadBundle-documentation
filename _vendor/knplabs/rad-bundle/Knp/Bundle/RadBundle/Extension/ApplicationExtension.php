@@ -44,8 +44,8 @@ class ApplicationExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $xmlLoader = $this->getXmlFileLoader();
-        $ymlLoader = $this->getYamlFileLoader();
+        $xmlLoader = $this->getXmlFileLoader($container);
+        $ymlLoader = $this->getYamlFileLoader($container);
 
         if (file_exists($services = $this->path.'/config/services.xml')) {
             $xmlLoader->load($services);
@@ -85,7 +85,7 @@ class ApplicationExtension extends Extension
      *
      * @return XmlFileLoader
      */
-    protected function getXmlFileLoader()
+    protected function getXmlFileLoader(ContainerBuilder $container)
     {
         return new XmlFileLoader($container, new FileLocator($this->path.'/config'));
     }
@@ -95,7 +95,7 @@ class ApplicationExtension extends Extension
      *
      * @return YamlFileLoader
      */
-    protected function getYamlFileLoader()
+    protected function getYamlFileLoader(ContainerBuilder $container)
     {
         return new YamlFileLoader($container, new FileLocator($this->path.'/config'));
     }
