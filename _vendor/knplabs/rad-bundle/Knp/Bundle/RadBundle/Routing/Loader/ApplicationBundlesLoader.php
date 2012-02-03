@@ -11,15 +11,12 @@
 
 namespace Knp\Bundle\RadBundle\Routing\Loader;
 
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Finder\Finder;
-
-use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
+use RadAppKernel;
 
 /**
  * Automatically loads routes from application bundle
@@ -31,10 +28,10 @@ class ApplicationBundlesLoader extends YamlFileLoader
     /**
      * Initializes routing loader.
      *
-     * @param KernelInterface      $kernel  Kernel instance
+     * @param RadAppKernel         $kernel  Kernel instance
      * @param FileLocatorInterface $locator File locator
      */
-    public function __construct(KernelInterface $kernel, FileLocatorInterface $locator)
+    public function __construct(RadAppKernel $kernel, FileLocatorInterface $locator)
     {
         parent::__construct($locator);
 
@@ -53,18 +50,16 @@ class ApplicationBundlesLoader extends YamlFileLoader
     {
         $collection = new RouteCollection();
 
-        foreach ($this->kernel->getBundles() as $bundle) {
-            if ($bundle instanceof ApplicationBundle) {
-                if (file_exists($routing = $bundle->getPath().'/config/routing.yml')) {
-                    $collection->addCollection(parent::load($routing));
-                    $collection->addResource(new FileResource($routing));
-                }
+        foreach ($this->kernel->getBundle('App', false) as $bundle) {
+            if (file_exists($routing = $bundle->getPath().'/config/routing.yml')) {
+                $collection->addCollection(parent::load($routing));
+                $collection->addResource(new FileResource($routing));
+            }
 
-                if (is_dir($dir = $bundle->getPath().'/config/routing')) {
-                    foreach (Finder::create()->files()->name('*.yml')->depth(0)->sortByName()->in($dir) as $file) {
-                        $collection->addCollection(parent::load($file));
-                        $collection->addResource(new FileResource($file));
-                    }
+            if (is_dir($dir = $bundle->getPath().'/config/routing')) {
+                foreach (Finder::create()->files()->name('*.yml')->depth(0)->sortByName()->in($dir) as $file) {
+                    $collection->addCollection(parent::load($file));
+                    $collection->addResource(new FileResource($file));
                 }
             }
         }
