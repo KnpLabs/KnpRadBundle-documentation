@@ -1,13 +1,30 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Adds application bundle i18n folder support.
+ */
 class TranslationsLocatorPass implements CompilerPassInterface
 {
+    /**
+     * Processes application bundle i18n files.
+     *
+     * @param ContainerBuilder $container Container instance
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('translator.default')) {

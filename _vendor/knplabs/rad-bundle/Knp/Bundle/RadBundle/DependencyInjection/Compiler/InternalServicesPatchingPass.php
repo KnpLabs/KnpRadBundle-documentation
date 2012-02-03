@@ -19,6 +19,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  */
 class InternalServicesPatchingPass implements CompilerPassInterface
 {
+    /**
+     * Patches kernel parameters.
+     *
+     * @param ContainerBuilder $container Container instance
+     */
     public function process(ContainerBuilder $container)
     {
         $container->setParameter('router.options.generator_base_class',

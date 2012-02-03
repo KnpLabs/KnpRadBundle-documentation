@@ -1,34 +1,35 @@
 <?php
 
+/*
+ * This file is part of the KnpRadBundle package.
+ *
+ * (c) KnpLabs <http://knplabs.com/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Knp\Bundle\RadBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\DirectoryResourceDefinition;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\TemplateResourcesPass as BasePass;
 
+/**
+ * Adds application bundle view folder support to assetic parser.
+ */
 class AsseticTemplateResourcesPass extends BasePass
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function setBundleDirectoryResources(ContainerBuilder $container, $engine, $bundleDirName, $bundleName)
     {
-        $bundles = $container->getParameter('kernel.bundles');
-        $class   = $bundles[$bundleName];
-
-        $r = new \ReflectionClass($class);
-        if ($r->isSubclassOf('Knp\Bundle\RadBundle\Bundle\ApplicationBundle')) {
-            $bundleDirName = sprintf('%s/%s',
-                str_replace('\\', '/', $container->getParameter('kernel.project_dir'))
-            );
-        }
-
-        $container->setDefinition(
-            'assetic.'.$engine.'_directory_resource.'.$bundleName,
-            new DirectoryResourceDefinition($bundleName, $engine, array(
-                $bundleDirName.'/Resources/views',
-                $bundleDirName.'/views',
-            ))
-        );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function setAppDirectoryResources(ContainerBuilder $container, $engine)
     {
         $container->setDefinition(
