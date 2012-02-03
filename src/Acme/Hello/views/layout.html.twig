@@ -13,29 +13,33 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    {% stylesheets 'bundles/app/css/style.css' %}
+    {% stylesheets 'bundles/app/css/style.css' -%}
         <link rel="stylesheet" href="{{ asset_url }}">
-    {% endstylesheets %}
+    {%- endstylesheets %}
     {% block stylesheets %}{% endblock %}
 
-    {% javascripts 'bundles/app/js/libs/modernizr-2.0.6.min.js' %}
+    {% javascripts 'bundles/app/js/libs/modernizr-2.0.6.min.js' -%}
         <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {%- endjavascripts %}
 </head>
 <body>
 
 <div id="container">
-    {% block container %}
-        <header>
-            {% block header %}{% endblock %}
-        </header>
-        <div id="main" role="main">
-            {% block main %}{% endblock %}
-        </div>
-        <footer>
-            {% block footer %}{% endblock %}
-        </footer>
-    {% endblock container %}
+{% block container %}
+
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+
+    <div id="main" role="main">
+        {% block main %}{% endblock %}
+    </div>
+
+    <footer>
+        {% block footer %}{% endblock %}
+    </footer>
+
+{% endblock container %}
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -48,9 +52,10 @@
 {% javascripts
     'bundles/app/js/plugins.js'
     'bundles/app/js/script.js'
-%}
+-%}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+
 {% block javascripts %}{% endblock %}
 
 <!--[if lt IE 7 ]>

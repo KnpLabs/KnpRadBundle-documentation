@@ -3,8 +3,10 @@
 {% block title %}Hello{% endblock %}
 
 {% block main %}
+
     <h1>Hello page</h1>
     <h2>locale: {{ app.session.locale }}:</h2>
 
     {{ 'Hello'|trans }}, {{ name|raw }}!
-{% endblock %}
+
+{% endblock main %}
