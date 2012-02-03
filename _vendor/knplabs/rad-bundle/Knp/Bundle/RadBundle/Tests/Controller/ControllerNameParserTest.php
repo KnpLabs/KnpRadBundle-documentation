@@ -70,13 +70,6 @@ class ControllerNameParserTest extends \PHPUnit_Framework_TestCase
                 return $bundles[$bundle];
             }))
         ;
-        $kernel
-            ->expects($this->any())
-            ->method('getConfiguration')
-            ->will($this->returnCallback(function () use($appName) {
-                return new Configuration($appName);
-            }))
-        ;
 
         return new ControllerNameParser($kernel);
     }
@@ -88,19 +81,6 @@ class ControllerNameParserTest extends \PHPUnit_Framework_TestCase
         $bundle->expects($this->any())->method('getNamespace')->will($this->returnValue($namespace));
 
         return $bundle;
-    }
-}
-
-class Configuration
-{
-    public function __construct($appName)
-    {
-        $this->appName = $appName;
-    }
-
-    public function getApplicationName()
-    {
-        return $this->appName;
     }
 }
 
