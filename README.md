@@ -162,18 +162,20 @@ Every RadBundle application shares the same directory structure:
 src/Acme
 └── Hello
     ├── Controller
-    │   └── DefaultController.php
+    │   └── MainController.php
     ├── Tests
     │   └── Controller
-    │       └── DefaultControllerTest.php
+    │       └── MainControllerTest.php
     ├── config
     │   ├── routing.yml
     │   │── services.yml
     │   └── services.xml
+    ├── i18n
+    │   └── messages.ru.xml
     ├── public
     │   └── jquery-1.7.1.min.js
     └── views
-        ├── Default
+        ├── Main
         │   └── index.html.twig
         └── base.html.twig
 ```
@@ -186,10 +188,32 @@ services.xml). The only requirement - they should be named `routing.yml` OR `ser
 - `config/routing.yml` - defines bundle routes. Will be autoloaded by `RadKernel` for you.
 - `config/services.(yml|xml)` - defines bundle services. Will be autoloaded by `RadKernel` for you.
 
+`i18n` holds all your translations
 `public` holds all your public `*.css`, `*.js` and `*.png` files. This folder will be copied
 (symlinked) with `assets:install` command.
-
 `views` holds your application views.
+
+P.S.: If you want to split routing or services in multiple files, just put them into
+`config/routing` or `config/services` folder with any name - they will be autoloaded too ;-)
+
+Application bundle short notation
+---------------------------------
+
+As you could have only one application bundle per project, it has some bonuses for you,
+like short resources notation. You can now avoid bundle name if you're describing application
+resource.
+
+In `routing.yml`:
+
+``` yaml
+defaults: { _controller: Main:index }
+```
+
+In `template.html.twig`:
+
+``` django
+{% extends 'Main:layout.html.twig' %}
+```
 
 Application bundle configuration
 --------------------------------
