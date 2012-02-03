@@ -12,7 +12,6 @@
 namespace Knp\Bundle\RadBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -25,20 +24,17 @@ use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
  */
 class ViewListener
 {
-    private $kernel;
     private $templating;
     private $engine;
 
     /**
      * Initializes listener.
      *
-     * @param KernelInterface $kernel     Kernel instance
      * @param EngineInterface $templating Templating engine
      * @param string          $engine     Default engine name
      */
-    public function __construct(KernelInterface $kernel, EngineInterface $templating, $engine)
+    public function __construct(EngineInterface $templating, $engine)
     {
-        $this->kernel     = $kernel;
         $this->templating = $templating;
         $this->engine     = $engine;
     }
@@ -59,7 +55,7 @@ class ViewListener
             return $event->setResponse($this->templating->renderResponse(
                 sprintf('%s:%s.%s.%s',
                     substr(basename(str_replace('\\', '/', $class)), 0, -10),
-                    $method,
+                    preg_replace('/Action$/', '', $method),
                     $request->getRequestFormat(),
                     $this->engine
                 ),
