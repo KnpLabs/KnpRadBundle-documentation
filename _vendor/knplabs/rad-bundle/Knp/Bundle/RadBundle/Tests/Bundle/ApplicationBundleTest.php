@@ -11,7 +11,7 @@ class ApplicationBundleTest extends \PHPUnit_Framework_TestCase
         $bundle = new ApplicationBundle('Some\\Enormously\\Big\\Project\\Namespace', 'src');
 
         $this->assertSame('Some\\Enormously\\Big\\Project\\Namespace', $bundle->getNamespace());
-        $this->assertSame('Namespace', $bundle->getName());
+        $this->assertSame('App', $bundle->getName());
         $this->assertSame('src/Some/Enormously/Big/Project/Namespace', $bundle->getPath());
     }
 
@@ -20,7 +20,7 @@ class ApplicationBundleTest extends \PHPUnit_Framework_TestCase
         $bundle = new ApplicationBundle('Namespace', 'src');
 
         $this->assertSame('Namespace', $bundle->getNamespace());
-        $this->assertSame('Namespace', $bundle->getName());
+        $this->assertSame('App', $bundle->getName());
         $this->assertSame('src/Namespace', $bundle->getPath());
     }
 
@@ -29,7 +29,7 @@ class ApplicationBundleTest extends \PHPUnit_Framework_TestCase
         $bundle = new ApplicationBundle('Acme\\Hello', 'src');
 
         $this->assertSame('Acme\\Hello', $bundle->getNamespace());
-        $this->assertSame('Hello', $bundle->getName());
+        $this->assertSame('App', $bundle->getName());
         $this->assertSame('src/Acme/Hello', $bundle->getPath());
     }
 

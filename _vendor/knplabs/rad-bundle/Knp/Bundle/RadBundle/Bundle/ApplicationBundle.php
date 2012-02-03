@@ -40,7 +40,7 @@ class ApplicationBundle extends Bundle
     {
         $this->namespace = $namespace;
         $this->rootDir   = $rootDir;
-        $this->name      = preg_replace("/^(?:.*\\\)?([^\\\]+)$/", '$1', $namespace);
+        $this->name      = 'App';
         $this->parent    = $parent;
     }
 

@@ -8,7 +8,7 @@ class MainController extends Controller
 {
     public function index($name)
     {
-        $name = $this->get('hello.name_wrapper')->wrap($name);
+        $name = $this->get('app.name_wrapper')->wrap($name);
 
         return array('name' => $name);
     }

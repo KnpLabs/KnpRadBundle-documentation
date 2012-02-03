@@ -27,7 +27,7 @@ class ControllerNameParser extends BaseNameParser
     public function parse($controller)
     {
         if (1 == substr_count($controller, ':')) {
-            $controller = $this->kernel->getConfiguration()->getApplicationName().':'.$controller;
+            $controller = 'App:'.$controller;
         }
 
         $parsed = parent::parse($controller);

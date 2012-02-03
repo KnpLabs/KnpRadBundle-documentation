@@ -47,11 +47,7 @@ class TemplateNameParser extends BaseNameParser
             $format = array_pop($elements);
 
             return $this->cache[$name] = new TemplateReference(
-                $this->kernel->getConfiguration()->getApplicationName(),
-                $matches[1],
-                implode('.', $elements),
-                $format,
-                $engine
+                'App', $matches[1], implode('.', $elements), $format, $engine
             );
         }
 

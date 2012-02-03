@@ -80,10 +80,6 @@ class ApplicationExtension extends Extension
      */
     public function getAlias()
     {
-        if (null === $this->alias) {
-            $this->alias = strtolower(basename($this->path));
-        }
-
-        return $this->alias;
+        return 'app';
     }
 }

@@ -27,12 +27,12 @@ class ControllerNameParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             'Knp\Bundle\RadBundle\Controller\Fixture\Applicatoin\Controller\DefaultController::indexAction',
-            $parser->parse('KnpApp:Default:index')
+            $parser->parse('App:Default:index')
         );
 
         $this->assertSame(
             'Knp\Bundle\RadBundle\Controller\Fixture\Applicatoin\Controller\ShortController::index',
-            $parser->parse('KnpApp:Short:index')
+            $parser->parse('App:Short:index')
         );
 
         $this->assertSame(
@@ -51,10 +51,10 @@ class ControllerNameParserTest extends \PHPUnit_Framework_TestCase
                     'Symfony\Component\HttpKernel\Bundle\BundleInterface'
                 )
             ),
-            'KnpApp' => array(
+            'App' => array(
                 $this->getBundle(
                     'Knp\Bundle\RadBundle\Controller\Fixture\Applicatoin',
-                    $appName = 'KnpApp',
+                    $appName = 'App',
                     'Knp\Bundle\RadBundle\Bundle\ApplicationBundle'
                 )
             ),
