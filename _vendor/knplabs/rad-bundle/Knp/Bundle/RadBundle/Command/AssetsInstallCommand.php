@@ -77,7 +77,7 @@ EOT
         $filesystem = $this->getContainer()->get('filesystem');
 
         // Create the bundles directory otherwise symlink will fail.
-        $filesystem->mkdir($targetArg.'/public/', 0777);
+        $filesystem->mkdir($targetArg.'/bundles/', 0777);
 
         foreach ($this->getContainer()->get('kernel')->getBundles() as $bundle) {
             $originDir = $bundle->getPath().'/Resources/public';
@@ -86,11 +86,7 @@ EOT
             }
 
             if (is_dir($originDir)) {
-                $targetDir = $targetArg.'/public/'.preg_replace('/bundle$/', '', strtolower($bundle->getName()));
-
-                if ($bundle instanceof ApplicationBundle) {
-                    $targetDir = $targetArg.'/public/app';
-                }
+                $targetDir = $targetArg.'/bundles/'.preg_replace('/bundle$/', '', strtolower($bundle->getName()));
 
                 $output->writeln(sprintf('Installing assets for <comment>%s</comment> into <comment>%s</comment>', $bundle->getNamespace(), $targetDir));
 

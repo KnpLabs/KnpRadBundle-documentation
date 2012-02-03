@@ -13,12 +13,12 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    {% stylesheets 'public/app/css/style.css' %}
+    {% stylesheets 'bundles/hello/css/style.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
     {% endstylesheets %}
     {% block stylesheets %}{% endblock %}
 
-    {% javascripts 'public/app/js/libs/modernizr-2.0.6.min.js' %}
+    {% javascripts 'bundles/hello/js/libs/modernizr-2.0.6.min.js' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 </head>
@@ -40,14 +40,14 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('
-    {%- javascripts 'public/app/js/libs/jquery-1.7.1.min.js' -%}
+    {%- javascripts 'bundles/hello/js/libs/jquery-1.7.1.min.js' -%}
         <script src="{{ asset_url }}"><\/script>
     {%- endjavascripts -%}
 ')</script>
 
 {% javascripts
-    'public/app/js/plugins.js'
-    'public/app/js/script.js'
+    'bundles/hello/js/plugins.js'
+    'bundles/hello/js/script.js'
 %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}

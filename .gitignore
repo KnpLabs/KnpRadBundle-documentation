@@ -1,6 +1,9 @@
 cache/
 logs/
 vendor/
-web/public/
+web/bundles/
 web/uploads/
+web/js/
+web/css/
+web/images/
 composer.lock
