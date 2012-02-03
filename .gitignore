@@ -1,7 +1,6 @@
-cache
-logs
-vendor
-
-web/bundles/*
-web/uploads/*
+cache/
+logs/
+vendor/
+web/public/
+web/uploads/
 composer.lock
