@@ -96,16 +96,6 @@ class KernelConfiguration
     }
 
     /**
-     * Returns application name (last segment of applicatoin namespace).
-     *
-     * @return string
-     */
-    public function getApplicationName()
-    {
-        return $this->applicationName;
-    }
-
-    /**
      * Returns array of custom config DIC files paths.
      *
      * @return string
