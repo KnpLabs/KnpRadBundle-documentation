@@ -4,9 +4,11 @@
 
 {% block main %}
 
+    <a href="{{ path('hello_form') }}">Form example</a>
+
     <h1>Hello page</h1>
     <h2>locale: {{ app.session.locale }}:</h2>
 
-    {{ 'Hello'|trans }}, {{ name|raw }}!
+    {{ 'Hello'|trans }}, {{ name|raw }}!<br />
 
 {% endblock main %}

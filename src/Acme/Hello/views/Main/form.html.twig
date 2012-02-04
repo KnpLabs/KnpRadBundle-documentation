@@ -1,0 +1,28 @@
+{% extends ':layout.html.twig' %}
+
+{% block title %}Form example{% endblock %}
+
+{% block main %}
+
+    <a href="{{ path('hello_index', {'name': 'dude'}) }}">Hello example</a>
+
+    <form method="post" {{ form_enctype(form) }} class="form-horizontal">
+        <fieldset>
+          <legend>Bootstrap2-enabled Symfony2 form</legend>
+
+            {{ form_widget(form) }}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="reset" class="btn">Cancel</button>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock main %}
+
+{% block stylesheets %}
+    {% stylesheets 'bundles/app/css/bootstrap.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
