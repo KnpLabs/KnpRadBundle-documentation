@@ -261,6 +261,34 @@ class DefaultController extends Controller
 
 Appropriate view (`views/CONTROLLER_NAME/ACTION_NAME._FORMAT.twig`) will be loaded for you.
 
+Default form theme
+------------------
+
+New default form theme fully supports Twitter Bootstrap 2. It means, that now you can
+simply write:
+
+``` django
+<form method="post" {{ form_enctype(form) }} class="form-horizontal">
+    <fieldset>
+        <legend>Optional form title</legend>
+
+        {{ form_widget(form) }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </fieldset>
+</form>
+
+{% block stylesheets %}
+    {% stylesheets 'bundles/app/css/bootstrap.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
+```
+
+to see beautiful web2.0 style forms.
+
 Generators
 ----------
 
