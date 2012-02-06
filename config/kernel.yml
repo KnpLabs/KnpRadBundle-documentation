@@ -10,6 +10,10 @@ all:
         - Symfony\Bundle\AsseticBundle\AsseticBundle
         - Symfony\Bundle\DoctrineBundle\DoctrineBundle
 
+    imports:
+        - config.yml
+        - security.yml
+
     parameters:
         database_driver:   pdo_mysql
         database_host:     localhost
@@ -30,6 +34,16 @@ dev:
     bundles:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
 
+    imports:
+        - config_dev.yml
+
 test:
     bundles:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
+
+    imports:
+        - config_test.yml
+
+prod:
+    imports:
+        - config_prod.yml

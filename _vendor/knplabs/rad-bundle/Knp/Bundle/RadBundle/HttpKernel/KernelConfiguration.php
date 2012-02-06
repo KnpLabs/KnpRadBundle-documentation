@@ -24,7 +24,7 @@ class KernelConfiguration
 {
     private $projectName;
     private $applicationName;
-    private $configs    = array();
+    private $imports    = array();
     private $parameters = array();
     private $bundles    = array();
 
@@ -45,7 +45,7 @@ class KernelConfiguration
     {
         $this->environment  = $environment;
         $this->configDir    = $configDir;
-        $this->projectCache = new ConfigCache($cacheDir.'/project.yml.cache', $debug);
+        $this->projectCache = new ConfigCache($cacheDir.'/kernel.yml.cache', $debug);
         $this->bundlesCache = new ConfigCache($cacheDir.'/bundles.php.cache', $debug);
     }
 
@@ -57,12 +57,12 @@ class KernelConfiguration
         if (!$this->projectCache->isFresh()) {
             $metadata = array();
 
-            if (file_exists($cfg = $this->configDir.'/project.yml')) {
+            if (file_exists($cfg = $this->configDir.'/kernel.yml')) {
                 $this->updateFromFile($cfg, $this->environment);
                 $metadata[] = new FileResource($cfg);
             }
 
-            if (file_exists($cfg = $this->configDir.'/project.local.yml')) {
+            if (file_exists($cfg = $this->configDir.'/kernel.custom.yml')) {
                 $this->updateFromFile($cfg, $this->environment);
                 $metadata[] = new FileResource($cfg);
             }
@@ -70,7 +70,7 @@ class KernelConfiguration
             $this->projectCache->write('<?php return '.var_export(array(
                 $this->projectName,
                 $this->applicationName,
-                $this->configs,
+                $this->imports,
                 $this->parameters,
                 $this->bundles
             ), true).';', $metadata);
@@ -79,7 +79,7 @@ class KernelConfiguration
         list(
             $this->projectName,
             $this->applicationName,
-            $this->configs,
+            $this->imports,
             $this->parameters,
             $this->bundles
         ) = require($this->projectCache);
@@ -100,9 +100,9 @@ class KernelConfiguration
      *
      * @return string
      */
-    public function getConfigs()
+    public function getImports()
     {
-        return $this->configs;
+        return $this->imports;
     }
 
     /**
@@ -149,7 +149,7 @@ class KernelConfiguration
             $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['name']);
         } else {
             throw new \InvalidArgumentException(
-                'Specify your project `name` inside config/project.yml or config/project.local.yml'
+                'Specify your project `name` inside config/kernel.yml or config/kernel.local.yml'
             );
         }
 
@@ -180,9 +180,9 @@ class KernelConfiguration
             }
         }
 
-        if (isset($settings['configs'])) {
-            foreach ($settings['configs'] as $config) {
-                $this->configs[] = $config;
+        if (isset($settings['imports'])) {
+            foreach ($settings['imports'] as $config) {
+                $this->imports[] = $config;
             }
         }
     }

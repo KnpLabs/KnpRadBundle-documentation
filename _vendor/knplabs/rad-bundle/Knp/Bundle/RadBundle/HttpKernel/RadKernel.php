@@ -226,16 +226,8 @@ class RadKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $configs = Finder::create()
-            ->name('*.yml')
-            ->in($this->getConfigDir().'/bundles');
-
-        foreach ($configs as $file) {
-            $this->loadConfigFile($file, basename($file, '.yml'), $loader);
-        }
-
-        foreach ($this->configuration->getConfigs() as $file) {
-            if (file_exists($file = $this->getRootDir().'/'.$file)) {
+        foreach ($this->configuration->getImports() as $file) {
+            if (file_exists($file = $this->getConfigDir().'/'.$file)) {
                 $loader->load($file);
             }
         }
@@ -270,27 +262,5 @@ class RadKernel extends Kernel
             ),
             parent::getKernelParameters()
         );
-    }
-
-    /**
-     * Loads DIC configuration file.
-     *
-     * @param string          $file   File path
-     * @param string          $name   Config name
-     * @param LoaderInterface $loader Container loader
-     */
-    protected function loadConfigFile($file, $name = null, LoaderInterface $loader)
-    {
-        $configs = Yaml::parse($file);
-        $env     = $this->getEnvironment();
-
-        if (isset($configs['all'])) {
-            $config = $name ? array($name => $configs['all']) : $configs['all'];
-            $loader->load($config, $file);
-        }
-        if (isset($configs[$env])) {
-            $config = $name ? array($name => $configs[$env]) : $configs[$env];
-            $loader->load($config, $file);
-        }
     }
 }

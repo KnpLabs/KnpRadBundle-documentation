@@ -1,0 +1,12 @@
+framework:
+    router:   { resource: "%kernel.config_dir%/routing/test.yml" }
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
