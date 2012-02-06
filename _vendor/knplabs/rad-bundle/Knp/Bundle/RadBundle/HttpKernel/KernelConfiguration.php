@@ -116,7 +116,7 @@ class KernelConfiguration
     {
         if (!$this->bundlesCache->isFresh()) {
             $this->bundlesCache->write(
-                $this->generateBundlesCache($kernel, $this->bundles),
+                $this->generateBundlesCache($this->bundles),
                 array(new FileResource((string) $this->projectCache))
             );
         }
@@ -169,8 +169,8 @@ class KernelConfiguration
     private function loadSettings(array $settings)
     {
         if (isset($settings['bundles'])) {
-            foreach ($settings['bundles'] as $class => $constr) {
-                $this->bundles[$class] = $constr;
+            foreach ($settings['bundles'] as $class) {
+                $this->bundles[] = $class;
             }
         }
 
@@ -190,27 +190,15 @@ class KernelConfiguration
     /**
      * Generates bundles cache string (*.php array file).
      *
-     * @param RadAppKernel $kernel  Project kernel
-     * @param array        $bundles List of bundle classes
+     * @param array $bundles List of bundle classes
      *
      * @return string
      */
-    private function generateBundlesCache(RadAppKernel $kernel, array $bundles)
+    private function generateBundlesCache(array $bundles)
     {
         $cache = "<?php return array(\n";
 
-        foreach ($bundles as $class => $arguments) {
-            $arguments = array_map(function($argument) {
-                if ('@' === substr($argument, 0, 1)) {
-                    return '$'.substr($argument, 1);
-                }
-                if (is_numeric($argument)) {
-                    return $argument;
-                }
-
-                return '"'.$argument.'"';
-            }, (array) $arguments);
-
+        foreach ($bundles as $class) {
             if (!class_exists($class)) {
                 throw new \InvalidArgumentException(sprintf(
                     'Bundle class "%s" does not exists or can not be found.',
@@ -218,16 +206,8 @@ class KernelConfiguration
                 ));
             }
 
-            $cache .= sprintf(
-                "    new %s(%s),\n", $class, implode(', ', $arguments)
-            );
+            $cache .= sprintf("    new %s(\$kernel),\n", $class);
         }
-
-        $cache .= sprintf(
-            "    new Knp\Bundle\RadBundle\Bundle\ApplicationBundle('%s', '%s'),\n",
-            $this->getProjectName(),
-            $kernel->getRootDir().'/src'
-        );
 
         $cache .= ");";
 

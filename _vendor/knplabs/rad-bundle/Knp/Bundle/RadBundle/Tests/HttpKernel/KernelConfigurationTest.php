@@ -48,20 +48,13 @@ class KernelConfigurationTest extends \PHPUnit_Framework_TestCase
             'database_driver' => 'pdo_mysql',
             'locale'          => 'en',
         ), $config->getParameters());
-        $this->assertSame(array('some/config1', 'some/config2'), $config->getConfigs());
-
-        $this->kernel
-            ->expects($this->once())
-            ->method('getRootDir')
-            ->will($this->returnValue($this->configDir));
 
         $bundles = $config->getBundles($this->kernel);
 
-        $this->assertCount(4, $bundles);
+        $this->assertCount(3, $bundles);
         $this->assertInstanceOf('Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle', $bundles[0]);
         $this->assertInstanceOf('Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle2', $bundles[1]);
         $this->assertInstanceOf('Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle3', $bundles[2]);
-        $this->assertInstanceOf('Knp\Bundle\RadBundle\Bundle\ApplicationBundle', $bundles[3]);
     }
 
     public function testProdConfigReading()
@@ -77,19 +70,12 @@ class KernelConfigurationTest extends \PHPUnit_Framework_TestCase
             'database_driver' => 'pdo_mysql',
             'locale'          => 'en',
         ), $config->getParameters());
-        $this->assertSame(array('some/config1', 'some/config3'), $config->getConfigs());
-
-        $this->kernel
-            ->expects($this->once())
-            ->method('getRootDir')
-            ->will($this->returnValue($this->configDir));
 
         $bundles = $config->getBundles($this->kernel);
 
-        $this->assertCount(3, $bundles);
+        $this->assertCount(2, $bundles);
         $this->assertInstanceOf('Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle', $bundles[0]);
         $this->assertInstanceOf('Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle2', $bundles[1]);
-        $this->assertInstanceOf('Knp\Bundle\RadBundle\Bundle\ApplicationBundle', $bundles[2]);
     }
 
     private function getConfigurationYaml()
@@ -99,25 +85,17 @@ name: Acme\Some\HelloApp
 
 all:
     bundles:
-        Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle:     ~
-        Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle2:    ~
-
-    configs:
-        - some/config1
+        - Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle
+        - Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle2
 
     parameters:
         database_driver:   pdo_mysql
 
         locale:            en
 
-prod:
-    configs:
-        - some/config3
-
 dev:
-    configs: [ some/config2 ]
     bundles:
-        Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle3:    ~
+        - Knp\Bundle\RadBundle\Tests\HttpKernel\TestBundle3
 YAML;
     }
 }

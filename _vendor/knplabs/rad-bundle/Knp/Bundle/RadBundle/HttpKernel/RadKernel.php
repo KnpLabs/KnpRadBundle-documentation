@@ -27,9 +27,11 @@ use Symfony\Component\Yaml\Yaml;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
-
 use Composer\Autoload\ClassLoader;
+
+use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
+use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
+use Knp\Bundle\RadBundle\KnpRadBundle;
 
 /**
  * RadBundle custom kernel with support for application bundles
@@ -182,7 +184,15 @@ class RadKernel extends Kernel
      */
     public function registerBundles()
     {
-        return $this->configuration->getBundles($this);
+        $bundles = $this->configuration->getBundles($this);
+
+        // Add KnpRadBundle and ApplicationBundle automatically
+        $bundles[] = new KnpRadBundle($this);
+        $bundles[] = new ApplicationBundle(
+            $this->configuration->getProjectName(), $this->getRootDir().'/src'
+        );
+
+        return $bundles;
     }
 
     /**

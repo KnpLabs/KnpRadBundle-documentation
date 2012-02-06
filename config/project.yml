@@ -2,14 +2,13 @@ name: Acme\Hello
 
 all:
     bundles:
-        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
-        Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
-        Symfony\Bundle\TwigBundle\TwigBundle:               ~
-        Symfony\Bundle\MonologBundle\MonologBundle:         ~
-        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
-        Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
-        Symfony\Bundle\DoctrineBundle\DoctrineBundle:       ~
-        Knp\Bundle\RadBundle\KnpRadBundle:                  ~
+        - Symfony\Bundle\FrameworkBundle\FrameworkBundle
+        - Symfony\Bundle\SecurityBundle\SecurityBundle
+        - Symfony\Bundle\TwigBundle\TwigBundle
+        - Symfony\Bundle\MonologBundle\MonologBundle
+        - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
+        - Symfony\Bundle\AsseticBundle\AsseticBundle
+        - Symfony\Bundle\DoctrineBundle\DoctrineBundle
 
     parameters:
         database_driver:   pdo_mysql
@@ -29,8 +28,8 @@ all:
 
 dev:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
 
 test:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
