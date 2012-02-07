@@ -234,8 +234,8 @@ class RadKernel extends Kernel
             $this->loadConfigFile($file, basename($file, '.yml'), $loader);
         }
 
-        foreach ($this->configuration->getConfigs() as $file) {
-            if (file_exists($file = $this->getRootDir().'/'.$file)) {
+        foreach ($this->configuration->getImports() as $file) {
+            if (file_exists($file = $this->getConfigDir().'/'.$file)) {
                 $loader->load($file);
             }
         }
