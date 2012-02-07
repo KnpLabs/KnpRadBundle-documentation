@@ -1,4 +1,4 @@
-project_name: Acme\Hello
+project: Acme\Hello
 
 all:
     bundles:

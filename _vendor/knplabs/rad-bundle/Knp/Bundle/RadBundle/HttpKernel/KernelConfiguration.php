@@ -144,12 +144,12 @@ class KernelConfiguration
     {
         $config = Yaml::parse($path);
 
-        if (isset($config['project_name'])) {
-            $this->projectName     = $config['project_name'];
-            $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['project_name']);
+        if (isset($config['project'])) {
+            $this->projectName     = $config['project'];
+            $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['project']);
         } else {
             throw new \InvalidArgumentException(
-                'Specify your project `name` inside config/project.yml or config/project.local.yml'
+                'Specify your `project` name inside config/project.yml or config/project.local.yml'
             );
         }
 
