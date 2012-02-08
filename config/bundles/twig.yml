@@ -1,3 +1,6 @@
 all:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources:
+            - KnpRadBundle::form_bootstrap_layout.html.twig

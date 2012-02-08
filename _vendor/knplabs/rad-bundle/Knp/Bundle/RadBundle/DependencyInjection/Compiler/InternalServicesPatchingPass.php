@@ -38,10 +38,6 @@ class InternalServicesPatchingPass implements CompilerPassInterface
         $container->setParameter('controller_resolver.class',
             'Knp\Bundle\RadBundle\Controller\ControllerResolver'
         );
-        $container->setParameter('twig.form.resources', array_merge(
-            $container->getParameter('twig.form.resources'),
-            array('KnpRadBundle::form_bootstrap_layout.html.twig')
-        ));
 
         $service = $container->findDefinition('file_locator');
         $service->replaceArgument(1, '%kernel.project_dir%');
