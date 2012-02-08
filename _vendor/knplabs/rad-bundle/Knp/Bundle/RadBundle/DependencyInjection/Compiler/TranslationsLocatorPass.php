@@ -35,7 +35,7 @@ class TranslationsLocatorPass implements CompilerPassInterface
         $projectDir = $container->getParameter('kernel.project_dir');
 
         $dirs = array();
-        if (is_dir($dir = $projectDir.'/i18n')) {
+        if (is_dir($dir = $projectDir.'/translations')) {
             $dirs[] = $dir;
         }
 
