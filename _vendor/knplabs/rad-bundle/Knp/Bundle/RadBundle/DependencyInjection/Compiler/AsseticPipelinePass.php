@@ -33,7 +33,7 @@ class AsseticPipelinePass implements CompilerPassInterface
         $locator = new Definition(
             'Knp\\Bundle\\RadBundle\\Assetic\\PipelineAssetLocator', array(
                 array(
-                    $container->getParameter('kernel.project_dir').'/assets',
+                    $container->getParameter('kernel.project_dir').'/public',
                     $container->getParameter('kernel.root_dir').'/vendor/assets',
                 ),
             )
