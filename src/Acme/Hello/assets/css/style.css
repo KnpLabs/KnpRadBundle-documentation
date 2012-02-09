@@ -1,4 +1,13 @@
 /*
+ * Require dependencies. Uses AsseticPipeline.
+ * Dependencies gets solved from src/Acme/Hello/assets & vendor/assets
+ * folders. vendor/assets is for 3rd-party styles and scripts (jquery,
+ * bootstrap):
+ *
+ *= require libs/bootstrap
+ */
+
+/*
  * HTML5 Boilerplate
  *
  * What follows is the result of much research on cross-browser styling.
