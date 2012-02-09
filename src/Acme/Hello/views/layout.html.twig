@@ -13,12 +13,13 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    {% stylesheets '@_pipeline_style_css' -%}
-        <link rel="stylesheet" href="{{ asset_url }}">
-    {%- endstylesheets %}
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        {% stylesheets '|style' -%}
+            <link rel="stylesheet" href="{{ asset_url }}">
+        {%- endstylesheets %}
+    {% endblock %}
 
-    {% javascripts '@_pipeline_libs_modernizr206min_js' -%}
+    {% javascripts '|libs/modernizr' -%}
         <script src="{{ asset_url }}"></script>
     {%- endjavascripts %}
 </head>
@@ -42,21 +43,11 @@
 {% endblock container %}
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('
-    {%- javascripts '@_pipeline_libs_jquery171min_js' -%}
-        <script src="{{ asset_url }}"><\/script>
-    {%- endjavascripts -%}
-')</script>
-
-{% javascripts
-    '@_pipeline_plugins_js'
-    '@_pipeline_script_js'
--%}
-    <script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    {% javascripts '|script' -%}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
 
 <!--[if lt IE 7 ]>
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
