@@ -1,6 +1,7 @@
 cache/
 logs/
-vendor/
+vendor/*
+!vendor/assets
 web/bundles/
 web/uploads/
 web/js/
