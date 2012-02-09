@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\Bundle\SoRBundle\Command;
+namespace Knp\Bundle\RadBundle\Command;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,8 +14,8 @@ use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
-use Knp\Bundle\SoRBundle\Generator\ControllerGenerator;
-use Knp\Bundle\SoRBundle\Generator\ControllerActionGenerator;
+use Knp\Bundle\RadBundle\Generator\ControllerGenerator;
+use Knp\Bundle\RadBundle\Generator\ControllerActionGenerator;
 
 /**
  * Generates bundles.
@@ -34,14 +34,37 @@ class GenerateCommand extends ContainerAwareCommand
     {
         $this
             ->setDefinition(array(
-                new InputArgument('names', InputArgument::REQUIRED, 'The names'),
-                new InputOption('vendor', '', InputOption::VALUE_REQUIRED, 'The vendor of the project', 'Knp'),
-                new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create', 'Knp'),
+                new InputArgument('name', InputArgument::REQUIRED, 'The name'),
+                new InputOption('default', '', InputOption::VALUE_REQUIRED, 'The bundle to generate', 'ApplicationBundle'),
+                new InputOption('vendor', '', InputOption::VALUE_REQUIRED, 'The vendor of the project', ''),
+                new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create', ''),
                 new InputOption('dir', '', InputOption::VALUE_REQUIRED, 'The directory where to create the bundle', 'src'),
             ))
             ->setDescription('Generates a bundle:controller:action')
             ->setName('generate')
-            ;
+            ->setHelp(<<<EOT
+The <info>generate</info> command create skeletons of code based on snippets.
+
+<info>php app/console generate AcmeHello</info>
+
+A "AcmeHello" bundle will be created inside the target directory, if not exist.
+
+
+<info>php app/console generate AcmeHello:Default</info>
+
+A "DefaultController" class will be created, if not exist.
+A "AcmeHello" bundle will be created inside the target directory, if not exist.
+
+
+<info>php app/console generate AcmeHello:Default:index</info>
+
+A index method will be create in the controller, with corresponding template file.
+A "DefaultController" class will be created, if not exist.
+A "AcmeHello" bundle will be created inside the target directory, if not exist.
+
+EOT
+            )
+        ;
     }
 
     /**
@@ -52,9 +75,10 @@ class GenerateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $names = $input->getArgument('names');
+        $names = $input->getArgument('name');
         $this->dir = $input->getOption('dir');
         $this->namespace = $input->getOption('namespace');
+        $this->default = $input->getOption('default');
 
         $names = explode(':', $names);
 
@@ -63,19 +87,22 @@ class GenerateCommand extends ContainerAwareCommand
 
     public function handle(array $names)
     {
-        $bundle = $names[0].'Bundle';
+        list($bundle, $controller, $action) = $names;
+        if (empty($bundle)) {
+            $bundle = $this->default;
+        }
         switch (count($names)) {
             case 1:
                 $this->generateBundle($bundle);
                 break;
             case 2:
                 $this->generateBundle($bundle);
-                $this->generateController($bundle, $names[1]);
+                $this->generateController($bundle, $controller);
                 break;
             case 3:
                 $this->generateBundle($bundle);
-                $this->generateController($bundle, $names[1]);
-                $this->generateControllerAction($bundle, $names[1], $names[2]);
+                $this->generateController($bundle, $controller);
+                $this->generateControllerAction($bundle, $controller, $action);
                 break;
             default:
                 break;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Knp\Bundle\SoRBundle\Generator;
+namespace Knp\Bundle\RadBundle\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
-use Knp\Bundle\SoRBundle\Manipulator\ControllerManipulator;
+use Knp\Bundle\RadBundle\Manipulator\ControllerManipulator;
 
 /**
  * Generates a controller action.
@@ -18,7 +18,6 @@ class ControllerActionGenerator extends Generator
     private $filesystem;
     private $skeletonDir;
     private $bundle;
-    private $format;
 
     /**
      * Constructor.
@@ -62,52 +61,6 @@ class ControllerActionGenerator extends Generator
     }
 
     /**
-     * Sets the configuration format.
-     *
-     * @param string $format The configuration format
-     */
-    private function setFormat($format)
-    {
-        switch ($format) {
-            case 'yml':
-            case 'xml':
-            case 'php':
-            case 'annotation':
-                $this->format = $format;
-                break;
-            default:
-                $this->format = 'yml';
-                break;
-        }
-    }
-
-    /**
-     * Generates the routing configuration.
-     *
-     */
-    private function generateConfiguration()
-    {
-        if (!in_array($this->format, array('yml', 'xml', 'php'))) {
-            return;
-        }
-
-        $target = sprintf(
-            '%s/Resources/config/routing/%s.%s',
-            $this->bundle->getPath(),
-            strtolower(str_replace('\\', '_', $this->entity)),
-            $this->format
-        );
-
-        $this->renderFile($this->skeletonDir, 'config/routing.'.$this->format, $target, array(
-            'actions'           => $this->actions,
-            'route_prefix'      => $this->routePrefix,
-            'route_name_prefix' => $this->routeNamePrefix,
-            'bundle'            => $this->bundle->getName(),
-            'entity'            => $this->entity,
-        ));
-    }
-
-    /**
      * Generates the controller class only.
      *
      */
@@ -120,7 +73,6 @@ class ControllerActionGenerator extends Generator
             'dir'               => $this->skeletonDir,
             'bundle'            => $this->bundle->getName(),
             'namespace'         => $this->bundle->getNamespace(),
-            'format'            => $this->format,
         ));
 
         $manipulator = new ControllerManipulator(sprintf('%s\\Controller\\%sController', $this->bundle->getNamespace(), $controller));

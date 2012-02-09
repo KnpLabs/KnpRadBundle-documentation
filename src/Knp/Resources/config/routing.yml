@@ -1,3 +1,0 @@
-KnpSoR2Bundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: KnpSoR2Bundle:Default:index }

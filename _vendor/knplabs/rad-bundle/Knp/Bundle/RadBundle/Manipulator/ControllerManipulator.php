@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Knp\Bundle\SoRBundle\Manipulator;
+namespace Knp\Bundle\RadBundle\Manipulator;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Sensio\Bundle\GeneratorBundle\Manipulator\Manipulator;
