@@ -14,6 +14,7 @@ namespace Knp\Bundle\RadBundle\Assetic;
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory as BaseFactory;
 
 use Assetic\Asset\FileAsset;
+use Assetic\Asset\AssetCollection;
 
 /**
  * Enhances asset factory with assets pipeline support.
@@ -53,7 +54,7 @@ class PipelineAssetFactory extends BaseFactory
                     throw new \RuntimeException('Unsupported pipeline asset type provided: '.$input);
             }
 
-            $assets = array();
+            $assets = new AssetCollection();
             foreach ($this->locator->locatePipelinedAssets(substr($input, 1), $type) as $formula) {
                 $filters = array();
                 if ($formula['filter']) {
@@ -66,10 +67,10 @@ class PipelineAssetFactory extends BaseFactory
                     $formula['file']
                 );
                 $asset->setTargetPath($formula['file']);
-                $assets[] = $asset;
+                $assets->add($asset);
             }
 
-            return $this->createAssetCollection($assets);
+            return $assets;
         }
 
         return parent::parseInput($input, $options);
