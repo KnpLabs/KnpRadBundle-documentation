@@ -41,22 +41,22 @@ class GenerateCommand extends ContainerAwareCommand
                 new InputOption('view-pattern', '', InputOption::VALUE_OPTIONAL, 'The pattern where to generate the template file'),
             ))
             ->setDescription('Generates a bundle:controller:action')
-            ->setName('generate')
+            ->setName('rad:generate')
             ->setHelp(<<<EOT
-The <info>generate</info> command create skeletons of code based on snippets.
+The <info>rad:generate</info> command create skeletons of code based on snippets.
 
-<info>php app/console generate AcmeHello</info>
+<info>php app/console rad:generate AcmeHello</info>
 
 A "AcmeHello" bundle will be created inside the target directory, if not exist.
 
 
-<info>php app/console generate AcmeHello:Default</info>
+<info>php app/console rad:generate AcmeHello:Default</info>
 
 A "DefaultController" class will be created, if not exist.
 A "AcmeHello" bundle will be created inside the target directory, if not exist.
 
 
-<info>php app/console generate AcmeHello:Default:index</info>
+<info>php app/console rad:generate AcmeHello:Default:index</info>
 
 A index method will be create in the controller, with corresponding template file.
 A "DefaultController" class will be created, if not exist.
