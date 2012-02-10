@@ -17,9 +17,25 @@ use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\TemplateResourcesP
 
 /**
  * Adds application bundle view folder support to assetic parser.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class AsseticTemplateResourcesPass extends BasePass
 {
+    /**
+     * Patches kernel parameters.
+     *
+     * @param ContainerBuilder $container Container instance
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->getParameter('knp_rad.application_structure')) {
+            return;
+        }
+
+        parent::process($container);
+    }
+
     /**
      * {@inheritdoc}
      */

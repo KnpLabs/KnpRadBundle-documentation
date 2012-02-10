@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
  * Enables assetic pipeline support.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class AsseticPipelinePass implements CompilerPassInterface
 {

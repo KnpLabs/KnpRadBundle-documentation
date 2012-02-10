@@ -1,6 +1,7 @@
 all:
-    application_routing: true
-    application_views:   true
+    application_routing:   true
+    application_views:     true
+    application_structure: true
     assetic_pipeline:
         enabled:  true
         paths:

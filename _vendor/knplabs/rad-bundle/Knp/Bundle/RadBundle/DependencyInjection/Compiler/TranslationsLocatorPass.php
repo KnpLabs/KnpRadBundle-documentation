@@ -17,6 +17,8 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Adds application bundle i18n folder support.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class TranslationsLocatorPass implements CompilerPassInterface
 {
@@ -28,6 +30,9 @@ class TranslationsLocatorPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('translator.default')) {
+            return;
+        }
+        if (!$container->getParameter('knp_rad.application_structure')) {
             return;
         }
 

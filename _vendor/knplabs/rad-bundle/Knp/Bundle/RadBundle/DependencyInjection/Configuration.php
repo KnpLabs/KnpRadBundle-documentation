@@ -16,6 +16,8 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 /**
  * Configuration for the rad bundle
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -35,17 +37,20 @@ class Configuration implements ConfigurationInterface
                     ->fixXmlConfig('bundle')
                     ->children()
                         ->booleanNode('enabled')
-                            ->defaultTrue()
+                            ->defaultFalse()
                         ->end()
                         ->arrayNode('paths')->prototype('scalar')->end()->end()
                         ->arrayNode('bundles')->prototype('scalar')->end()->end()
                     ->end()
                 ->end()
                 ->booleanNode('application_routing')
-                    ->defaultTrue()
+                    ->defaultFalse()
                 ->end()
                 ->booleanNode('application_views')
-                    ->defaultTrue()
+                    ->defaultFalse()
+                ->end()
+                ->booleanNode('application_structure')
+                    ->defaultFalse()
                 ->end()
             ->end()
         ;

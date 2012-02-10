@@ -19,6 +19,8 @@ use Symfony\Component\Config\Definition\Processor;
 
 /**
  * Loads KnpRadBundle configuration.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class KnpRadExtension extends Extension
 {
@@ -67,5 +69,7 @@ class KnpRadExtension extends Extension
         if ($config['application_views']) {
             $loader->load('application_views.xml');
         }
+
+        $container->setParameter('knp_rad.application_structure', $config['application_structure']);
     }
 }
