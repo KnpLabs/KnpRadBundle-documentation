@@ -42,8 +42,6 @@ class ControllerGenerator extends Generator
         $this->bundle = $bundle;
 
         $this->generateControllerClass($controller);
-
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', '/', $controller));
     }
 
     /**

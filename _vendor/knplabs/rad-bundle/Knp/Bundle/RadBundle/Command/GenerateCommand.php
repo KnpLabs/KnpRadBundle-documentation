@@ -83,6 +83,9 @@ EOT
         $this->dir = $input->getOption('dir');
         $this->namespace = $input->getOption('namespace') ?: $this->getDefaultNamespace();
         $this->default = $input->getOption('default');
+        $this->patterns = array(
+            'view' => '%s/views/%s'
+        );
 
         $names = explode(':', $names);
 
@@ -145,7 +148,7 @@ EOT
     {
         $bundle = $this->getContainer()->get('kernel')->getBundle($bundle);
 
-        $generator = $this->getControllerActionGenerator();
+        $generator = $this->getControllerActionGenerator($this->patterns);
         $generator->generate($bundle, $controller, $action);
     }
 
@@ -156,7 +159,7 @@ EOT
         if (null === $this->bundleGenerator) {
             $this->bundleGenerator = new BundleGenerator(
                 $this->getContainer()->get('filesystem'),
-                __DIR__.'/../Resources/skeleton/bundle'
+                $this->getSkeletonLocation('@KnpRadBundle/Resources/skeleton/bundle')
             );
         }
 
@@ -171,7 +174,9 @@ EOT
     protected function getControllerGenerator()
     {
         if (null === $this->controllerGenerator) {
-            $this->controllerGenerator = new ControllerGenerator(__DIR__.'/../Resources/skeleton/controller');
+            $this->controllerGenerator = new ControllerGenerator(
+                $this->getSkeletonLocation('@KnpRadBundle/Resources/skeleton/controller')
+            );
         }
 
         return $this->controllerGenerator;
@@ -182,10 +187,13 @@ EOT
         $this->controllerGenerator = $generator;
     }
 
-    protected function getControllerActionGenerator()
+    protected function getControllerActionGenerator(array $patterns)
     {
         if (null === $this->controllerActionGenerator) {
-            $this->controllerActionGenerator = new ControllerActionGenerator(__DIR__.'/../Resources/skeleton');
+            $this->controllerActionGenerator = new ControllerActionGenerator(
+                $this->getSkeletonLocation('@KnpRadBundle/Resources/skeleton'),
+                $patterns
+            );
         }
 
         return $this->controllerActionGenerator;
@@ -194,5 +202,10 @@ EOT
     public function setControllerActionGenerator(ControllerActionGenerator $generator)
     {
         $this->controllerActionGenerator = $generator;
+    }
+
+    private function getSkeletonLocation($dir)
+    {
+        return $this->getContainer()->get('kernel')->locateResource($dir);
     }
 }

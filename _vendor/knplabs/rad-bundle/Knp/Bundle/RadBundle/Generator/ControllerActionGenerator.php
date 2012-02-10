@@ -16,15 +16,21 @@ class ControllerActionGenerator extends Generator
 {
     private $skeletonDir;
     private $bundle;
+    private $patterns;
 
     /**
      * Constructor.
      *
      * @param string $skeletonDir Path to the skeleton directory
      */
-    public function __construct($skeletonDir)
+    public function __construct($skeletonDir, array $patterns)
     {
         $this->skeletonDir = $skeletonDir;
+
+        $this->patterns = array_merge(array(
+            'view' => '%s/Resources/views/%s',
+            'namespace' => '%s\\Controller\\%sController',
+        ), $patterns);
     }
 
     /**
@@ -36,23 +42,12 @@ class ControllerActionGenerator extends Generator
      */
     public function generate(BundleInterface $bundle, $controller, $action)
     {
-        $this->bundle   = $bundle;
+        $this->bundle = $bundle;
 
-        if (!$this->actionExists($controller, $action)) {
-            $this->generateControllerAction($controller, $action);
+        if ($this->generateControllerAction($controller, $action)) {
+            $dir = sprintf($this->patterns['view'], $this->bundle->getPath(), str_replace('\\', '/', $controller));
+            $this->generateView($dir, $action);
         }
-
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', '/', $controller));
-
-        $this->generateView($dir, $action);
-    }
-
-    private function actionExists($controller, $action)
-    {
-        $controllerNs = sprintf('%s\\Controller\\%sController', $this->bundle->getNamespace(), str_replace('\\', '/', $controller));
-        $r = new \ReflectionClass($controllerNs);
-
-        return $r->hasMethod($action);
     }
 
     /**
@@ -71,8 +66,8 @@ class ControllerActionGenerator extends Generator
             'format'            => 'yml'
         ));
 
-        $manipulator = new ControllerManipulator(sprintf('%s\\Controller\\%sController', $this->bundle->getNamespace(), $controller));
-        $manipulator->addAction($code);
+        $manipulator = new ControllerManipulator(sprintf($this->patterns['namespace'], $this->bundle->getNamespace(), $controller));
+        return $manipulator->addAction($code);
     }
 
     /**
