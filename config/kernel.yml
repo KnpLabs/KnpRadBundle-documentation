@@ -9,6 +9,7 @@ all:
         - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
         - Symfony\Bundle\AsseticBundle\AsseticBundle
         - Symfony\Bundle\DoctrineBundle\DoctrineBundle
+        - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle
 
     parameters:
         database_driver:   pdo_mysql

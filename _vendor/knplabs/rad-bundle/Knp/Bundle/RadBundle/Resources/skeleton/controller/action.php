@@ -7,7 +7,7 @@
      * @Template()
 {% endif %}
      */
-    public function {{ action }}Action()
+    public function {{ action }}()
     {
         return array();
     }

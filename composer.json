@@ -5,7 +5,8 @@
         "twig/extensions":  "*",
         "doctrine/orm":     "*",
 
-        "symfony/assetic-bundle":  "2.0.*"
+        "symfony/assetic-bundle":  "2.0.*",
+        "sensio/generator-bundle": "2.0.*"
     },
 
     "autoload": {
