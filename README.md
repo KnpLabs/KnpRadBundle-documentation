@@ -296,12 +296,12 @@ Generators
 
 - controller (bundle, controller, action) generator
 
-`./bin/console generate AcmeGoodbye --namespace="Acme\Goodbye" --dir="src/Acme/Goodbye"` will create a AcmeGoodbye bundle.
+`./bin/console rad:generate AcmeGoodbye --namespace="Acme\Goodbye" --dir="src/Acme/Goodbye"` will create a AcmeGoodbye bundle.
 
-`./bin/console generate AcmeGoodbye:Goodbye` will create a`Goodbye` controller in the AcmeGoodbye bundle.
-`./bin/console generate AcmeGoodbye:Goodbye:goodbye` will create a `goodbye` action in the `Goodbye` controller in the AcmeGoodbye bundle, with its corresponding template file.
+`./bin/console rad:generate AcmeGoodbye:Goodbye` will create a`Goodbye` controller in the AcmeGoodbye bundle.
+`./bin/console rad:generate AcmeGoodbye:Goodbye:goodbye` will create a `goodbye` action in the `Goodbye` controller in the AcmeGoodbye bundle, with its corresponding template file.
 
-`./bin/console generate :Test:test` will create a `test` action in the `Test` controller of your `App` bundle,
+`./bin/console rad:generate :Test:test` will create a `test` action in the `Test` controller of your `App` bundle,
 with its corresponding template file.
 
 All parts are created if they do not exist yet, or silently ignored if they already exist.
