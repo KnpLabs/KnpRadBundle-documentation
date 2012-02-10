@@ -2,7 +2,7 @@ all:
     # doctrine DBAL [http://bit.ly/xmqrau] connection
     # configuration reference [http://bit.ly/AxOXBZ]
     dbal:
-        # default connection service name [database_connection]
+    # default connection service name [database_connection]
         driver:   %database_driver%
         host:     %database_host%
         port:     %database_port%
@@ -10,27 +10,32 @@ all:
         user:     %database_user%
         password: %database_password%
         charset:  UTF8
-        # if more than one connection is used, name them
-        #api:
-            # accessed by service name [doctrine.dbal.api_connection]
-            #driver: %api_database_driver%
-            #host:   %api_database_host%
-            #...
+    # if more than one connection is used, name them
+    #   api:
+    #       accessed by service name [doctrine.dbal.api_connection]
+    #       driver: %api_database_driver%
+    #       host:   %api_database_host%
+    #       ...
      
-        #other:
-            #...
+    #   other:
+    #       ...
 
     # ORM reference [http://bit.ly/zzihDP]
     orm:
+    #   accessed by service name [doctrine.orm.entity_manager]
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
-        # custom mapping locations
-        #mappings:
-            #extra_project:
-                #type: annotation
-                #alias: Vendor # accessed by Vendor:EntityName
-                #prefix: Vendor\Entity #namespace prefix
-                #dir: "%kernel.root_dir%/../vendor/somelib/Vendor/Entity"
+    #   custom mapping locations
+    #   mappings:
+    #       extra_project:
+    #           type: annotation
+    #           alias: Vendor # accessed by Vendor:EntityName
+    #           prefix: Vendor\Entity #namespace prefix
+    #           dir: "%kernel.root_dir%/../vendor/somelib/Vendor/Entity"
+    #   if more than one Entity manager is used, reference [http://bit.ly/AvCVqS]
+    #   api:
+    #       accessed by service name [doctrine.orm.api_entity_manager]
+    #       connection: api
 
 prod:
     orm:
