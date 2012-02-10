@@ -30,12 +30,42 @@ class KnpRadExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor = new Processor();
+        $processor     = new Processor();
+        $configuration = new Configuration();
+        $config        = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        $loader->load('doctrine.xml');
-        $loader->load('routing.xml');
-        $loader->load('view.xml');
+        if ($config['assetic_pipeline']['enabled']) {
+            $paths   = $config['assetic_pipeline']['paths'];
+            $bundles = $config['assetic_pipeline']['bundles']
+                    ?: array_keys($container->getParameter('kernel.bundles'));
+            $bundleClasses = $container->getParameter('kernel.bundles');
+
+            foreach ($bundles as $bundle) {
+                $bundle = $bundleClasses[$bundle];
+                $refl = new \ReflectionClass($bundle);
+                if ('Knp\\Bundle\\RadBundle\\Bundle\\ApplicationBundle' === $refl->getName()) {
+                    continue;
+                }
+                if ($refl->isSubclassOf('Knp\\Bundle\\RadBundle\\Bundle\\ApplicationBundle')) {
+                    continue;
+                }
+                if (file_exists($path = dirname($refl->getFileName()).'/Resources/public')) {
+                    $paths[] = $path;
+                }
+            }
+
+            $container->setParameter('knp_rad.assetic_pipeline.locator.paths', $paths);
+            $loader->load('assetic_pipeline.xml');
+        }
+
+        if ($config['application_routing']) {
+            $loader->load('application_routing.xml');
+        }
+
+        if ($config['application_views']) {
+            $loader->load('application_views.xml');
+        }
     }
 }

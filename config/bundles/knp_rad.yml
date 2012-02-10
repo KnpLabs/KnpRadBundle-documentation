@@ -1,0 +1,8 @@
+all:
+    application_routing: true
+    application_views:   true
+    assetic_pipeline:
+        enabled:  true
+        paths:
+            - %kernel.project_dir%/public
+            - %kernel.root_dir%/vendor/assets
