@@ -35,9 +35,8 @@ class GenerateCommand extends ContainerAwareCommand
         $this
             ->setDefinition(array(
                 new InputArgument('name', InputArgument::REQUIRED, 'The name'),
-                new InputOption('default', '', InputOption::VALUE_REQUIRED, 'The bundle to generate', 'ApplicationBundle'),
-                new InputOption('vendor', '', InputOption::VALUE_REQUIRED, 'The vendor of the project', ''),
-                new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create', ''),
+                new InputOption('default', '', InputOption::VALUE_REQUIRED, 'The bundle to generate', 'App'),
+                new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create'),
                 new InputOption('dir', '', InputOption::VALUE_REQUIRED, 'The directory where to create the bundle', 'src'),
             ))
             ->setDescription('Generates a bundle:controller:action')
@@ -67,6 +66,11 @@ EOT
         ;
     }
 
+    public function getDefaultNamespace()
+    {
+        return $this->getContainer()->getParameter('kernel.project_name');
+    }
+
     /**
      * @see Command
      *
@@ -77,7 +81,7 @@ EOT
     {
         $names = $input->getArgument('name');
         $this->dir = $input->getOption('dir');
-        $this->namespace = $input->getOption('namespace');
+        $this->namespace = $input->getOption('namespace') ?: $this->getDefaultNamespace();
         $this->default = $input->getOption('default');
 
         $names = explode(':', $names);
@@ -87,7 +91,7 @@ EOT
 
     public function handle(array $names)
     {
-        list($bundle, $controller, $action) = $names;
+        @list($bundle, $controller, $action) = $names;
         if (empty($bundle)) {
             $bundle = $this->default;
         }
@@ -111,15 +115,14 @@ EOT
 
     public function generateBundle($bundle)
     {
-        $bundle = Validators::validateBundleName($bundle);
         try {
             $this->getApplication()->getKernel()->getBundle($bundle);
             return;
         }
         catch(\Exception $e) {
         }
-        $dir = Validators::validateTargetDir($this->dir, $bundle, 'Knp');
-        $format = Validators::validateFormat('yml');
+        $dir = Validators::validateTargetDir($this->dir, $bundle, $this->namespace);
+        $format = 'yml';
         $structure = true;
 
         if (!$this->getContainer()->get('filesystem')->isAbsolutePath($dir)) {
@@ -132,7 +135,7 @@ EOT
 
     public function generateController($bundle, $controller)
     {
-        $bundle      = $this->getContainer()->get('kernel')->getBundle($bundle);
+        $bundle = $this->getContainer()->get('kernel')->getBundle($bundle);
 
         $generator = $this->getControllerGenerator();
         $generator->generate($bundle, $controller);
@@ -140,7 +143,7 @@ EOT
 
     public function generateControllerAction($bundle, $controller, $action)
     {
-        $bundle      = $this->getContainer()->get('kernel')->getBundle($bundle);
+        $bundle = $this->getContainer()->get('kernel')->getBundle($bundle);
 
         $generator = $this->getControllerActionGenerator();
         $generator->generate($bundle, $controller, $action);
@@ -151,7 +154,10 @@ EOT
     protected function getBundleGenerator()
     {
         if (null === $this->bundleGenerator) {
-            $this->bundleGenerator = new BundleGenerator($this->getContainer()->get('filesystem'), __DIR__.'/../Resources/skeleton/bundle');
+            $this->bundleGenerator = new BundleGenerator(
+                $this->getContainer()->get('filesystem'),
+                __DIR__.'/../Resources/skeleton/bundle'
+            );
         }
 
         return $this->bundleGenerator;
@@ -165,7 +171,7 @@ EOT
     protected function getControllerGenerator()
     {
         if (null === $this->controllerGenerator) {
-            $this->controllerGenerator = new ControllerGenerator($this->getContainer()->get('filesystem'), __DIR__.'/../Resources/skeleton/controller');
+            $this->controllerGenerator = new ControllerGenerator(__DIR__.'/../Resources/skeleton/controller');
         }
 
         return $this->controllerGenerator;
@@ -179,7 +185,7 @@ EOT
     protected function getControllerActionGenerator()
     {
         if (null === $this->controllerActionGenerator) {
-            $this->controllerActionGenerator = new ControllerActionGenerator($this->getContainer()->get('filesystem'), __DIR__.'/../Resources/skeleton');
+            $this->controllerActionGenerator = new ControllerActionGenerator(__DIR__.'/../Resources/skeleton');
         }
 
         return $this->controllerActionGenerator;

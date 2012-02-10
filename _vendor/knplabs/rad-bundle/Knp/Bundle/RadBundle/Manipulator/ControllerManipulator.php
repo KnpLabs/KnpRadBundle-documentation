@@ -44,8 +44,11 @@ class ControllerManipulator extends Manipulator
      */
     public function addAction($action)
     {
-        var_dump($action);
         if (!$this->reflected->getFilename()) {
+            return false;
+        }
+
+        if ($this->reflected->hasMethod($action)) {
             return false;
         }
 

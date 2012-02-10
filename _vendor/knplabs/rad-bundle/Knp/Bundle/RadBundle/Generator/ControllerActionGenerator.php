@@ -2,7 +2,6 @@
 
 namespace Knp\Bundle\RadBundle\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
@@ -15,19 +14,16 @@ use Knp\Bundle\RadBundle\Manipulator\ControllerManipulator;
  */
 class ControllerActionGenerator extends Generator
 {
-    private $filesystem;
     private $skeletonDir;
     private $bundle;
 
     /**
      * Constructor.
      *
-     * @param Filesystem $filesystem A Filesystem instance
      * @param string $skeletonDir Path to the skeleton directory
      */
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    public function __construct($skeletonDir)
     {
-        $this->filesystem  = $filesystem;
         $this->skeletonDir = $skeletonDir;
     }
 
@@ -41,7 +37,6 @@ class ControllerActionGenerator extends Generator
     public function generate(BundleInterface $bundle, $controller, $action)
     {
         $this->bundle   = $bundle;
-        $this->setFormat('yml');
 
         if (!$this->actionExists($controller, $action)) {
             $this->generateControllerAction($controller, $action);
@@ -73,6 +68,7 @@ class ControllerActionGenerator extends Generator
             'dir'               => $this->skeletonDir,
             'bundle'            => $this->bundle->getName(),
             'namespace'         => $this->bundle->getNamespace(),
+            'format'            => 'yml'
         ));
 
         $manipulator = new ControllerManipulator(sprintf('%s\\Controller\\%sController', $this->bundle->getNamespace(), $controller));

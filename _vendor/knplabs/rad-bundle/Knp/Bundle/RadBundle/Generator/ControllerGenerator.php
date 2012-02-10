@@ -2,7 +2,6 @@
 
 namespace Knp\Bundle\RadBundle\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
@@ -14,19 +13,16 @@ use Sensio\Bundle\GeneratorBundle\Generator\Generator;
  */
 class ControllerGenerator extends Generator
 {
-    private $filesystem;
     private $skeletonDir;
     private $bundle;
 
     /**
      * Constructor.
      *
-     * @param Filesystem $filesystem A Filesystem instance
      * @param string $skeletonDir Path to the skeleton directory
      */
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    public function __construct($skeletonDir)
     {
-        $this->filesystem  = $filesystem;
         $this->skeletonDir = $skeletonDir;
     }
 
@@ -73,6 +69,7 @@ class ControllerGenerator extends Generator
             'controller'        => $controller,
             'bundle'            => $this->bundle->getName(),
             'namespace'         => $this->bundle->getNamespace(),
+            'format'            => 'yml'
         ));
     }
 
