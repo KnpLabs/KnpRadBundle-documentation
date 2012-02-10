@@ -35,7 +35,6 @@ class KnpRadBundle extends Bundle
         $container->addCompilerPass(new AsseticPipelinePass);
         $container->addCompilerPass(new AssetManagerPass);
         $container->addCompilerPass(new TranslationsLocatorPass);
-        $container->addCompilerPass(new RegisterDoctrineMappingDriverPass);
         $container->addCompilerPass(new InternalServicesPatchingPass);
     }
 }
