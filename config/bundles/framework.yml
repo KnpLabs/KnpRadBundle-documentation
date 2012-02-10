@@ -11,17 +11,16 @@ all:
         default_locale: fr #%locale%
         auto_start:     true
 
+    profiler: { only_exceptions: false }
+
 prod:
     router:   { resource: "%kernel.config_dir%/routing/prod.yml" }
-    profiler: { only_exceptions: false }
 
 dev:
     router:   { resource: "%kernel.config_dir%/routing/dev.yml" }
-    profiler: { only_exceptions: false }
 
 test:
     router:   { resource: "%kernel.config_dir%/routing/test.yml" }
-    profiler: { only_exceptions: false }
     test: ~
     session:
         storage_id: session.storage.filesystem
