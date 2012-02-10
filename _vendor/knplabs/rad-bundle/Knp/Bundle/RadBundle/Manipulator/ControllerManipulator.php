@@ -37,12 +37,13 @@ class ControllerManipulator extends Manipulator
     /**
      * Adds an action at the end of the existing ones.
      *
-     * @param string $action The method code
+     * @param string $action The method name
+     * @param string $code The method code
      *
      * @return Boolean true if it worked, false otherwise
      *
      */
-    public function addAction($action)
+    public function addAction($action, $code)
     {
         if (!$this->reflected->getFilename()) {
             return false;
@@ -55,7 +56,7 @@ class ControllerManipulator extends Manipulator
         $src = file($this->reflected->getFilename());
         $line = $this->reflected->getEndLine() - 1;
 
-        $newSrc = array_replace($src, array($line => $action.' }'));
+        $newSrc = array_replace($src, array($line => $code.' }'));
 
         file_put_contents($this->reflected->getFilename(), implode('', $newSrc));
 

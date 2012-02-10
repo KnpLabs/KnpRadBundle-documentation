@@ -67,7 +67,7 @@ class ControllerActionGenerator extends Generator
         ));
 
         $manipulator = new ControllerManipulator(sprintf($this->patterns['namespace'], $this->bundle->getNamespace(), $controller));
-        return $manipulator->addAction($code);
+        return $manipulator->addAction($action, $code);
     }
 
     /**

@@ -38,6 +38,7 @@ class GenerateCommand extends ContainerAwareCommand
                 new InputOption('default', '', InputOption::VALUE_REQUIRED, 'The bundle to generate', 'App'),
                 new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create'),
                 new InputOption('dir', '', InputOption::VALUE_REQUIRED, 'The directory where to create the bundle', 'src'),
+                new InputOption('view-pattern', '', InputOption::VALUE_OPTIONAL, 'The pattern where to generate the template file'),
             ))
             ->setDescription('Generates a bundle:controller:action')
             ->setName('generate')
@@ -84,7 +85,7 @@ EOT
         $this->namespace = $input->getOption('namespace') ?: $this->getDefaultNamespace();
         $this->default = $input->getOption('default');
         $this->patterns = array(
-            'view' => '%s/views/%s'
+            'view' => $input->getOption('view-pattern') ?: '%s/views/%s'
         );
 
         $names = explode(':', $names);
