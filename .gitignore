@@ -1,10 +1,11 @@
 cache/
 logs/
-vendor/*
-!vendor/assets
+config/kernel.custom.yml
 web/bundles/
 web/uploads/
 web/js/
 web/css/
 web/images/
+vendor/*
+!vendor/assets
 composer.lock
