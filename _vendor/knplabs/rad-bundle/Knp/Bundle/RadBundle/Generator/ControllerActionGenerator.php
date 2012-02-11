@@ -80,4 +80,17 @@ class ControllerActionGenerator extends Generator
         $this->renderFile($this->skeletonDir, 'views/action.html.twig', sprintf('%s/%s.html.twig', $dir, $action), array(
         ));
     }
+
+    //TODO: remove later when https://github.com/sensio/SensioGeneratorBundle/pull/112 be merged
+    private function render($skeletonDir, $template, $parameters)
+    {
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($skeletonDir), array(
+            'debug'            => true,
+            'cache'            => false,
+            'strict_variables' => true,
+            'autoescape'       => false,
+        ));
+
+        return $twig->render($template, $parameters);
+    }
 }

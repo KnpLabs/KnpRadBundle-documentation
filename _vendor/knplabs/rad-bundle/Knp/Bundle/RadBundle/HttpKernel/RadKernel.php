@@ -96,6 +96,7 @@ class RadKernel extends Kernel
             );
         };
 
+        $loader->add(null, self::$projectRootDir.'/src');
         if (file_exists($custom = self::$projectRootDir.'/config/autoload.php')) {
             require($custom);
         } else {

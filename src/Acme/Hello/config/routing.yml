@@ -1,7 +1,0 @@
-hello_index:
-    pattern:  /hello/{name}
-    defaults: { _controller: Main:index }
-
-hello_form:
-    pattern:  /form
-    defaults: { _controller: Main:form }

@@ -18,10 +18,9 @@ use Knp\Bundle\RadBundle\Generator\ControllerGenerator;
 use Knp\Bundle\RadBundle\Generator\ControllerActionGenerator;
 
 /**
- * Generates bundles.
- *
+ * Generates controllers.
  */
-class GenerateCommand extends ContainerAwareCommand
+class GenerateControllerCommand extends ContainerAwareCommand
 {
     private $bundleGenerator;
     private $controllerGenerator;
@@ -35,13 +34,9 @@ class GenerateCommand extends ContainerAwareCommand
         $this
             ->setDefinition(array(
                 new InputArgument('name', InputArgument::REQUIRED, 'The name'),
-                new InputOption('default', '', InputOption::VALUE_REQUIRED, 'The bundle to generate', 'App'),
-                new InputOption('namespace', '', InputOption::VALUE_REQUIRED, 'The namespace of the bundle to create'),
-                new InputOption('dir', '', InputOption::VALUE_REQUIRED, 'The directory where to create the bundle', 'src'),
-                new InputOption('view-pattern', '', InputOption::VALUE_OPTIONAL, 'The pattern where to generate the template file'),
             ))
             ->setDescription('Generates a bundle:controller:action')
-            ->setName('rad:generate')
+            ->setName('rad:generate:controller')
             ->setHelp(<<<EOT
 The <info>rad:generate</info> command create skeletons of code based on snippets.
 
@@ -67,11 +62,6 @@ EOT
         ;
     }
 
-    public function getDefaultNamespace()
-    {
-        return $this->getContainer()->getParameter('kernel.project_name');
-    }
-
     /**
      * @see Command
      *
@@ -80,34 +70,26 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $names = $input->getArgument('name');
-        $this->dir = $input->getOption('dir');
-        $this->namespace = $input->getOption('namespace') ?: $this->getDefaultNamespace();
-        $this->default = $input->getOption('default');
-        $this->patterns = array(
-            'view' => $input->getOption('view-pattern') ?: '%s/views/%s'
-        );
+        $names = explode(':', $input->getArgument('name'));
 
-        $names = explode(':', $names);
+        $this->dir       = $this->getContainer()->getParameter('kernel.project_dir');
+        $this->namespace = $this->getContainer()->getParameter('kernel.project_name');
+        $this->patterns  = array('view' => '%s/views/%s');
 
         $this->handle($names);
     }
 
     public function handle(array $names)
     {
-        @list($bundle, $controller, $action) = $names;
-        if (empty($bundle)) {
-            $bundle = $this->default;
-        }
+        $bundle = 'App';
+        @list($controller, $action) = $names;
+
         switch (count($names)) {
             case 1:
                 $this->generateBundle($bundle);
-                break;
-            case 2:
-                $this->generateBundle($bundle);
                 $this->generateController($bundle, $controller);
                 break;
-            case 3:
+            case 2:
                 $this->generateBundle($bundle);
                 $this->generateController($bundle, $controller);
                 $this->generateControllerAction($bundle, $controller, $action);
@@ -152,8 +134,6 @@ EOT
         $generator = $this->getControllerActionGenerator($this->patterns);
         $generator->generate($bundle, $controller, $action);
     }
-
-
 
     protected function getBundleGenerator()
     {

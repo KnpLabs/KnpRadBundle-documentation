@@ -1,8 +1,0 @@
-parameters:
-    app.name_wrapper.class: Acme\Hello\Name\Wrapper
-
-services:
-    app.name_wrapper:
-        class: %app.name_wrapper.class%
-        arguments:
-            - %app.name_pattern%

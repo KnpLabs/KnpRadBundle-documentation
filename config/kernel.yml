@@ -1,4 +1,4 @@
-project: Acme\Hello
+project: KnpRad
 
 all:
     bundles:
