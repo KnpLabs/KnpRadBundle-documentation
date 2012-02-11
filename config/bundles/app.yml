@@ -1,2 +1,10 @@
+# all your application-wide configuration should live
+# here. every parameter here would be automatically
+# transformed into "app.%s" parameter inside service container.
+
 all:
     name_pattern: <em>%s</em>
+
+dev:  ~
+test: ~
+prod: ~

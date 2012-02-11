@@ -1,15 +1,35 @@
+# assetic is asset manager for your application
+# docs: http://bit.ly/assetic-doc
+# config: http://bit.ly/assetic-ref
+
 all:
-    debug:          %kernel.debug%
     read_from:      %kernel.web_dir%
-    write_to:       %kernel.web_dir%
     use_controller: false
+
+    # assetic will try to find preprocessors for your
+    # assets automatically (if they are in /usr/bin),
+    # but if you want to help assetic with it, use this
+    # configuration parameters:
     # java: /usr/bin/java
+    # node: /usr/bin/node
+    # ruby: /usr/bin/ruby
+    # sass: /usr/bin/sass
+
+    # enable filters for your project
     filters:
+        # this filter rewrites urls inside your css files
+        # to match project structure. you might want to use
+        # it in dev environment, where use_controller is
+        # enabled
         cssrewrite: ~
-        # closure:
-        #     jar: %kernel.root_dir%/java/compiler.jar
-        # yui_css:
-        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+        # http://yhoo.it/yui-compressor
+        yui_css: { jar: %kernel.root_dir%/vendor/yuicompressor.jar }
+        # http://lesscss.org/
+        less: ~
+        # http://sass-lang.com/
+        scss: ~
+        # http://coffeescript.org/
+        coffee: ~
 
 dev:  { use_controller: true }
 test: { use_controller: true }
