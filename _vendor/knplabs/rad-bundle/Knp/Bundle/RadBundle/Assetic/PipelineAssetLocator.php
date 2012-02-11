@@ -100,7 +100,7 @@ class PipelineAssetLocator
         if ($type !== pathinfo($fileWithExtension, PATHINFO_EXTENSION)) {
             $fileWithExtension .= '.'.$type;
         }
-        $fileWithoutExtension = basename($input, '.'.$type);
+        $fileWithoutExtension = dirname($fileWithExtension).'/'.basename($fileWithExtension, '.'.$type);
 
         foreach ($this->paths as $path) {
             // directory index
