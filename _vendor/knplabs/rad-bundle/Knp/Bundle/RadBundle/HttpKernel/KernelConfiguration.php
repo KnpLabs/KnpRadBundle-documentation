@@ -23,7 +23,6 @@ use RadAppKernel;
 class KernelConfiguration
 {
     private $projectName;
-    private $applicationName;
     private $imports    = array();
     private $parameters = array();
     private $bundles    = array();
@@ -69,7 +68,6 @@ class KernelConfiguration
 
             $this->projectCache->write('<?php return '.var_export(array(
                 $this->projectName,
-                $this->applicationName,
                 $this->imports,
                 $this->parameters,
                 $this->bundles
@@ -78,7 +76,6 @@ class KernelConfiguration
 
         list(
             $this->projectName,
-            $this->applicationName,
             $this->imports,
             $this->parameters,
             $this->bundles
@@ -92,6 +89,12 @@ class KernelConfiguration
      */
     public function getProjectName()
     {
+        if (null === $this->projectName) {
+            throw new \InvalidArgumentException(
+                'Specify your `project` name inside config/project.yml or config/project.local.yml'
+            );
+        }
+
         return $this->projectName;
     }
 
@@ -145,12 +148,7 @@ class KernelConfiguration
         $config = Yaml::parse($path);
 
         if (isset($config['project'])) {
-            $this->projectName     = $config['project'];
-            $this->applicationName = preg_replace('/(?:.*\\\)?([^\\\]+)$/', '$1', $config['project']);
-        } else {
-            throw new \InvalidArgumentException(
-                'Specify your `project` name inside config/project.yml or config/project.local.yml'
-            );
+            $this->projectName = $config['project'];
         }
 
         if (isset($config['all'])) {
