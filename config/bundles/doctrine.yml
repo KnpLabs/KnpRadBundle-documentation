@@ -1,8 +1,26 @@
+# doctrine provides M for your VC
+# docs: http://bit.ly/doctrine2-docs
+# config: http://bit.ly/doctrine2-ref
+
 all:
-    # doctrine DBAL [http://bit.ly/xmqrau] connection
-    # configuration reference [http://bit.ly/AxOXBZ]
+    # DBAL connection
+    # see: http://bit.ly/doctrine2-multiple-em
+    #
     dbal:
-    # default connection service name [database_connection]
+        # if more than one connection is used, name them
+        #   api:
+        #       accessed by service name [doctrine.dbal.api_connection]
+        #       driver: %api_database_driver%
+        #       host:   %api_database_host%
+        #       ...
+        #
+        #   read_only:
+        #       ...
+        #
+        # if no named connections provided - configuration below
+        # would be assigned to "default" connection
+
+        # use config/kernel.yml to configure this parameters:
         driver:   %database_driver%
         host:     %database_host%
         port:     %database_port%
@@ -10,35 +28,26 @@ all:
         user:     %database_user%
         password: %database_password%
         charset:  UTF8
-    # if more than one connection is used, name them
-    #   api:
-    #       accessed by service name [doctrine.dbal.api_connection]
-    #       driver: %api_database_driver%
-    #       host:   %api_database_host%
-    #       ...
-     
-    #   other:
-    #       ...
 
-    # ORM reference [http://bit.ly/zzihDP]
     orm:
-    #   accessed by service name [doctrine.orm.entity_manager]
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
-    #   custom mapping locations
-    #   mappings:
-    #       extra_project:
-    #           type: annotation
-    #           alias: Vendor # accessed by Vendor:EntityName
-    #           prefix: Vendor\Entity #namespace prefix
-    #           dir: "%kernel.root_dir%/../vendor/somelib/Vendor/Entity"
-    #   if more than one Entity manager is used, reference [http://bit.ly/AvCVqS]
-    #   api:
-    #       accessed by service name [doctrine.orm.api_entity_manager]
-    #       connection: api
+        # if more than one entity manager is used
+        # see: http://bit.ly/doctrine2-multiple-em
+        # api:
+        #     accessed by service name [doctrine.orm.api_entity_manager]
+        #     connection: api
+
+test:
+    dbal:
+        # use config/kernel.yml to configure database name.
+        # in test environment, _test suffix will be assigned to
+        # it automatically
+        dbname: %database_name%_test
 
 prod:
     orm:
-        metadata_cache_driver:  apc
-        result_cache_driver:    apc
-        query_cache_driver:     apc
+        # use apc for caching in production
+        metadata_cache_driver: apc
+        result_cache_driver:   apc
+        query_cache_driver:    apc
