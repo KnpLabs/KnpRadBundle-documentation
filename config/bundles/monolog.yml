@@ -1,3 +1,7 @@
+# monolog is logging layer of your application
+# docs: http://bit.ly/monolog-doc
+# config: http://bit.ly/monolog-ref
+
 prod:
     handlers:
         main:

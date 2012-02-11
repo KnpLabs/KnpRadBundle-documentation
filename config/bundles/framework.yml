@@ -1,26 +1,32 @@
+# main Symfony2 configuration section
+# docs: http://symfony.com/
+# config: http://bit.ly/framework-ref
+
 all:
-    #esi:             ~
+    # turn on Edge Side Includes if you want to cache
+    # small blocks of content on your pages separately
+    # see: http://bit.ly/esi-wiki
+    # esi:             ~
     translator:      { fallback: %locale% }
     secret:          %secret%
     charset:         UTF-8
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    templating:      { engines: ['twig'] }
     session:
-        default_locale: fr #%locale%
+        default_locale: %locale%
         auto_start:     true
 
     profiler: { only_exceptions: false }
 
 prod:
-    router:   { resource: "%kernel.config_dir%/routing/prod.yml" }
+    router: { resource: "%kernel.config_dir%/routing/prod.yml" }
 
 dev:
-    router:   { resource: "%kernel.config_dir%/routing/dev.yml" }
+    router: { resource: "%kernel.config_dir%/routing/dev.yml" }
 
 test:
-    router:   { resource: "%kernel.config_dir%/routing/test.yml" }
-    test: ~
-    session:
-        storage_id: session.storage.filesystem
+    router:  { resource: "%kernel.config_dir%/routing/test.yml" }
+    test:    ~
+    session: { storage_id: session.storage.filesystem }

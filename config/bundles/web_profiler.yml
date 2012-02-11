@@ -1,6 +1,13 @@
+# profiler toolbar for your pages
+# config: http://bit.ly/webprof-ref
+
 dev:
     toolbar: true
     intercept_redirects: false
+
+    # if your toolbar to long and not fits to the screen,
+    # use non-verbose version:
+    # verbose: false
 
 test:
     toolbar: false

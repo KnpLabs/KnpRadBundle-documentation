@@ -1,4 +1,9 @@
+# swiftmailer is the mailing servicefor your application
+# docs: http://bit.ly/swiftmailer-doc
+# config: http://bit.ly/swiftmailer-ref
+
 all:
+    # use kernel.yml to configure this parameters
     transport: %mailer_transport%
     host:      %mailer_host%
     username:  %mailer_user%

@@ -1,9 +1,26 @@
+# rad layer configuration
+# docs: http://rad.knplabs.org
+
 all:
+    # don't touch those parameters unless you're really
+    # sure of what you're doing. switching those options
+    # off will not give you noticable performance boost :-)
     application_routing:   true
     application_views:     true
     application_structure: true
+
     assetic_pipeline:
         enabled:  true
         paths:
+            # put additional paths here in order
+            # in which you want pipelined assets should
+            # be searched
             - %kernel.project_dir%/public
             - %kernel.root_dir%/vendor/assets
+
+        # by default, pipeline will search for assets inside
+        # every bundle too (paths section have higher priority though)
+        # but if you want to limit search to some specific bundles,
+        # list their names in this section:
+        # bundles:
+        #     - ...
