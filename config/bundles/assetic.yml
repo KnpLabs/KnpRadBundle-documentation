@@ -6,14 +6,11 @@ all:
     read_from:      %kernel.web_dir%
     use_controller: false
 
-    # assetic will try to find preprocessors for your
-    # assets automatically (if they are in /usr/bin),
-    # but if you want to help assetic with it, use this
-    # configuration parameters:
-    # java: /usr/bin/java
-    # node: /usr/bin/node
-    # ruby: /usr/bin/ruby
-    # sass: /usr/bin/sass
+    # use kernel.yml to configure this parameters
+    java: %bin_java%
+    node: %bin_node%
+    ruby: %bin_ruby%
+    sass: %bin_sass%
 
     # enable filters for your project
     filters:
@@ -22,14 +19,19 @@ all:
         # it in dev environment, where use_controller is
         # enabled
         cssrewrite: ~
+
         # http://yhoo.it/yui-compressor
-        yui_css: { jar: %kernel.root_dir%/vendor/yuicompressor.jar }
+        yui_css: { jar: %jar_yui% }
+
         # http://lesscss.org/
         less: ~
+
         # http://sass-lang.com/
         scss: ~
+        sass: ~
+
         # http://coffeescript.org/
-        coffee: ~
+        coffee: { bin: %bin_coffee% }
 
 dev:  { use_controller: true }
 test: { use_controller: true }

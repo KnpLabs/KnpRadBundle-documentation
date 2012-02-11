@@ -12,6 +12,9 @@ all:
         - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle
 
     parameters:
+        locale:            en
+        secret:            ThisTokenIsNotSoSecretChangeIt
+
         database_driver:   pdo_mysql
         database_host:     localhost
         database_port:     ~
@@ -24,8 +27,12 @@ all:
         mailer_user:       ~
         mailer_password:   ~
 
-        locale:            en
-        secret:            ThisTokenIsNotSoSecretChangeIt
+        bin_java:          /usr/bin/java
+        bin_node:          /usr/bin/node
+        bin_ruby:          /usr/bin/ruby
+        bin_sass:          /usr/bin/sass
+        bin_coffee:        /usr/bin/coffee
+        jar_yui:           %kernel.root_dir%/vendor/yuicompressor.jar
 
 dev:
     bundles:
