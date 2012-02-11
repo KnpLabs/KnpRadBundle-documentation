@@ -41,5 +41,15 @@ class AsseticPipelinePass implements CompilerPassInterface
         $factory->addMethodCall('setPipelineAssetLocator', array(
             new Reference('knp_rad.assetic_pipeline.locator')
         ));
+
+        $filters = array();
+        foreach ($container->findTaggedServiceIds('assetic.filter') as $id => $attrs) {
+            foreach ($attrs as $attr) {
+                if (isset($attr['alias'])) {
+                    $filters[] = $attr['alias'];
+                }
+            }
+        }
+        $container->setParameter('knp_rad.assetic_pipeline.locator.filters', $filters);
     }
 }

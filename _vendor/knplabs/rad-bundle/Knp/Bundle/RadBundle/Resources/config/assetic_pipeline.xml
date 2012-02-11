@@ -11,6 +11,7 @@
     <services>
         <service id="knp_rad.assetic_pipeline.locator" class="%knp_rad.assetic_pipeline.locator.class%" public="false">
             <argument>%knp_rad.assetic_pipeline.locator.paths%</argument>
+            <argument>%knp_rad.assetic_pipeline.locator.filters%</argument>
         </service>
     </services>
 

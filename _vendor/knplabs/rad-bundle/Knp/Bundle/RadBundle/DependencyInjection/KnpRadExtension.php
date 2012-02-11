@@ -57,8 +57,8 @@ class KnpRadExtension extends Extension
                     $paths[] = $path;
                 }
             }
-
             $container->setParameter('knp_rad.assetic_pipeline.locator.paths', $paths);
+
             $loader->load('assetic_pipeline.xml');
         }
 
@@ -69,6 +69,8 @@ class KnpRadExtension extends Extension
         if ($config['application_views']) {
             $loader->load('application_views.xml');
         }
+
+        $loader->load('assetic_coffee_fix.xml');
 
         $container->setParameter('knp_rad.application_structure', $config['application_structure']);
     }

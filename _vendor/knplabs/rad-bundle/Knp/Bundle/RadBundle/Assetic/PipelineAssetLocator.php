@@ -100,6 +100,7 @@ class PipelineAssetLocator
         if ($type !== pathinfo($fileWithExtension, PATHINFO_EXTENSION)) {
             $fileWithExtension .= '.'.$type;
         }
+        $fileWithoutExtension = basename($input, '.'.$type);
 
         foreach ($this->paths as $path) {
             // directory index
@@ -124,7 +125,7 @@ class PipelineAssetLocator
 
             // preprocessor asset
             foreach ($this->filters as $filter) {
-                if (!is_file($assetFile = $path.'/'.$type.'/'.$fileWithExtension.'.'.$filter)) {
+                if (!is_file($assetFile = $path.'/'.$type.'/'.$fileWithoutExtension.'.'.$filter)) {
                     continue;
                 }
 
