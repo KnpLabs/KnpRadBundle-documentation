@@ -8,5 +8,12 @@ all:
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
+    # sender_address: info@yourdomain.com
 
-test: { disable_delivery: true }
+dev:
+    # If you want *all* mails to be sent to a single address (instead
+    # of the actual recipient) while developing, use this.
+    # delivery_address: yourname@gmail.com
+
+test:
+    disable_delivery: true

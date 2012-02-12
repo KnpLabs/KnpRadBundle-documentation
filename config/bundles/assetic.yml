@@ -1,4 +1,4 @@
-# assetic is asset manager for your application
+# assetic is an asset manager for your application
 # docs: http://bit.ly/assetic-doc
 # config: http://bit.ly/assetic-ref
 
@@ -33,5 +33,10 @@ all:
         # http://coffeescript.org/
         coffee: { bin: %bin_coffee% }
 
-dev:  { use_controller: true }
-test: { use_controller: true }
+dev:
+    # This tells Symfony to process your assets through a control
+    # in the this environment. This is the easiest setting, but see http://bit.ly/assetic-controllers
+    # if you think your pages are loading slowly while developing.
+    use_controller: true
+test:
+    use_controller: true

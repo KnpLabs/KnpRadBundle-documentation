@@ -1,6 +1,6 @@
-# all your application-wide configuration should live
-# here. every parameter here would be automatically
-# transformed into "app.%s" parameter inside service container.
+# All your application-wide configuration should live here.
+# Every parameter here will be automatically transformed into
+# an "app.%s" parameter inside the service container.
 
 all:
     name_pattern: <em>%s</em>
