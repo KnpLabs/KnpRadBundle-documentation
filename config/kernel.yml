@@ -1,3 +1,5 @@
+# This is the namespace of your "application" bundle in the src/ directory
+# For example, if this is "KnpRad", then you will have a "src/KnpRad/" directory
 project: KnpRad
 
 all:
@@ -11,6 +13,9 @@ all:
         - Symfony\Bundle\DoctrineBundle\DoctrineBundle
         - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle
 
+    # Parameters are like variables that can be references later in any
+    # configuration file as: %locale%.
+    # See: http://bit.ly/sf2-parameter
     parameters:
         locale:            en
         secret:            ThisTokenIsNotSoSecretChangeIt

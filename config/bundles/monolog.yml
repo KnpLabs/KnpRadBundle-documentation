@@ -19,6 +19,7 @@ dev:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
+        # http://www.firephp.org/
         firephp:
             type:  firephp
             level: info
