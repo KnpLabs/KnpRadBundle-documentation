@@ -24,6 +24,7 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
@@ -284,6 +285,16 @@ class RadKernel extends Kernel
     {
         $configs = Yaml::parse($file);
         $env     = $this->getEnvironment();
+
+        // try to catch a common error, where you forget to put config under an env key
+        if (isset($configs[$name])) {
+            throw new InvalidConfigurationException(sprintf(
+                'The key "%s" appears at the root of "%s", but this should be an environment name or "all". You can probably just replace "%s" with "all" to fix the problem. Cheers!',
+                $name,
+                basename($file),
+                $name
+            ));
+        }
 
         if (isset($configs['all'])) {
             $config = $name ? array($name => $configs['all']) : $configs['all'];

@@ -7,7 +7,7 @@ all:
     # see: http://bit.ly/doctrine2-multiple-em
     #
     dbal:
-        # if more than one connection is used, name them
+        # If more than one connection is used, name them
         #   api:
         #       accessed by service name [doctrine.dbal.api_connection]
         #       driver: %api_database_driver%
@@ -17,8 +17,8 @@ all:
         #   read_only:
         #       ...
         #
-        # if no named connections provided - configuration below
-        # would be assigned to "default" connection
+        # In the simpler configuration below, this connection will be
+        # automatically named "default"
 
         # use config/kernel.yml to configure this parameters:
         driver:   %database_driver%

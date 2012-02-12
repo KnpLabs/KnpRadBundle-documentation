@@ -3,10 +3,12 @@
 
 dev:
     toolbar: true
+    # Turn this on if you'd like Symfony to ask you before redirecting
+    # (e.g. after a form submit) while developing.
     intercept_redirects: false
 
-    # if your toolbar to long and not fits to the screen,
-    # use non-verbose version:
+    # iI your toolbar to long and not fits to the screen,
+    # use the non-verbose version:
     # verbose: false
 
 test:
