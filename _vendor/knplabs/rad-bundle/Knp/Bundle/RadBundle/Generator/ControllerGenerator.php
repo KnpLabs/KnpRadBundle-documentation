@@ -8,8 +8,6 @@ use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 
 /**
  * Generates a CRUD controller.
- *
- * @author Fabien Potencier <fabien@symfony.com>
  */
 class ControllerGenerator extends Generator
 {

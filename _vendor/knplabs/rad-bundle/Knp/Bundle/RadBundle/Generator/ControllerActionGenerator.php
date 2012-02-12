@@ -9,8 +9,6 @@ use Knp\Bundle\RadBundle\Manipulator\ControllerManipulator;
 
 /**
  * Generates a controller action.
- *
- * @author Fabien Potencier <fabien@symfony.com>
  */
 class ControllerActionGenerator extends Generator
 {
