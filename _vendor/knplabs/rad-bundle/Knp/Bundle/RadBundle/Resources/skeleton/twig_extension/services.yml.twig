@@ -1,0 +1,5 @@
+    # Service for the {{ name }} twig extension
+    {{ bundle }}.twig.{{ name }}_extension:
+        class:  {{ fqcn }}
+        tags:
+            - { name: twig.extension }

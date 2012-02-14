@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ namespace }};
+
+class {{ class }} extends \Twig_Extension
+{
+    public function getFilters()
+    {
+        return array(
+            // 'foo' => new \Twig_Filter_Method($this, 'getFoo'),
+        );
+    }
+
+    public function getFunctions()
+    {
+        return array(
+            // 'foo' => new \Twig_Function_Method($this, 'getFoo'),
+        );
+    }
+
+    public function getName()
+    {
+        return '{{ name }}';
+    }
+}
