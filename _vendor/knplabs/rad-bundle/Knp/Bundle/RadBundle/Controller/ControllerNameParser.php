@@ -25,13 +25,16 @@ class ControllerNameParser extends BaseNameParser
     public function parse($controller)
     {
         $parsed = parent::parse($controller);
-        $parts  = explode('::', $parsed);
+        $parts  = explode(':', $controller);
 
-        if (method_exists($parts[0], $parts[1])) {
-            return $parsed;
-        }
-        if (method_exists($parts[0], $action = substr($parts[1], 0, -6))) {
-            return $parts[0].'::'.$action;
+        if (3 === count($parts) && 'App' === $parts[0]) {
+            $parts = explode('::', $parsed);
+            if (method_exists($parts[0], $parts[1])) {
+                return $parsed;
+            }
+            if (method_exists($parts[0], $action = substr($parts[1], 0, -6))) {
+                return $parts[0].'::'.$action;
+            }
         }
 
         return $parsed;
