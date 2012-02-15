@@ -1,8 +1,8 @@
 <?php
 
-namespace Knp\Bundle\RadBundle\Tests\Extension;
+namespace Knp\Bundle\RadBundle\Tests\DependencyInjection\Extension;
 
-class ApplicationExtensionTest extends \PHPUnit_Framework_TestCase
+class AppExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
     private $xmlLoader;
@@ -53,42 +53,18 @@ class ApplicationExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadSingleServiceResource()
     {
-        $extension = $this->createExtension(__DIR__.'/Fixtures/single');
+        $extension = $this->createExtension(__DIR__.'/fixtures/single');
         $configs   = array();
 
         $this->xmlLoader
             ->expects($this->once())
             ->method('load')
-            ->with(__DIR__.'/Fixtures/single/config/services.xml');
+            ->with(__DIR__.'/fixtures/single/config/services.xml');
 
         $this->ymlLoader
             ->expects($this->once())
             ->method('load')
-            ->with(__DIR__.'/Fixtures/single/config/services.yml');
-
-        $extension->load($configs, $this->container);
-    }
-
-    public function testLoadMultipleServiceResources()
-    {
-        $extension = $this->createExtension(__DIR__.'/Fixtures/multiple');
-        $configs   = array();
-
-        $this->xmlLoader
-            ->expects($this->exactly(2))
-            ->method('load')
-            ->with($this->logicalOr(
-                $this->equalTo(__DIR__.'/Fixtures/multiple/config/services/one.xml'),
-                $this->equalTo(__DIR__.'/Fixtures/multiple/config/services/two.xml')
-            ));
-
-        $this->ymlLoader
-            ->expects($this->exactly(2))
-            ->method('load')
-            ->with($this->logicalOr(
-                $this->equalTo(__DIR__.'/Fixtures/multiple/config/services/services.yml'),
-                $this->equalTo(__DIR__.'/Fixtures/multiple/config/services/services_two.yml')
-            ));
+            ->with(__DIR__.'/fixtures/single/config/services.yml');
 
         $extension->load($configs, $this->container);
     }
@@ -96,7 +72,7 @@ class ApplicationExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createExtension($path)
     {
         $extension = $this->getMockBuilder(
-            'Knp\Bundle\RadBundle\Extension\ApplicationExtension'
+            'Knp\Bundle\RadBundle\DependencyInjection\Extension\AppExtension'
         )
             ->setMethods(array('getXmlFileLoader', 'getYamlFileLoader'))
             ->setConstructorArgs(array($path))
