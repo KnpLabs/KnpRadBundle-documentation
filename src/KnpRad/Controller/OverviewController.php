@@ -2,7 +2,7 @@
 
 namespace KnpRad\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Bundle\RadBundle\Controller\Controller;
 
 /**
  * Overview controller.
