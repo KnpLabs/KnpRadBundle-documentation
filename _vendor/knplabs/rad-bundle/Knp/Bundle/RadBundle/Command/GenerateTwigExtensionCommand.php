@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Knp\Bundle\RadBundle\Generator\TwigExtensionGenerator;
 
 class GenerateTwigExtensionCommand extends ContainerAwareCommand
 {
@@ -87,10 +86,10 @@ class GenerateTwigExtensionCommand extends ContainerAwareCommand
             ));
 
             $servicesData = $twig->render('services.yml.twig', array(
-                'name'      => $name,
-                'fqcn'      => $fqcn,
-                'bundle'    => $bundle->getName(),
-                'newFile'   => true,
+                'name'         => $name,
+                'fqcn'         => $fqcn,
+                'bundle_alias' => $bundle->getName(),
+                'newFile'      => true,
             ));
 
             if ($dialog->askConfirmation($output, 'Do you want me to create it? [Y/n] ', 'y')) {
@@ -102,10 +101,11 @@ class GenerateTwigExtensionCommand extends ContainerAwareCommand
                 ));
             } else {
                 $output->writeLn(sprintf(<<<EOT
-The service definition was not written.
-You can manually create it:
 
-<info>%s</info>
+<info>The service definition was not written.
+You can manually create it:</info>
+
+%s
 EOT
                     ,
                     $servicesData
