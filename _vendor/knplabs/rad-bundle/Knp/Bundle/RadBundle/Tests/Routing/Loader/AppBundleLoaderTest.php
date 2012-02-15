@@ -4,9 +4,9 @@ namespace Knp\Bundle\RadBundle\Tests\Routing;
 
 require_once __DIR__.'/../../../HttpKernel/RadAppKernel.php';
 
-use Knp\Bundle\RadBundle\Routing\Loader\ApplicationBundlesLoader;
+use Knp\Bundle\RadBundle\Routing\Loader\AppBundleLoader;
 
-class ApplicationBundlesLoaderTest extends \PHPUnit_Framework_TestCase
+class AppBundleLoaderTest extends \PHPUnit_Framework_TestCase
 {
     private $loader;
     private $bundle;
@@ -33,7 +33,7 @@ class ApplicationBundlesLoaderTest extends \PHPUnit_Framework_TestCase
             ->method('locate')
             ->will($this->returnCallback(function($path){ return $path; }));
 
-        $this->loader = new ApplicationBundlesLoader($this->kernel, $locator);
+        $this->loader = new AppBundleLoader($this->kernel, $locator);
     }
 
     public function testLoadSingleRouteFile()
@@ -44,16 +44,6 @@ class ApplicationBundlesLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $collection);
         $this->assertSame('/blog/{slug}', $collection['blog_show']->getPattern());
         $this->assertSame('/blog/{slug}/edit', $collection['blog_edit']->getPattern());
-    }
-
-    public function testLoadMultipleRouteFiles()
-    {
-        $this->bundle->path = __DIR__.'/Fixtures/multiple';
-        $collection = $this->loader->load('.')->all();
-
-        $this->assertCount(2, $collection);
-        $this->assertSame('/articles/{slug}', $collection['article_show']->getPattern());
-        $this->assertSame('/articles/{slug}/edit', $collection['article_edit']->getPattern());
     }
 }
 
