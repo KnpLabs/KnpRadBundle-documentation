@@ -76,7 +76,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             array(array(
                 'include' => false,
-                'file'    => 'js/some_script.js.coffee',
+                'file'    => 'js/some_script.coffee',
                 'filter'  => 'coffee',
                 'root'    => __DIR__.'/fixtures/assets2'
             )),
@@ -86,7 +86,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             array(array(
                 'include' => false,
-                'file'    => 'css/sub/some_less_style.css.less',
+                'file'    => 'css/sub/some_less_style.less',
                 'filter'  => 'less',
                 'root'    => __DIR__.'/fixtures/assets1'
             )),
@@ -100,7 +100,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'include' => false,
-                    'file'    => 'js/sub/asset_one.js.coffee',
+                    'file'    => 'js/sub/asset_one.coffee',
                     'filter'  => 'coffee',
                     'root'    => __DIR__.'/fixtures/assets1'
                 ),
@@ -127,7 +127,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'include' => false,
-                    'file'    => 'js/sub/asset_one.js.coffee',
+                    'file'    => 'js/sub/asset_one.coffee',
                     'filter'  => 'coffee',
                     'root'    => __DIR__.'/fixtures/assets1'
                 ),
@@ -154,7 +154,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'include' => false,
-                    'file'    => 'css/recursive_require_style.css.less',
+                    'file'    => 'css/recursive_require_style.less',
                     'filter'  => 'less',
                     'root'    => __DIR__.'/fixtures/assets1'
                 ),
@@ -166,7 +166,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'include' => false,
-                    'file'    => 'css/second_level_of_recursive_style.css.sass',
+                    'file'    => 'css/second_level_of_recursive_style.sass',
                     'filter'  => 'sass',
                     'root'    => __DIR__.'/fixtures/assets3'
                 ),
@@ -267,7 +267,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'include' => false,
-                    'file'    => 'js/application/main/current_dir_script.js.coffee',
+                    'file'    => 'js/application/main/current_dir_script.coffee',
                     'filter'  => 'coffee',
                     'root'    => __DIR__.'/fixtures/assets3'
                 ),
@@ -294,7 +294,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'include' => false,
-                    'file'    => 'js/directory/2script.js.coffee',
+                    'file'    => 'js/directory/2script.coffee',
                     'filter'  => 'coffee',
                     'root'    => __DIR__.'/fixtures/assets1'
                 ),
@@ -327,7 +327,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'include' => false,
-                    'file'    => 'js/directory/2script.js.coffee',
+                    'file'    => 'js/directory/2script.coffee',
                     'filter'  => 'coffee',
                     'root'    => __DIR__.'/fixtures/assets1'
                 ),
@@ -339,7 +339,7 @@ class PipelineAssetLocatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'include' => false,
-                    'file'    => 'js/directory/sub/fourth.js.coffee',
+                    'file'    => 'js/directory/sub/fourth.coffee',
                     'filter'  => 'coffee',
                     'root'    => __DIR__.'/fixtures/assets1'
                 ),

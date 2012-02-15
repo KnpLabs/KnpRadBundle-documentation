@@ -98,9 +98,11 @@ class PipelineAssetLocator
     {
         $fileWithExtension = $input;
         if ($type !== pathinfo($fileWithExtension, PATHINFO_EXTENSION)) {
-            $fileWithExtension .= '.'.$type;
+            $fileWithoutExtension = $fileWithExtension;
+            $fileWithExtension   .= '.'.$type;
+        } else {
+            $fileWithoutExtension = substr($fileWithExtension, 0, 0 - strlen('.'.$type));
         }
-        $fileWithoutExtension = dirname($fileWithExtension).'/'.basename($fileWithExtension, '.'.$type);
 
         foreach ($this->paths as $path) {
             // directory index
@@ -158,7 +160,7 @@ class PipelineAssetLocator
             if (is_dir($assetsDir = $path.'/'.$type.'/'.$input)) {
                 $assetFiles = Finder::create()
                     ->files()
-                    ->name("/\.{$type}(\.[a-zA-Z0-9]+)?$/")
+                    ->name('/\.('.implode('|', $this->filters).'|'.$type.')$/')
                     ->ignoreVCS(true)
                     ->sortByName()
                 ;
@@ -199,7 +201,7 @@ class PipelineAssetLocator
             if (is_dir($assetsDir = $path.'/'.$type.'/'.$input)) {
                 $assetFiles = Finder::create()
                     ->files()
-                    ->name("/\.{$type}(\.[a-zA-Z0-9]+)?$/")
+                    ->name('/\.('.implode('|', $this->filters).'|'.$type.')$/')
                     ->ignoreVCS(true)
                     ->sortByName()
                     ->depth(0)
