@@ -19,7 +19,7 @@ use Knp\Bundle\RadBundle\DependencyInjection\Compiler\TranslationsLocatorPass;
 use Knp\Bundle\RadBundle\DependencyInjection\Compiler\AsseticTemplateResourcesPass;
 use Knp\Bundle\RadBundle\DependencyInjection\Compiler\AsseticPipelinePass;
 use Knp\Bundle\RadBundle\DependencyInjection\Compiler\RegisterDoctrineMappingDriverPass;
-use Knp\Bundle\RadBundle\DependencyInjection\Compiler\InternalServicesPatchingPass;
+use Knp\Bundle\RadBundle\DependencyInjection\Compiler\ApplicationStructurePass;
 
 /**
  * RadBundle for Symfony2.
@@ -35,6 +35,6 @@ class KnpRadBundle extends Bundle
         $container->addCompilerPass(new AsseticPipelinePass);
         $container->addCompilerPass(new AssetManagerPass);
         $container->addCompilerPass(new TranslationsLocatorPass);
-        $container->addCompilerPass(new InternalServicesPatchingPass);
+        $container->addCompilerPass(new ApplicationStructurePass);
     }
 }

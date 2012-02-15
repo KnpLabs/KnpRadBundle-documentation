@@ -65,7 +65,9 @@ class KnpRadExtension extends Extension
         if ($config['application_routing']) {
             $loader->load('application_routing.xml');
         }
-
+        if ($config['application_shortaction']) {
+            $loader->load('application_shortaction.xml');
+        }
         if ($config['application_views']) {
             $loader->load('application_views.xml');
         }

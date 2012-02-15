@@ -26,25 +26,14 @@ class ControllerNameParser extends BaseNameParser
      */
     public function parse($controller)
     {
-        if (1 == substr_count($controller, ':')) {
-            $controller = 'App:'.$controller;
-        }
-
         $parsed = parent::parse($controller);
-        list($bundle,,) = explode(':', $controller);
+        $parts  = explode('::', $parsed);
 
-        foreach ($this->kernel->getBundle($bundle, false) as $bundleInstance) {
-            if ($bundleInstance instanceof ApplicationBundle) {
-                $parts = explode('::', $parsed);
-
-                if (method_exists($parts[0], $parts[1])) {
-                    return $parsed;
-                }
-
-                if (method_exists($parts[0], $action = substr($parts[1], 0, -6))) {
-                    return $parts[0].'::'.$action;
-                }
-            }
+        if (method_exists($parts[0], $parts[1])) {
+            return $parsed;
+        }
+        if (method_exists($parts[0], $action = substr($parts[1], 0, -6))) {
+            return $parts[0].'::'.$action;
         }
 
         return $parsed;

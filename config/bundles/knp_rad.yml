@@ -5,9 +5,10 @@ all:
     # don't touch those parameters unless you're really
     # sure of what you're doing. switching those options
     # off will not give you noticable performance boost :-)
-    application_routing:   true
-    application_views:     true
-    application_structure: true
+    application_routing:     true
+    application_shortaction: true
+    application_views:       true
+    application_structure:   true
 
     assetic_pipeline:
         enabled:  true

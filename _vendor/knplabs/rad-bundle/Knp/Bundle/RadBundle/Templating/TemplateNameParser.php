@@ -29,28 +29,23 @@ class TemplateNameParser extends BaseNameParser
         if ($name instanceof TemplateReferenceInterface) {
             return $name;
         }
-
-        $name = str_replace(':/', ':', preg_replace('#/{2,}#', '/', strtr($name, '\\', '/')));
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
         }
 
-        if (preg_match('/^([^:]*):([^:]*)$/', $name, $matches)) {
-            $elements = explode('.', $matches[2]);
-            if (3 > count($elements)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Template name "%s" is not valid (format is "controller:template.format.engine").',
-                    $name
-                ));
-            }
-            $engine = array_pop($elements);
-            $format = array_pop($elements);
+        $parsed = parent::parse($name);
 
+        // if application bundle - use custom structure reference
+        if ('App' === $parsed->get('bundle')) {
             return $this->cache[$name] = new TemplateReference(
-                'App', $matches[1], implode('.', $elements), $format, $engine
+                $parsed->get('bundle'),
+                $parsed->get('controller'),
+                $parsed->get('name'),
+                $parsed->get('format'),
+                $parsed->get('engine')
             );
         }
 
-        return parent::parse($name);
+        return $parsed;
     }
 }

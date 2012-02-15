@@ -53,7 +53,7 @@ class ViewListener
             list($class, $method) = explode('::', $attributes->get('_controller'));
 
             return $event->setResponse($this->templating->renderResponse(
-                sprintf('%s:%s.%s.%s',
+                sprintf('App:%s:%s.%s.%s',
                     substr(basename(str_replace('\\', '/', $class)), 0, -10),
                     preg_replace('/Action$/', '', $method),
                     $request->getRequestFormat(),
