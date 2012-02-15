@@ -23,7 +23,7 @@ use Symfony\Component\Finder\Finder;
  * Application extension automatically loads service
  * definitions from application bundle.
  */
-class ApplicationExtension extends Extension
+class AppExtension extends Extension
 {
     private $path;
 

@@ -12,7 +12,7 @@
 namespace Knp\Bundle\RadBundle\HttpKernel\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Knp\Bundle\RadBundle\DependencyInjection\Extension\ApplicationExtension;
+use Knp\Bundle\RadBundle\DependencyInjection\Extension\AppExtension;
 
 /**
  * Application bundle.
@@ -48,7 +48,7 @@ class AppBundle extends Bundle
      * Returns the application's container extension.
      *
      * If application has DependencyInjection\{APP_NAME}Extension in
-     * it - it will be loaded. ApplicationExtension will be loaded otherwise.
+     * it - it will be loaded. AppExtension will be loaded otherwise.
      *
      * @return ExtensionInterface The container extension
      */
@@ -59,7 +59,7 @@ class AppBundle extends Bundle
             if (class_exists($class)) {
                 $this->extension = new $class();
             } else {
-                $this->extension = new ApplicationExtension($this->getPath());
+                $this->extension = new AppExtension($this->getPath());
             }
         }
 
