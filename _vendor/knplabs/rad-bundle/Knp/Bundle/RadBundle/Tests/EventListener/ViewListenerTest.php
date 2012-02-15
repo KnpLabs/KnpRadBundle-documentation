@@ -34,9 +34,36 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->request));
     }
 
+    public function testDontTouchNonAppControllers()
+    {
+        $listener = new ViewListener('MyProject', $this->templating, 'twig');
+
+        $this->request
+            ->expects($this->never())
+            ->method('getRequestFormat')
+            ->will($this->returnValue('html'));
+
+        $this->request
+            ->attributes->v['_controller'] = 'SomeBundle\\Controller\\MyController::index';
+
+        $this->event
+            ->expects($this->never())
+            ->method('getControllerResult');
+
+        $this->event
+            ->expects($this->never())
+            ->method('setResponse');
+
+        $this->templating
+            ->expects($this->never())
+            ->method('renderResponse');
+
+        $listener->onKernelView($this->event);
+    }
+
     public function testSimpleHtmlTemplateRendering()
     {
-        $listener = new ViewListener($this->templating, 'twig');
+        $listener = new ViewListener('MyProject', $this->templating, 'twig');
 
         $this->request
             ->expects($this->once())
@@ -44,7 +71,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('html'));
 
         $this->request
-            ->attributes->v['_controller'] = 'MyController::index';
+            ->attributes->v['_controller'] = 'MyProject\\Controller\\MyController::index';
 
         $this->event
             ->expects($this->once())
@@ -59,7 +86,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
         $this->templating
             ->expects($this->once())
             ->method('renderResponse')
-            ->with('My:index.html.twig', array('var' => 'controller result'))
+            ->with('App:My:index.html.twig', array('var' => 'controller result'))
             ->will($this->returnValue(new Response('Hello, template')));
 
         $listener->onKernelView($this->event);
@@ -67,7 +94,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testNamespacedHtmlTemplateRendering()
     {
-        $listener = new ViewListener($this->templating, 'twig');
+        $listener = new ViewListener('My\\Super\\Project', $this->templating, 'twig');
 
         $this->request
             ->expects($this->once())
@@ -75,7 +102,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('html'));
 
         $this->request
-            ->attributes->v['_controller'] = 'My\\NamespacedController::index';
+            ->attributes->v['_controller'] = 'My\\Super\\Project\\Controller\\My\\NamespacedController::index';
 
         $this->event
             ->expects($this->once())
@@ -90,7 +117,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
         $this->templating
             ->expects($this->once())
             ->method('renderResponse')
-            ->with('Namespaced:index.html.twig', array('var' => 'controller result'))
+            ->with('App:My/Namespaced:index.html.twig', array('var' => 'controller result'))
             ->will($this->returnValue(new Response('Hello, template')));
 
         $listener->onKernelView($this->event);
@@ -98,7 +125,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testLongActionNameTemplateRendering()
     {
-        $listener = new ViewListener($this->templating, 'twig');
+        $listener = new ViewListener('Controller', $this->templating, 'twig');
 
         $this->request
             ->expects($this->once())
@@ -106,7 +133,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('html'));
 
         $this->request
-            ->attributes->v['_controller'] = 'MyController::indexAction';
+            ->attributes->v['_controller'] = 'Controller\Controller\MyController::indexAction';
 
         $this->event
             ->expects($this->once())
@@ -121,7 +148,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
         $this->templating
             ->expects($this->once())
             ->method('renderResponse')
-            ->with('My:index.html.twig', array('var' => 'controller result'))
+            ->with('App:My:index.html.twig', array('var' => 'controller result'))
             ->will($this->returnValue(new Response('Hello, template')));
 
         $listener->onKernelView($this->event);
@@ -129,7 +156,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testJsonRequestTemplateRendering()
     {
-        $listener = new ViewListener($this->templating, 'twig');
+        $listener = new ViewListener('JSON\\Controller', $this->templating, 'twig');
 
         $this->request
             ->expects($this->once())
@@ -137,7 +164,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('json'));
 
         $this->request
-            ->attributes->v['_controller'] = 'MyController::indexAction';
+            ->attributes->v['_controller'] = 'JSON\\Controller\\Controller\\MyController::indexAction';
 
         $this->event
             ->expects($this->once())
@@ -152,7 +179,7 @@ class ViewListenerTest extends \PHPUnit_Framework_TestCase
         $this->templating
             ->expects($this->once())
             ->method('renderResponse')
-            ->with('My:index.json.twig', array('var' => 'controller result'))
+            ->with('App:My:index.json.twig', array('var' => 'controller result'))
             ->will($this->returnValue(new Response('Hello, template')));
 
         $listener->onKernelView($this->event);

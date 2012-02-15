@@ -10,6 +10,7 @@
 
     <services>
         <service id="knp_rad.view.listener" class="%knp_rad.view.listener.class%">
+            <argument>%kernel.project_name%</argument>
             <argument type="service" id="templating" />
             <argument>twig</argument>
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" />
