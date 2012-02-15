@@ -2,9 +2,7 @@
 # Every parameter here will be automatically transformed into
 # an "app.%s" parameter inside the service container.
 
-all:
-    name_pattern: <em>%s</em>
-
+all:  ~
 dev:  ~
 test: ~
 prod: ~
