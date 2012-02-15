@@ -13,6 +13,11 @@ all:
     sass: %bin_sass%
 
     # enable filters for your project
+    # filters could be used to preprocess or minify
+    # your assets. all files with *.less, *.scss, *.sass,
+    # *.coffee extensions would be preprocessed
+    # automatically for you in current configuration.
+    # See: http://bit.ly/asseticbundle-doc
     filters:
         # this filter rewrites urls inside your css files
         # to match project structure. you might want to use
@@ -24,14 +29,16 @@ all:
         yui_css: { jar: %jar_yui% }
 
         # http://lesscss.org/
-        less: ~
+        less: { apply_to: "\.less$" }
 
         # http://sass-lang.com/
-        scss: ~
-        sass: ~
+        scss: { apply_to: "\.scss$" }
+        sass: { apply_to: "\.sass$" }
 
         # http://coffeescript.org/
-        coffee: { bin: %bin_coffee% }
+        coffee:
+            bin:       %bin_coffee%
+            apply_to:  "\.coffee$"
 
 dev:
     # This tells Symfony to process your assets through a control
