@@ -29,8 +29,8 @@ class KernelConfiguration
 
     protected $environment;
     protected $configDir;
-    protected $projectCache;
-    protected $bundlesCache;
+    protected $kernelConfigurationCache;
+    protected $bundlesInitializationCache;
 
     /**
      * Initializes configuration.
@@ -42,10 +42,29 @@ class KernelConfiguration
      */
     public function __construct($environment, $configDir, $cacheDir, $debug)
     {
-        $this->environment  = $environment;
-        $this->configDir    = $configDir;
-        $this->projectCache = new ConfigCache($cacheDir.'/kernel.yml.cache', $debug);
-        $this->bundlesCache = new ConfigCache($cacheDir.'/bundles.php.cache', $debug);
+        $this->environment = $environment;
+        $this->configDir   = $configDir;
+
+        $this->kernelConfigurationCache   = new ConfigCache($cacheDir.'/kernel.yml.cache', $debug);
+        $this->bundlesInitializationCache = new ConfigCache($cacheDir.'/bundles.php.cache', $debug);
+    }
+
+    /**
+     * Returns kernel configuration resources.
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        $resources = array();
+
+        foreach (array('kernel.yml', 'kernel.custom.yml') as $config) {
+            if (file_exists($cfg = $this->configDir.'/'.$config)) {
+                $resources[] = new FileResource($cfg);
+            }
+        }
+
+        return $resources;
     }
 
     /**
@@ -53,25 +72,19 @@ class KernelConfiguration
      */
     public function load()
     {
-        if (!$this->projectCache->isFresh()) {
-            $metadata = array();
+        if (!$this->kernelConfigurationCache->isFresh()) {
+            $resources = $this->getResources();
 
-            if (file_exists($cfg = $this->configDir.'/kernel.yml')) {
-                $this->updateFromFile($cfg, $this->environment);
-                $metadata[] = new FileResource($cfg);
+            foreach ($resources as $resource) {
+                $this->updateFromFile((string) $resource, $this->environment);
             }
 
-            if (file_exists($cfg = $this->configDir.'/kernel.custom.yml')) {
-                $this->updateFromFile($cfg, $this->environment);
-                $metadata[] = new FileResource($cfg);
-            }
-
-            $this->projectCache->write('<?php return '.var_export(array(
+            $this->kernelConfigurationCache->write('<?php return '.var_export(array(
                 $this->projectName,
                 $this->imports,
                 $this->parameters,
                 $this->bundles
-            ), true).';', $metadata);
+            ), true).';', $resources);
         }
 
         list(
@@ -79,7 +92,7 @@ class KernelConfiguration
             $this->imports,
             $this->parameters,
             $this->bundles
-        ) = require($this->projectCache);
+        ) = require($this->kernelConfigurationCache);
     }
 
     /**
@@ -117,14 +130,13 @@ class KernelConfiguration
      */
     public function getBundles(RadAppKernel $kernel)
     {
-        if (!$this->bundlesCache->isFresh()) {
-            $this->bundlesCache->write(
-                $this->generateBundlesCache($this->bundles),
-                array(new FileResource((string) $this->projectCache))
+        if (!$this->bundlesInitializationCache->isFresh()) {
+            $this->bundlesInitializationCache->write(
+                $this->generateBundlesInitializationCache($this->bundles), $this->getResources()
             );
         }
 
-        return require($this->bundlesCache);
+        return require($this->bundlesInitializationCache);
     }
 
     /**
@@ -186,13 +198,13 @@ class KernelConfiguration
     }
 
     /**
-     * Generates bundles cache string (*.php array file).
+     * Generates bundles initialization cache string (*.php array file).
      *
      * @param array $bundles List of bundle classes
      *
      * @return string
      */
-    private function generateBundlesCache(array $bundles)
+    private function generateBundlesInitializationCache(array $bundles)
     {
         $cache = "<?php return array(\n";
 

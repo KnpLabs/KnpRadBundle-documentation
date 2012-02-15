@@ -13,6 +13,7 @@ namespace Knp\Bundle\RadBundle\HttpKernel;
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -22,6 +23,8 @@ use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -198,6 +201,26 @@ class RadKernel extends Kernel
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $configs = Finder::create()
+            ->name('*.yml')
+            ->in($this->getConfigDir().'/bundles');
+
+        foreach ($configs as $file) {
+            $this->loadConfigFile($file, basename($file, '.yml'), $loader);
+        }
+
+        foreach ($this->configuration->getImports() as $file) {
+            if (file_exists($file = $this->getConfigDir().'/'.$file)) {
+                $loader->load($file);
+            }
+        }
+    }
+
+    /**
      * Returns a loader for the container.
      *
      * @param ContainerInterface $container The service container
@@ -226,21 +249,13 @@ class RadKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    protected function dumpContainer(ConfigCache $cache, ContainerBuilder $container, $class, $baseClass)
     {
-        $configs = Finder::create()
-            ->name('*.yml')
-            ->in($this->getConfigDir().'/bundles');
-
-        foreach ($configs as $file) {
-            $this->loadConfigFile($file, basename($file, '.yml'), $loader);
+        foreach ($this->getConfiguration()->getResources() as $resource) {
+            $container->addResource($resource);
         }
 
-        foreach ($this->configuration->getImports() as $file) {
-            if (file_exists($file = $this->getConfigDir().'/'.$file)) {
-                $loader->load($file);
-            }
-        }
+        parent::dumpContainer($cache, $container, $class, $baseClass);
     }
 
     /**

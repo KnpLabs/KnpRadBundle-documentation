@@ -4,6 +4,7 @@ namespace Knp\Bundle\RadBundle\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,6 +20,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 class ArrayLoader extends Loader
 {
     private $container;
+    private $filesResourced = array();
 
     /**
      * Constructor.
@@ -48,6 +50,12 @@ class ArrayLoader extends Loader
             foreach ($content['parameters'] as $key => $value) {
                 $this->container->setParameter($key, $this->resolveServices($value));
             }
+        }
+
+        // resource
+        if ($file && !in_array($file, $this->filesResourced)) {
+            $this->container->addResource(new FileResource($file));
+            $this->filesResourced[] = $file;
         }
 
         // extensions
