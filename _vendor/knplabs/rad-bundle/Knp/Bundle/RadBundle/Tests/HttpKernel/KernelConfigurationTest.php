@@ -39,7 +39,7 @@ class KernelConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new KernelConfiguration('dev', $this->configDir, $this->cacheDir, true);
 
-        file_put_contents($this->configDir.'/project.yml', $this->getConfigurationYaml());
+        file_put_contents($this->configDir.'/kernel.yml', $this->getConfigurationYaml());
 
         $config->load();
 
@@ -61,7 +61,7 @@ class KernelConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new KernelConfiguration('prod', $this->configDir, $this->cacheDir, true);
 
-        file_put_contents($this->configDir.'/project.yml', $this->getConfigurationYaml());
+        file_put_contents($this->configDir.'/kernel.yml', $this->getConfigurationYaml());
 
         $config->load();
 
@@ -81,7 +81,7 @@ class KernelConfigurationTest extends \PHPUnit_Framework_TestCase
     private function getConfigurationYaml()
     {
         return <<<YAML
-name: Acme\Some\HelloApp
+project: Acme\Some\HelloApp
 
 all:
     bundles:
