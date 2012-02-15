@@ -13,13 +13,31 @@ prod:
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
 
+        # if you want to send emails with errors
+        # information, ucomment next lines
+        # See: http://bit.ly/monolog-email-doc
+        # mail:
+        #     type:         fingers_crossed
+        #     action_level: critical
+        #     handler:      buffered
+        # buffered:
+        #     type:    buffer
+        #     handler: swift
+        # swift:
+        #     type:       swift_mailer
+        #     from_email: %mailer_server_mail%
+        #     to_email:   %mailer_error_mail%
+        #     subject:    %kernel.project_name% error occured!
+        #     level:      debug
+
 dev:
     handlers:
         main:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-        # http://www.firephp.org/
+
+        # See: http://www.firephp.org/
         firephp:
             type:  firephp
             level: info

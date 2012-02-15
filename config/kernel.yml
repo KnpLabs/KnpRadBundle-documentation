@@ -17,27 +17,33 @@ all:
     # configuration file as: %locale%.
     # See: http://bit.ly/sf2-parameter
     parameters:
-        locale:            en
-        secret:            ThisTokenIsNotSoSecretChangeIt
+        locale:             en
+        secret:             ThisTokenIsNotSoSecretChangeIt
 
-        database_driver:   pdo_mysql
-        database_host:     localhost
-        database_port:     ~
-        database_name:     symfony
-        database_user:     root
-        database_password: ~
+        database_driver:    pdo_mysql
+        database_host:      localhost
+        database_port:      ~
+        database_name:      symfony
+        database_user:      root
+        database_password:  ~
 
-        mailer_transport:  smtp
-        mailer_host:       localhost
-        mailer_user:       ~
-        mailer_password:   ~
+        mailer_transport:   smtp
+        mailer_host:        localhost
+        mailer_user:        ~
+        mailer_password:    ~
 
-        bin_java:          /usr/bin/java
-        bin_node:          /usr/bin/node
-        bin_ruby:          /usr/bin/ruby
-        bin_sass:          /usr/bin/sass
-        bin_coffee:        /usr/bin/coffee
-        jar_yui:           %kernel.root_dir%/vendor/yuicompressor.jar
+        # this parameters will be used if you activated
+        # monolog email error reporting
+        # See: bundles/monolog.yml
+        mailer_server_mail: project@example.com
+        mailer_error_mail:  admin@example.com
+
+        bin_java:           /usr/bin/java
+        bin_node:           /usr/bin/node
+        bin_ruby:           /usr/bin/ruby
+        bin_sass:           /usr/bin/sass
+        bin_coffee:         /usr/bin/coffee
+        jar_yui:            %kernel.root_dir%/vendor/yuicompressor.jar
 
 dev:
     bundles:
