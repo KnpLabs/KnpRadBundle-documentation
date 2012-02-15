@@ -21,7 +21,7 @@ use RadAppKernel;
 /**
  * Automatically loads routes from application bundle
  */
-class ApplicationBundlesLoader extends YamlFileLoader
+class AppBundleLoader extends YamlFileLoader
 {
     private $kernel;
 

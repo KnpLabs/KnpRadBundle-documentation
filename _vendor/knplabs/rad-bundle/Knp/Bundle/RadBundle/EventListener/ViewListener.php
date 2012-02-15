@@ -16,8 +16,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
-use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
-
 /**
  * Adds Response event listener to render no-Response
  * controller results (arrays).

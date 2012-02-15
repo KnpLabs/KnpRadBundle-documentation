@@ -47,10 +47,10 @@ class KnpRadExtension extends Extension
             foreach ($bundles as $bundle) {
                 $bundle = $bundleClasses[$bundle];
                 $refl = new \ReflectionClass($bundle);
-                if ('Knp\\Bundle\\RadBundle\\Bundle\\ApplicationBundle' === $refl->getName()) {
+                if ('Knp\\Bundle\\RadBundle\\HttpKernel\\Bundle\\AppBundle' === $refl->getName()) {
                     continue;
                 }
-                if ($refl->isSubclassOf('Knp\\Bundle\\RadBundle\\Bundle\\ApplicationBundle')) {
+                if ($refl->isSubclassOf('Knp\\Bundle\\RadBundle\\HttpKernel\\Bundle\\AppBundle')) {
                     continue;
                 }
                 if (file_exists($path = dirname($refl->getFileName()).'/Resources/public')) {

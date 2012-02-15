@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Knp\Bundle\RadBundle\Bundle;
+namespace Knp\Bundle\RadBundle\HttpKernel\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Knp\Bundle\RadBundle\DependencyInjection\Extension\ApplicationExtension;
@@ -20,7 +20,7 @@ use Knp\Bundle\RadBundle\DependencyInjection\Extension\ApplicationExtension;
  * Each application have only one application bundle.
  * It's the place of all application-related code.
  */
-class ApplicationBundle extends Bundle
+class AppBundle extends Bundle
 {
     protected $name;
     protected $parent;

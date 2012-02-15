@@ -34,7 +34,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Composer\Autoload\ClassLoader;
 
 use Knp\Bundle\RadBundle\DependencyInjection\Loader\ArrayLoader;
-use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
+use Knp\Bundle\RadBundle\HttpKernel\Bundle\AppBundle;
 use Knp\Bundle\RadBundle\KnpRadBundle;
 
 /**
@@ -191,9 +191,9 @@ class RadKernel extends Kernel
     {
         $bundles = $this->configuration->getBundles($this);
 
-        // Add KnpRadBundle and ApplicationBundle automatically
+        // Add KnpRadBundle and AppBundle automatically
         $bundles[] = new KnpRadBundle($this);
-        $bundles[] = new ApplicationBundle(
+        $bundles[] = new AppBundle(
             $this->configuration->getProjectName(), $this->getRootDir().'/src'
         );
 

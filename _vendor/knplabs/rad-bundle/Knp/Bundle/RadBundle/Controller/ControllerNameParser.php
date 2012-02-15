@@ -13,8 +13,6 @@ namespace Knp\Bundle\RadBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser as BaseNameParser;
 
-use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
-
 /**
  * Extends Symfony2 ControllerNameParser with support
  * of application bundle short notation.

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Command\AssetsInstallCommand as BaseCommand;
 
-use Knp\Bundle\RadBundle\Bundle\ApplicationBundle;
+use Knp\Bundle\RadBundle\HttpKernel\Bundle\AppBundle;
 
 /**
  * Redefines Symfony2 install command to support application bundles.
@@ -81,7 +81,7 @@ EOT
 
         foreach ($this->getContainer()->get('kernel')->getBundles() as $bundle) {
             $originDir = $bundle->getPath().'/Resources/public';
-            if ($bundle instanceof ApplicationBundle) {
+            if ($bundle instanceof AppBundle) {
                 $originDir = $bundle->getPath().'/public';
             }
 
