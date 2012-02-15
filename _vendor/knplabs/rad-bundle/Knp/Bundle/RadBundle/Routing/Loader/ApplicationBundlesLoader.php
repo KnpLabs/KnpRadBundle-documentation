@@ -55,13 +55,6 @@ class ApplicationBundlesLoader extends YamlFileLoader
                 $collection->addCollection(parent::load($routing));
                 $collection->addResource(new FileResource($routing));
             }
-
-            if (is_dir($dir = $bundle->getPath().'/config/routing')) {
-                foreach (Finder::create()->files()->name('*.yml')->depth(0)->sortByName()->in($dir) as $file) {
-                    $collection->addCollection(parent::load($file));
-                    $collection->addResource(new FileResource($file));
-                }
-            }
         }
 
         return $collection;

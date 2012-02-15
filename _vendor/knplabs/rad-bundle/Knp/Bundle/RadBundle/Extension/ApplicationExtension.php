@@ -55,15 +55,6 @@ class ApplicationExtension extends Extension
             $ymlLoader->load($services);
         }
 
-        if (is_dir($dir = $this->path.'/config/services')) {
-            foreach (Finder::create()->files()->name('*.xml')->depth(0)->sortByName()->in($dir) as $file) {
-                $xmlLoader->load($file);
-            }
-            foreach (Finder::create()->files()->name('*.yml')->depth(0)->sortByName()->in($dir) as $file) {
-                $ymlLoader->load($file);
-            }
-        }
-
         foreach ($configs as $config) {
             foreach ($config as $key => $val) {
                 $container->setParameter($this->getAlias().'.'.$key, $val);
