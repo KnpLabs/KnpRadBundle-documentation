@@ -12,7 +12,7 @@
 namespace Knp\Bundle\RadBundle\Bundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Knp\Bundle\RadBundle\Extension\ApplicationExtension;
+use Knp\Bundle\RadBundle\DependencyInjection\Extension\ApplicationExtension;
 
 /**
  * Application bundle.
