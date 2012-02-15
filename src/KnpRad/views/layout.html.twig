@@ -25,12 +25,19 @@
 {% block container %}
 
     <header>
+        <a href="/" title="KnpRadBundle" id="radbundle-logo">
+            <img src="/bundles/app/img/logo.png" alt="KnpRadBundle" width="317" height="58">
+            <div class="baseline"><strong>Knp</strong>Labs flawored Symfony2 Edition</div>
+        </a>
         {% block header %}{% endblock %}
     </header>
+
+    {% block free %}{% endblock %}
 
     <div role="main">
         {% block main %}{% endblock %}
     </div>
+
     <footer>
         {% block footer %}{% endblock %}
     </footer>

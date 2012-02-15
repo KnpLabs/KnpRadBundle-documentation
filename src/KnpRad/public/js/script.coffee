@@ -1,5 +1,6 @@
 #= require libs/jquery
+#= require libs/highlight
 #= require plugins
 
-number = 20
+hljs initHighlightingOnLoad
 
