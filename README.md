@@ -45,7 +45,7 @@ Project structure changes
 
 - `app/cache` and `app/logs` have been moved to the root.
 - new `config` folder have been created, which holds all the project configuration:
-    - `config/project.yml` holds project-wide configuration such as project name, list of bundles
+    - `config/kernel.yml` holds project-wide configuration such as project name, list of bundles
       and project parameters.
     - `config/routing/*.yml` holds routing configurations.
     - `config/bundles/*.yml` holds bundles configurations, including your applications. Every
@@ -53,20 +53,21 @@ Project structure changes
       have `config/bundles/fos_rest.yml` config file. Configuration for different environemnts of
       this bundle live here.
 
-Lets look at the default `config/project.yml`:
+Lets look at the default `config/kernel.yml`:
 
 ``` yaml
-name: Acme\Hello
+project: KnpRad
 
 all:
     bundles:
-        Symfony\Bundle\FrameworkBundle\FrameworkBundle:     ~
-        Symfony\Bundle\SecurityBundle\SecurityBundle:       ~
-        Symfony\Bundle\TwigBundle\TwigBundle:               ~
-        Symfony\Bundle\MonologBundle\MonologBundle:         ~
-        Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle: ~
-        Symfony\Bundle\AsseticBundle\AsseticBundle:         ~
-        Knp\Bundle\RadBundle\KnpRadBundle:                  ~
+        - Symfony\Bundle\FrameworkBundle\FrameworkBundle
+        - Symfony\Bundle\SecurityBundle\SecurityBundle
+        - Symfony\Bundle\TwigBundle\TwigBundle
+        - Symfony\Bundle\MonologBundle\MonologBundle
+        - Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle
+        - Symfony\Bundle\AsseticBundle\AsseticBundle
+        - Symfony\Bundle\DoctrineBundle\DoctrineBundle
+        - Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle
 
     parameters:
         database_driver:   pdo_mysql
@@ -86,24 +87,29 @@ all:
 
 dev:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
 
 test:
     bundles:
-        Symfony\Bundle\WebProfilerBundle\WebProfilerBundle:  ~
+        - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
 ```
 
-`name` defines project namespace of your project. If you want to make your project namespace path
-smaller, you can simply avoid organization name in it:
+`project` defines project name and namespace. You can customize it anyway you like:
 
 ``` yaml
-name: Hello
+project: Hello\Foo
 ```
 
-Then, there are 3 sections in this config file. Each section defines project configuration for
-different environments. `all` section configuration always will be loaded before any environment.
+Config sections
+---------------
 
-Every environment configuration could have 2 config sections:
+Configuration files are based on **enviroment** sections. Default and sudgested are:
+
+- **all** - will be loaded always, before any specific environment
+- **dev** - will override or add any development based configuration
+- **test** - testing environment configuration
+
+Specifically to kernel configuration, you can configure 2 sub sections:
 
 - `bundles` defines list of 3rd-party bundles, that you're using inside your project (in specific
   environment)
@@ -125,24 +131,22 @@ all:
         default_locale: %locale%
         auto_start:     true
 
-prod:
-    router:   { resource: "%kernel.root_dir%/routing/prod.yml" }
     profiler: { only_exceptions: false }
+
+prod:
+    router: { resource: "%kernel.config_dir%/routing/prod.yml" }
 
 dev:
-    router:   { resource: "%kernel.root_dir%/routing/dev.yml" }
-    profiler: { only_exceptions: false }
+    router: { resource: "%kernel.config_dir%/routing/dev.yml" }
 
 test:
-    router:   { resource: "%kernel.root_dir%/routing/test.yml" }
-    profiler: { only_exceptions: false }
-    test: -
-    session:
-        storage_id: session.storage.filesystem
+    router:  { resource: "%kernel.config_dir%/routing/test.yml" }
+    test:    ~
+    session: { storage_id: session.storage.filesystem }
 ```
 
 This file defines `FrameworkBundle` configuration for different environments. Root keys
-of the config works same as for the `config/project.yml` - `all` parameters will be loaded
+of the config works same as for the `config/kernel.yml` - `all` parameters will be loaded
 for every environment and specific environment keys adds specific declarations to it.
 
 As you might see, every environment in this edition have it's own routing configuration file
@@ -193,7 +197,7 @@ services.xml). The only requirement - they should be named `routing.yml` OR `ser
 (symlinked) with `assets:install` command.
 `views` holds your application views.
 
-P.S.: If you want to split routing or services in multiple files, just put them into
+**P.S.:** If you want to split routing or services in multiple files, just put them into
 `config/routing` or `config/services` folder with any name - they will be autoloaded too ;-)
 
 Application bundle short notation
