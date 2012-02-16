@@ -42,40 +42,39 @@ class GenerateControllerCommand extends ContainerAwareCommand
 
         $class     = sprintf('%sController', str_replace('/', '\\', $controller));
         $subns     = dirname(str_replace('\\', '/', $class));
-        $namespace = sprintf('%s\Controller%s', $bundle->getNamespace(), (
-            '.' !== $subns ? '\\'.$subns : ''
-        ));
+        $namespace = sprintf('%s\Controller%s',
+            $bundle->getNamespace(), '.' !== $subns ? '\\'.$subns : ''
+        );
         $classPath = sprintf('%s/Controller/%s.php',
             $bundle->getPath(), str_replace('\\', '/', $class)
         );
         $class     = basename(str_replace('\\', '/', $class));
         $fqcn      = sprintf('%s\%s', $namespace, $class);
-        $name      = basename(str_replace('\\', '/', $name));
+        $name      = basename(str_replace('\\', '/', $controller));
+
+        $output->writeLn(sprintf('- <comment>App:%s</comment> controller:',
+            str_replace('/', '\\', $controller)
+        ));
 
         if (!class_exists($fqcn)) {
-            // generate the class
-            $classData = $twig->render('controller.php.twig', array(
+            $this->writeFile($classPath, $twig->render('controller.php.twig', array(
                 'namespace' => $namespace,
                 'class'     => $class,
                 'name'      => $name
-            ));
-            $this->writeFile($classPath, $classData);
+            )));
 
-            $output->writeLn(sprintf(
-                'Controller class <info>%s</info> generated in <info>%s</info>.',
-                $fqcn,
-                $classPath
-            ));
+            $output->writeLn('  class <info>generated</info>');
         } else {
-            $output->writeLn(sprintf(
-                'The controller class <info>%s</info> already exists.',
-                $fqcn
-            ));
+            $output->writeLn('  class <info>already exists</info>');
         }
 
         if (null === $action) {
             return;
         }
+
+        $output->writeLn(sprintf("\n".'- <comment>App:%s:%s</comment> action:',
+            str_replace('/', '\\', $controller), $action
+        ));
 
         $refl = new \ReflectionClass($fqcn);
         if (!$refl->hasMethod($action)) {
@@ -85,46 +84,67 @@ class GenerateControllerCommand extends ContainerAwareCommand
                 if ($refl->getName() !== $method->getDeclaringClass()->getName()) {
                     continue;
                 }
-
                 $prefix = "\n";
                 $lineToAppend = $method->getEndLine() + 1;
             }
 
-            // generate the action
-            $actionData = $prefix.$twig->render('action.php.twig', array(
-                'action' => $action
-            ));
-            $this->appendToFile($refl->getFileName(), $lineToAppend - 2, $actionData);
+            $this->appendToFile($refl->getFileName(), $lineToAppend - 2,
+                $prefix.$twig->render('action.php.twig', array('action' => $action))
+            );
 
-            $output->writeLn(sprintf(
-                'Action method <info>%s</info> generated in <info>%s</info> controller.',
-                $action, $fqcn
-            ));
+            $output->writeLn('  method <info>generated</info>');
         } else {
-            $output->writeLn(sprintf(
-                'The action <info>%s</info> already exists in <info>%s</info> controller.',
-                $action, $fqcn
-            ));
+            $output->writeLn('  method <info>already exists</info>');
         }
 
         $viewPath = sprintf('%s/views/%s/%s.html.twig',
-            $bundle->getPath(),
-            str_replace('\\', '/', $controller),
-            $action
+            $bundle->getPath(), str_replace('\\', '/', $controller), $action
         );
 
-        if (!file_exists($viewPath)) {
-            // generate the view
-            $viewData = $twig->render('view.html.twig');
-            $this->writeFile($viewPath, $viewData);
+        $output->writeLn(sprintf("\n".'- <comment>App:%s:%s.html.twig</comment> view:',
+            str_replace('\\', '/', $controller), $action
+        ));
 
-            $output->writeLn(sprintf('View <info>%s</info>.', $viewPath));
+        if (!file_exists($viewPath)) {
+            $this->writeFile($viewPath, $twig->render('view.html.twig'));
+
+            $output->writeLn('  view <info>generated</info>');
         } else {
-            $output->writeLn(sprintf('The view <info>%s</info> already exists.', $viewPath));
+            $output->writeLn('  view <info>already exists</info>');
+        }
+
+        $routingPath = sprintf('%s/config/routing.yml', $bundle->getPath());
+        $routeName   = $this->underscore($name).'_'.$this->underscore($action);
+        $routePath   = '/'.$this->underscore($name).'/'.$this->underscore($action);
+        $controller  = 'App:'.str_replace('/', '\\', $controller).':'.$action;
+
+        $output->writeLn(sprintf("\n".'- <comment>%s</comment> route:', $routePath));
+
+        if (!file_exists($routingPath)) {
+            $output->writeLn(sprintf('  file <info>%s</info> does not exist.', $routingPath));
+
+            if (!$dialog->askConfirmation($output, '  do you want me to create it? [Y/n] ', 'y')) {
+                return;
+            }
+
+            $this->writeFile($routingPath, '');
+        }
+
+        $content = file_get_contents($routingPath);
+        if (!preg_match('/'.preg_quote($controller, '/').'[^a-zA-Z0-9]/', $content)) {
+            $this->appendToFile($routingPath, null, $twig->render('routing.yml.twig', array(
+                'routeName'  => $routeName,
+                'routePath'  => $routePath,
+                'controller' => $controller
+            )));
+
+            $output->writeLn('  route <info>added</info>');
+        } else {
+            $output->writeLn('  route <info>already exists</info>');
         }
     }
 
-    private function writeFile($path, $data, $flags = null)
+    protected function writeFile($path, $data, $flags = null)
     {
         if (!is_dir(dirname($path))) {
             mkdir(dirname($path), 0777, true);
@@ -133,14 +153,26 @@ class GenerateControllerCommand extends ContainerAwareCommand
         file_put_contents($path, $data, $flags);
     }
 
-    private function appendToFile($path, $line, $data, $flags = null)
+    protected function underscore($string)
     {
-        $content = file($path, $flags);
-        $content = array_replace($content, array($line => $content[$line].$data));
-        file_put_contents($path, implode('', $content), $flags);
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $string));
     }
 
-    private function createTwig()
+    protected function appendToFile($path, $line = null, $data, $flags = null)
+    {
+        if (null !== $line) {
+            $content = file($path, $flags);
+            $content = array_replace($content, array($line => $content[$line].$data));
+            $content = implode('', $content);
+        } else {
+            $content = file_get_contents($path);
+            $content = (!empty($content) ? $content."\n" : '').$data;
+        }
+
+        file_put_contents($path, $content, $flags);
+    }
+
+    protected function createTwig()
     {
         $kernel    = $this->getApplication()->getKernel();
         $directory = $kernel->locateResource('@KnpRadBundle/Resources/skeleton/controller');

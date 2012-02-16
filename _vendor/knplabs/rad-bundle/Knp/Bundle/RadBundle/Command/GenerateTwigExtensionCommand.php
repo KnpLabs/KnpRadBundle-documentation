@@ -47,24 +47,21 @@ class GenerateTwigExtensionCommand extends ContainerAwareCommand
             'name'      => $name
         ));
 
-        if (file_exists($classPath)) {
-            $output->writeLn(sprintf(
-                'The extension class <info>%s</info> already exists, aborting.',
-                $fqcn
-            ));
+        $output->writeLn(sprintf('- <comment>%s</comment> extension:', $fqcn));
 
-            return 1;
+        if (file_exists($classPath)) {
+            $output->writeLn('  class <info>already exists</info>');
         } else {
             $this->writeFile($classPath, $classData);
-            $output->writeLn(sprintf(
-                'Extension class <info>%s</info> generated in <info>%s</info>.',
-                $fqcn,
-                $classPath
-            ));
+            $output->writeLn('  class <info>generated</info>');
         }
 
         // generate the service definition
         $servicesPath = sprintf('%s/config/services.yml', $bundle->getPath());
+
+        $output->writeLn(sprintf("\n".'- <comment>app.twig.%s_extension</comment> service:',
+            strtolower($name)
+        ));
 
         if (file_exists($servicesPath)) {
             $servicesData = $twig->render('services.yml.twig', array(
@@ -73,17 +70,16 @@ class GenerateTwigExtensionCommand extends ContainerAwareCommand
                 'bundle_alias'  => Container::underscore($bundle->getName()),
                 'newFile'       => false,
             ));
-            $this->writeFile($servicesPath, $servicesData, FILE_APPEND);
+            $content = file_get_contents($servicesPath);
 
-            $output->writeLn(sprintf(
-                'Extension service append to <info>%s</info>.',
-                $servicesPath
-            ));
+            if (!preg_match('/'.preg_quote('app.twig.'.strtolower($name).'_extension', '/').'/', $content)) {
+                $this->writeFile($servicesPath, $servicesData, FILE_APPEND);
+                $output->writeLn('  definition <info>added</info>');
+            } else {
+                $output->writeLn('  definition <info>already exists</info>');
+            }
         } else {
-            $output->writeLn(sprintf(
-                'Services file <info>%s</info> does not exist.',
-                $servicesPath
-            ));
+            $output->writeLn(sprintf('  file <info>%s</info> does not exist.', $servicesPath));
 
             $servicesData = $twig->render('services.yml.twig', array(
                 'name'         => $name,
@@ -92,13 +88,10 @@ class GenerateTwigExtensionCommand extends ContainerAwareCommand
                 'newFile'      => true,
             ));
 
-            if ($dialog->askConfirmation($output, 'Do you want me to create it? [Y/n] ', 'y')) {
+            if ($dialog->askConfirmation($output, '  do you want me to create it? [Y/n] ', 'y')) {
                 $this->writeFile($servicesPath, $servicesData);
 
-                $output->writeLn(sprintf(
-                    'Services file <info>%s</info> created with extension service.',
-                    $servicesPath
-                ));
+                $output->writeLn('  definition <info>added</info>');
             } else {
                 $output->writeLn(sprintf(<<<EOT
 
