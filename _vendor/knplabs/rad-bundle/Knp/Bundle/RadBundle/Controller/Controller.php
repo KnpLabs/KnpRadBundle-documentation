@@ -13,6 +13,29 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class Controller extends BaseController
 {
     /**
+     * Shortcut to return Validator service.
+     *
+     * @return Validator
+     */
+    public function getValidator()
+    {
+        return $this->get('validator');
+    }
+
+    /**
+     * Shortcut to validator validate method.
+     *
+     * @param object     $object The object to validate
+     * @param array|null $groups The validator groups to use for validating
+     *
+     * @return ConstraintViolationList
+     */
+    public function validate($object, $groups = null)
+    {
+        return $this->getValidator()->validate($object, $groups);
+    }
+
+    /**
      * Shortcut to return Session instance.
      *
      * @return Session
