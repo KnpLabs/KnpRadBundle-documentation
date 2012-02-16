@@ -4,6 +4,7 @@ namespace Knp\Bundle\RadBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller.
@@ -130,5 +131,25 @@ class Controller extends BaseController
     public function getDocumentRepository($repositoryName, $managerName = null)
     {
         return $this->getDocumentManager($managerName)->getRepository($repositoryName);
+    }
+
+    /**
+     * Renders a hash into JSON.
+     *
+     * @param array    $hash     The hash
+     * @param Response $response A response instance
+     *
+     * @return Response A Response instance
+     */
+    public function renderJson(array $hash, Response $response = null)
+    {
+        if (null === $response) {
+            $response = new Response();
+        }
+
+        $response->setContent(json_encode($hash));
+        $response->headers->set('Content-type', 'application/json');
+
+        return $response;
     }
 }
