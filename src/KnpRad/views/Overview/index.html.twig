@@ -15,14 +15,22 @@
 
         <section class="feature">
             <h3 id="config">All configs in one place</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
-            </p>
+            <p>In <em>RAD</em> edition configuration is based on <em>environment sections</em>. The most
+            significant is <em>all</em> environment section - kernel loads it first of all
+            and its like a default to all environments. </p>
+            
+            <p>Other sections should be adjusted for your environmental differences, like in
+            <a href="#kernel">kernel</a> configuration file, etc.: dev, test, prod..</p>
+            
+            <p>This concept is proven, eye friendly and does not force you to browse more files
+            in order to lookup the specific configuration values used</p>
         </section>
 
         <section class="feature">
             <h3 id="kernel">Kernel config file</h3>
-            <pre><code>all:
+            <pre><code>project: KnpRad
+
+all:
     bundles:
         - Symfony\Bundle\FrameworkBundle\FrameworkBundle
         - Symfony\Bundle\SecurityBundle\SecurityBundle
@@ -45,20 +53,71 @@ dev:
 test:
     bundles:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</code></pre>
+        <p>Well, most of the configuration is self explanatory, however there are
+        recommendations to follow for the intended best practices:</p>
+        
+        <ul>
+            <li>All your project parameters, should be located in this file</li>
+            <li>There should be only parameters, project namespace and bundles configured in this file</li>
+        </ul>
+        
+        <p><strong>project</strong> option defines the namespace of your project. If you
+        want to customize, you can simple change it to the namespace path you like, example
+        <strong>Hello\App</strong>
         </section>
 
         <section class="feature">
             <h3 id="bundles">Bundles configuration files</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
-            </p>
+            <p>The <em>bundles</em> config directory primary consern is to configure
+            all vendor bundles used by the project. You can check the configurations
+            which comes with <em>RAD</em> distribution, most of configs contains very
+            detailed comments which can guide you through your most bizzare cases of
+            configuration required</p>
+            <p>Secondary, there is one significant configuration file - <strong>app.yml</strong>.
+            This is your project based(<a href="#app-bundle">application bundle</a>) configuration.</p>
         </section>
 
         <section class="feature">
-            <h3 id="app-bundle">Application bundle</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
-            </p>
+            <h3 id="app-bundle">Application(project) bundle</h3>
+            <p>RAD organizes and treats application differently compared to 3-rd party
+            bundles. File structure of the project application bundle looks like:</p>
+            <pre><code>src/
+└── KnpRad
+    ├── Controller
+    │   └── MainController.php
+    ├── Tests
+    │   └── Controller
+    │       └── MainControllerTest.php
+    ├── config
+    │   ├── routing.yml
+    │   │── services.yml
+    │   └── services.xml
+    ├── i18n
+    │   └── messages.ru.xml
+    ├── public
+    │   └── jquery-1.7.1.min.js
+    └── views
+        ├── Main
+        │   └── index.html.twig
+        └── base.html.twig
+            </code></pre>
+            <p><strong>config</strong> holds all your application configurations, including routing and DIC. And those
+            configurations will be autoloaded. Yup, no need to include `routing.yml` in your project
+            <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong> (or
+            services.xml). The only requirement - they should be named <em>routing.yml</em> OR <em>services.(yml|xml)</em>.
+            
+            <ul>
+                <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
+                <li><strong>config/services.(yml|xml)</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
+            </ul>
+            
+            <p><strong>i18n</strong> holds all your translations</p>
+            <p><strong>public</strong> holds all your public *.css, *.js and *.png files. This folder will be copied
+            (symlinked) by <strong>assets:install</strong> command.</p>
+            <p><strong>views</strong> holds your application views.</p>
+            
+            <p><strong>P.S.:</strong> If you want to split routing or services in multiple files, just put them into
+            <em>config/routing</em> or <em>config/services</em> folder with any name - they will be autoloaded too ;-)</p>
         </section>
 
         <section class="feature">
