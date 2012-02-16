@@ -1,8 +1,10 @@
-# This is the namespace of your "application" bundle in the src/ directory
+# This is the namespace of your "App" bundle in the src/ directory
 # For example, if this is "KnpRad", then you will have a "src/KnpRad/" directory
+# But if this is "Knp\Rad", then you will have code in "src/Knp/Rad" directory
 project: KnpRad
 
 all:
+    # List of activated bundles (plugins/modules)
     bundles:
         - Symfony\Bundle\FrameworkBundle\FrameworkBundle
         - Symfony\Bundle\SecurityBundle\SecurityBundle
@@ -17,8 +19,8 @@ all:
     # configuration file as: %locale%.
     # See: http://bit.ly/sf2-parameter
     parameters:
-        locale:             en
-        secret:             ThisTokenIsNotSoSecretChangeIt
+        locale:  en
+        secret:  ThisTokenIsNotSoSecretChangeIt
 
         database_driver:    pdo_mysql
         database_host:      localhost
@@ -27,23 +29,27 @@ all:
         database_user:      root
         database_password:  ~
 
-        mailer_transport:   smtp
-        mailer_host:        localhost
-        mailer_user:        ~
-        mailer_password:    ~
+        mailer_transport:  smtp
+        mailer_host:       localhost
+        mailer_user:       ~
+        mailer_password:   ~
 
-        # this parameters will be used if you activated
-        # monolog email error reporting
-        # See: bundles/monolog.yml
-        mailer_server_mail: project@example.com
-        mailer_error_mail:  admin@example.com
+        # This parameters will be used by some bundles
+        # (like monolog) to send emails
+        email_server:       project@example.com
+        email_developer:    developer@example.com
+        email_errors_from:  %email_server%
+        email_errors_to:    %email_developer%
 
-        bin_java:           /usr/bin/java
-        bin_node:           /usr/bin/node
-        bin_ruby:           /usr/bin/ruby
-        bin_sass:           /usr/bin/sass
-        bin_coffee:         /usr/bin/coffee
-        jar_yui:            %kernel.root_dir%/vendor/yuicompressor.jar
+        # This parameters will be used by some bundles
+        # to locate or/and run third-party binaries or
+        # libraries
+        bin_java:    /usr/bin/java
+        bin_node:    /usr/bin/node
+        bin_ruby:    /usr/bin/ruby
+        bin_sass:    /usr/bin/sass
+        bin_coffee:  /usr/bin/coffee
+        bin_yui:     /usr/bin/yuicompressor.jar
 
 dev:
     bundles:

@@ -1,6 +1,6 @@
-# monolog is logging layer of your application
-# docs: http://bit.ly/monolog-doc
-# config: http://bit.ly/monolog-ref
+# Monolog is logging layer of your application
+# Docs: http://bit.ly/monolog-doc
+# Config: http://bit.ly/monolog-ref
 
 prod:
     handlers:
@@ -13,8 +13,9 @@ prod:
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
 
-        # if you want to send emails with errors
-        # information, ucomment next lines
+        # If you want to send emails with errors
+        # information, ucomment next lines and fill
+        # email_errors_* parameters in kernel.yml
         # See: http://bit.ly/monolog-email-doc
         # mail:
         #     type:         fingers_crossed
@@ -25,8 +26,8 @@ prod:
         #     handler: swift
         # swift:
         #     type:       swift_mailer
-        #     from_email: %mailer_server_mail%
-        #     to_email:   %mailer_error_mail%
+        #     from_email: %email_errors_from%
+        #     to_email:   %email_errors_to%
         #     subject:    %kernel.project_name% error occured!
         #     level:      debug
 

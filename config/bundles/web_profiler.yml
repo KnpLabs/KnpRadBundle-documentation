@@ -1,5 +1,5 @@
-# profiler toolbar for your pages
-# config: http://bit.ly/webprof-ref
+# Profiler toolbar for your pages
+# Config: http://bit.ly/webprof-ref
 
 dev:
     toolbar: true
@@ -7,7 +7,7 @@ dev:
     # (e.g. after a form submit) while developing.
     intercept_redirects: false
 
-    # iI your toolbar to long and not fits to the screen,
+    # If your toolbar to long and not fits to the screen,
     # use the non-verbose version:
     # verbose: false
 

@@ -1,12 +1,12 @@
-# main Symfony2 configuration section
-# docs: http://symfony.com/
-# config: http://bit.ly/framework-ref
+# Main Symfony2 configuration section
+# Docs: http://symfony.com/
+# Config: http://bit.ly/framework-ref
 
 all:
-    # turn on Edge Side Includes if you want to cache
+    # Turn on Edge Side Includes if you want to cache
     # small blocks of content on your pages separately
-    # about ESI: http://bit.ly/esi-wiki
-    # docs: http://bit.ly/sf2-cache
+    # About ESI: http://bit.ly/esi-wiki
+    # Docs: http://bit.ly/sf2-cache
     # esi:             ~
     translator:      { fallback: %locale% }
     secret:          %secret%
@@ -14,7 +14,8 @@ all:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    # see: http://bit.ly/sf2-templating-ref
+    # Templating subsystem configuration
+    # See: http://bit.ly/sf2-templating-ref
     templating:
         engines: ['twig']
         # assets_version: v2
@@ -26,7 +27,8 @@ all:
 
     profiler: { only_exceptions: false }
 
-    # Makes exceptions auto-link to your editor: http://bit.ly/sf2-ide
+    # Next line makes exceptions auto-link to your editor
+    # See: http://bit.ly/sf2-ide
     # ide: textmate # could alsobe "macvim" or custom "txmt://open?url=file://%%f&line=%%l"
 
 prod:

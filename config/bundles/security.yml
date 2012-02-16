@@ -1,6 +1,6 @@
-# provides all the security configuration for your application
-# docs: http://bit.ly/sf2-security
-# config: http://bit.ly/sf2-security-ref
+# Provides all the security configuration for your application
+# Docs: http://bit.ly/sf2-security
+# Config: http://bit.ly/sf2-security-ref
 
 all:
     encoders:
@@ -24,6 +24,7 @@ all:
             users:
                 user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                 admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+
         # database_users:
         #   entity:   { class: UserBundle:User, property: username }
 

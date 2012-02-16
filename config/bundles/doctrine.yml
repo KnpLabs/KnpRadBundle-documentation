@@ -1,11 +1,10 @@
-# doctrine provides M for your VC
-# docs: http://bit.ly/doctrine2-docs
-# config: http://bit.ly/doctrine2-ref
+# Doctrine provides M for your VC
+# Docs: http://bit.ly/doctrine2-docs
+# Config: http://bit.ly/doctrine2-ref
 
 all:
     # DBAL connection
-    # see: http://bit.ly/doctrine2-multiple-em
-    #
+    # See: http://bit.ly/doctrine2-multiple-em
     dbal:
         # If more than one connection is used, name them
         #   api:
@@ -20,7 +19,7 @@ all:
         # In the simpler configuration below, this connection will be
         # automatically named "default"
 
-        # use config/kernel.yml to configure this parameters:
+        # Use config/kernel.yml to configure this parameters:
         driver:   %database_driver%
         host:     %database_host%
         port:     %database_port%
@@ -30,24 +29,25 @@ all:
         charset:  UTF8
 
     orm:
-        auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
-        # if more than one entity manager is used
-        # see: http://bit.ly/doctrine2-multiple-em
+        # If more than one entity manager is used
+        # See: http://bit.ly/doctrine2-multiple-em
         # api:
         #     accessed by service name [doctrine.orm.api_entity_manager]
         #     connection: api
 
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
 test:
     dbal:
-        # use config/kernel.yml to configure database name.
-        # in test environment, _test suffix will be assigned to
+        # Use config/kernel.yml to configure database name.
+        # In test environment, _test suffix will be assigned to
         # it automatically
         dbname: %database_name%_test
 
 prod:
     orm:
-        # use apc for caching in production
+        # Use apc for caching in production
         metadata_cache_driver: apc
         result_cache_driver:   apc
         query_cache_driver:    apc
