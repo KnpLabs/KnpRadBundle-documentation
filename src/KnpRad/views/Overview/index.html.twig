@@ -28,7 +28,9 @@
 
         <section class="feature">
             <h3 id="kernel">Kernel config file</h3>
-            <pre><code>all:
+            <pre><code>project: KnpRad
+
+all:
     bundles:
         - Symfony\Bundle\FrameworkBundle\FrameworkBundle
         - Symfony\Bundle\SecurityBundle\SecurityBundle
@@ -51,7 +53,17 @@ dev:
 test:
     bundles:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</code></pre>
-        <p></p>
+        <p>Well, most of the configuration is self explanatory, however there are
+        recommendations to follow for the intended best practices:</p>
+        
+        <ul>
+            <li>All your project parameters, should be located in this file</li>
+            <li>There should be only parameters, project namespace and bundles configured in this file</li>
+        </ul>
+        
+        <p><strong>project</strong> option defines the namespace of your project. If you
+        want to customize, you can simple change it to the namespace path you like, example
+        <strong>Hello\App</strong>
         </section>
 
         <section class="feature">
