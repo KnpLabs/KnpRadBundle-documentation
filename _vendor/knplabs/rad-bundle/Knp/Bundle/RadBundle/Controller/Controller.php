@@ -50,9 +50,15 @@ class Controller extends BaseController
      * Shortcut to return the Security Context service.
      *
      * @return SecurityContext
+     *
+     * @throws \LogicException If SecurityBundle is not available
      */
     public function getSecurityContext()
     {
+        if (!$this->container->has('security.context')) {
+            throw new \LogicException('The SecurityBundle is not registered in your application.');
+        }
+
         return $this->container->get('security.context');
     }
 
