@@ -55,12 +55,12 @@ test:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</code></pre>
         <p>Well, most of the configuration is self explanatory, however there are
         recommendations to follow for the intended best practices:</p>
-        
+
         <ul>
             <li>All your project parameters, should be located in this file</li>
             <li>There should be only parameters, project namespace and bundles configured in this file</li>
         </ul>
-        
+
         <p><strong>project</strong> option defines the namespace of your project. If you
         want to customize, you can simple change it to the namespace path you like, example
         <strong>Hello\App</strong>
@@ -73,7 +73,7 @@ test:
             which comes with <em>RAD</em> distribution, most of configs contains very
             detailed comments which can guide you through your most bizzare cases of
             configuration required</p>
-            <p>Secondary, there is one significant configuration file - <strong>app.yml</strong>.
+            <p id="application-config-file">Secondary, there is one significant configuration file - <strong>app.yml</strong>.
             This is your project based(<a href="#app-bundle">application bundle</a>) configuration.</p>
         </section>
 
@@ -101,37 +101,64 @@ test:
         │   └── index.html.twig
         └── base.html.twig
             </code></pre>
+            <p>There can be <em>only one application</em> per project. Following this
+            convention you get these short notation bonuses:</p>
+
+            <ul>
+                <li>Project application routes now looks like:
+                <strong>defaults: { _controller: Main:index }</strong></li>
+                <li>Same for application views: <strong>{&#37; extends 'Main:layout.html.twig' &#37;}</strong>
+            </ul>
+
             <p><strong>config</strong> holds all your application configurations, including routing and DIC. And those
             configurations will be autoloaded. Yup, no need to include `routing.yml` in your project
             <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong> (or
             services.xml). The only requirement - they should be named <em>routing.yml</em> OR <em>services.(yml|xml)</em>.
-            
+
             <ul>
                 <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
                 <li><strong>config/services.(yml|xml)</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
             </ul>
-            
+
             <p><strong>i18n</strong> holds all your translations</p>
             <p><strong>public</strong> holds all your public *.css, *.js and *.png files. This folder will be copied
             (symlinked) by <strong>assets:install</strong> command.</p>
             <p><strong>views</strong> holds your application views.</p>
-            
+
             <p><strong>P.S.:</strong> If you want to split routing or services in multiple files, just put them into
             <em>config/routing</em> or <em>config/services</em> folder with any name - they will be autoloaded too ;-)</p>
         </section>
 
         <section class="feature">
             <h3 id="app-configs">Application configuration</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
-            </p>
+            <p>Ok, but if we don't have extension, then how to provide project-wide parameters for our application?
+            Application bundles implicitly instanciate <em>ConventionalExtension</em>, which will automatically add
+            configuration of <a href="#application-config-file">config/bundles/app.yml</a> into DIC with <strong>app.</strong> prefix.
+            You can hook application based parameters and services through this configuration file:</p>
+            <pre><code>all:
+    parameter_name: value
+            </code></pre>
+            
+            <p>Will include <strong>app.parameter_name</strong> into dependency injection container</p>
         </section>
 
         <section class="feature">
             <h3 id="views">Views mapped to controller actions</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
-            </p>
+            <p>There's no need to specify view name in controller action anymore.
+            You can simply return array of view data:</p>
+            <pre><code>namespace Acme\Hello\Frontend\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class DefaultController extends Controller
+{
+    public function index($name)
+    {
+        return compact('name');
+    }
+}
+            </code></pre>
+            <p>Appropriate view <strong>views/CONTROLLER_NAME/ACTION_NAME._FORMAT.twig</strong> will be loaded for you.</p>
         </section>
 
         <section class="feature">
