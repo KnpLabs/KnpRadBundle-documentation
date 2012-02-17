@@ -24,14 +24,17 @@
             RAD organizes and treats application differently compared to 3-rd party
             bundles.
         </p>
-        <p><strong>Controller</strong> holds all your controllers. All of them are available through the <code>App:Main:index</code> syntax.</p>
-        <p><strong>Tests</strong> holds all your tests. The inner folder hierarchy should follow your project's one.</p>
-        <p><strong>translations</strong> holds all your translations</p>
-        <p><strong>public</strong> holds all your public *.css, *.js and *.png files. This folder will be copied
-        (symlinked) by <strong>assets:install</strong> command.</p>
-        <p><strong>views</strong> holds your application views. All of them are available through the <code>App:Main:index.html.twig</code> syntax.</p>
+        <ol>
+            <li><code>Controller</code> holds all your controllers. All of them are available through the <code>App:CONTROLLER:ACTION</code> syntax.</li>
+            <li><code>Tests</code> holds all your tests. The inner folder hierarchy should follow your project's one.</li>
+            <li><code>translations</code> holds all your translations</li>
+            <li><code>public</code> holds all your public *.css, *.js and *.png files. This folder will be copied (symlinked) by <code>assets:install</code> (without arguments) command.</p>
+            </li>
+            <li><code>views</code> holds your application views. All of them are available through the <code>App:SUBFOLDER:NAME.html.twig</code> syntax.</li>
+        </ol>
 
         <hr />
+
         <h4><strong>Why</strong> not using default bundle structure ? - one may say.</h4>
         <p>
             That's mainly because <strong>you ain't gonna need it</strong>.
