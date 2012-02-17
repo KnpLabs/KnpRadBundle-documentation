@@ -37,6 +37,11 @@ all:
 
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        mappings:
+            App:
+                type:   annotation
+                dir:    %kernel.project_dir%/Entity
+                prefix: %kernel.project_name%
 
 test:
     dbal:
