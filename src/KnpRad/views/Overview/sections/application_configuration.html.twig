@@ -1,6 +1,28 @@
 <section class="feature">
     <h3 id="app-configs">Application configuration</h3>
+
+<pre><code>
+├── config
+│   ├── routing.yml
+│   │── services.yml
+</code></pre>
+
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
+        <strong>config</strong> holds all your application configurations, including routing and DIC. And those
+        configurations will be autoloaded.
+    </p>
+    <p>
+        Yup, no need to include `routing.yml` in your project
+        <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong>.
+    </p>
+        <p>
+            The only requirement - they should be named <em>routing.yml</em> OR <em>services.yml</em>.
+        </p>
+    <ul>
+        <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
+        <li><strong>config/services.yml</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
+    </ul>
+    <p>
+        That's all!
     </p>
 </section>
