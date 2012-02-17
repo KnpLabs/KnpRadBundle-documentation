@@ -16,8 +16,6 @@ class OverviewController extends Controller
      */
     public function index()
     {
-        // place your code here
-
         return array();
     }
  }

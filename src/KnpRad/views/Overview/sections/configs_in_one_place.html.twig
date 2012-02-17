@@ -1,0 +1,70 @@
+<section class="feature">
+    <h3 id="config">All configs in one place</h3>
+
+    <div style="width:60%;float:left">
+        <p>
+            In <strong>RAD</strong> edition, there's no kernel class. All kernel or project
+            configuraion lives inside <code>config/kernel.yml</code> config file (read about it
+            <a href="#kernel">here</a>.
+        </p>
+        <p>
+            In addition to <a href="#kernel">kernel configuration</a>, every bundle have its
+            <a href="#bundles">own configuration file</a> too (<code>config/bundles/framework.yml</code>,
+            <code>config/bundles/monolog.yml</code>).
+        </p>
+        <p>
+            <a href="#kernel">Kernel</a> and <a href="#bundles">bundles</a> configuration files 
+            consists of environment sections.
+        </p>
+
+        <pre style="float:left;margin-right:10px;width:20%;"><code>all:  ~
+prod: ~
+dev:  ~
+test: ~</code></pre>
+
+        <p>
+            The most
+            significant is <code>all</code> environment section - kernel loads it first of all
+            and its like a default to all environments.
+        </p>
+        
+        <p>
+            Other sections should be adjusted for your environmental differences, like in
+            <a href="#kernel">kernel</a> configuration file: <code>dev</code>,
+            <code>test</code>, <code>prod</code>.
+        </p>
+        
+        <p>
+            This concept is proven, eye friendly and does not force you to browse more files
+            in order to lookup the specific configuration values used.
+        </p>
+
+        <p>
+            In addition to that, <strong>KnpRadBundle</strong> will generate configuration files
+            with sensible defaults for you after calling <code>bin/vendors</code> or
+            <code>bin/configs</code> commands.
+            for most used bundles out of the box. Read more about bundles configuration in 
+        </p>
+
+        <p>
+            Routing configurations live inside <code>config/routing</code> folder. And every
+            environment have it's own routing file, but all of them inherit from <code>all.yml</code>
+            file. Generally, you should avoid touching those files, as <strong>RadKernel</strong>
+            will try <a href="#app-configs">hard to manage your application routes automatically</a>.
+        </p>
+    </div>
+
+    <pre style="width:35%;float:right"><code>config
+├── kernel.yml
+├── bundles
+│   ├── framework.yml
+│   ├── monolog.yml
+│   └── ...
+└── routing
+    ├── all.yml
+    ├── dev.yml
+    ├── prod.yml
+    └── test.yml</code></pre>
+
+    <div style="clear:both"></div>
+</section>

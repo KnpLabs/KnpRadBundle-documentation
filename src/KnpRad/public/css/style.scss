@@ -176,13 +176,13 @@ body {
       }
 
       section.feature {
-        float:left;
-        width:460px;
+        p > code, li > code {
+          color:#000;
+          padding:1px 2px;
+        }
 
-        margin-right:30px;
-
-        &:nth-child(odd) {
-          margin-right:0px;
+        li {
+          margin-bottom: 10px;
         }
 
         h3 {
