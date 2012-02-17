@@ -40,9 +40,11 @@ all:
         auto_mapping: true
         mappings:
             App:
-                type:   annotation
-                dir:    %kernel.project_dir%/Entity
-                prefix: %kernel.project_name%
+                mapping:    %database_enabled%
+                is_bundle:  false
+                type:       annotation
+                dir:        %kernel.project_dir%/Entity
+                prefix:     %kernel.project_name%
 
 test:
     dbal:

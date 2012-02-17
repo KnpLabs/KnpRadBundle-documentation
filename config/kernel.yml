@@ -22,6 +22,7 @@ all:
         locale:  en
         secret:  ThisTokenIsNotSoSecretChangeIt
 
+        database_enabled:   false
         database_driver:    pdo_mysql
         database_host:      localhost
         database_port:      ~
