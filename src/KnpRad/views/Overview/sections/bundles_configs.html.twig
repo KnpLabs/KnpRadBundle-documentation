@@ -1,10 +1,63 @@
 <section class="feature">
     <h3 id="bundles">Bundles configuration files</h3>
-    <p>The <em>bundles</em> config directory primary consern is to configure
-    all vendor bundles used by the project. You can check the configurations
-    which comes with <em>RAD</em> distribution, most of configs contains very
-    detailed comments which can guide you through your most bizzare cases of
-    configuration required</p>
-    <p>Secondary, there is one significant configuration file - <strong>app.yml</strong>.
-    This is your project based(<a href="#app-bundle">application bundle</a>) configuration.</p>
+    <p></p>
+    <p></p>
+
+    <div style="width:60%;float:left">
+        <p>
+            The <code>config/bundles</code> directory primary consern is to configure
+            all bundles used by the project. You can check the configurations
+            which comes with <em>RAD</em> distribution, most of configs contains very
+            detailed comments which can guide you through your most bizzare cases.
+        </p>
+        <p>
+            Secondary, there is one significant configuration file - <code>app.yml</code>.
+            This is your project based (<a href="#app-bundle">application bundle</a>) configuration.
+        </p>
+        <p>
+            <a href="#bundles">Bundles</a> configuration files consists of environment sections.
+        </p>
+
+        <pre style="float:left;margin-right:10px;width:20%;"><code>all:  ~
+prod: ~
+dev:  ~
+test: ~</code></pre>
+
+        <p>
+            The most
+            significant is <code>all</code> environment section - kernel loads it first of all
+            and its like a default to all environments.
+        </p>
+        
+        <p>
+            Other sections should be adjusted for your environmental differences, like in
+            <a href="#kernel">kernel</a> configuration file: <code>dev</code>,
+            <code>test</code>, <code>prod</code>.
+        </p>
+        
+        <p>
+            This concept is proven, eye friendly and does not force you to browse more files
+            in order to lookup the specific configuration values used.
+        </p>
+
+        <p>
+            In addition to that, <strong>KnpRadBundle</strong> will generate configuration files
+            with sensible defaults for you after calling <code>bin/vendors</code> or
+            <code>bin/configs</code> commands. for most used bundles out of the box.
+        </p>
+    </div>
+
+    <pre style="width:35%;float:right"><code>config/bundles
+├── app.yml
+├── assetic.yml
+├── doctrine.yml
+├── framework.yml
+├── knp_rad.yml
+├── monolog.yml
+├── security.yml
+├── swiftmailer.yml
+├── twig.yml
+└── web_profiler.yml</code></pre>
+
+    <div style="clear:both"></div>
 </section>

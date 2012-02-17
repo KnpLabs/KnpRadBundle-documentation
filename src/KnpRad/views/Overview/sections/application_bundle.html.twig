@@ -1,27 +1,27 @@
 <section class="feature">
-    <h3 id="app-bundle">Application(project) bundle</h3>
-    <p>RAD organizes and treats application differently compared to 3-rd party
-    bundles. File structure of the project application bundle looks like:</p>
-    <pre><code>src/
-└── KnpRad
-    ├── Controller
-    │   └── MainController.php
-    ├── Tests
-    │   └── Controller
-    │       └── MainControllerTest.php
-    ├── config
-    │   ├── routing.yml
-    │   │── services.yml
-    │   └── services.xml
-    ├── i18n
-    │   └── messages.ru.xml
-    ├── public
-    │   └── jquery-1.7.1.min.js
-    └── views
-        ├── Main
-        │   └── index.html.twig
-        └── base.html.twig
-            </code></pre>
+    <h3 id="app-bundle">Application (project) bundle</h3>
+
+    <p>
+        RAD organizes and treats application differently compared to 3-rd party
+        bundles. File structure of the project application bundle looks like:
+    </p>
+    <pre><code>src/KnpRad
+├── Controller
+│   └── MainController.php
+├── Tests
+│   └── Controller
+│       └── MainControllerTest.php
+├── config
+│   ├── routing.yml
+│   │── services.yml
+├── translations
+│   └── messages.ru.yml
+├── public
+│   └── js/jquery.js
+└── views
+    ├── Main
+    │   └── index.html.twig
+    └── base.html.twig</code></pre>
     <p><strong>config</strong> holds all your application configurations, including routing and DIC. And those
     configurations will be autoloaded. Yup, no need to include `routing.yml` in your project
     <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong> (or
