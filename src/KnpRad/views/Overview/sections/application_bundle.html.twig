@@ -22,21 +22,34 @@
     ├── Main
     │   └── index.html.twig
     └── base.html.twig</code></pre>
-    <p><strong>config</strong> holds all your application configurations, including routing and DIC. And those
-    configurations will be autoloaded. Yup, no need to include `routing.yml` in your project
-    <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong> (or
-    services.xml). The only requirement - they should be named <em>routing.yml</em> OR <em>services.(yml|xml)</em>.
-    
-    <ul>
-        <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
-        <li><strong>config/services.(yml|xml)</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
-    </ul>
-    
-    <p><strong>i18n</strong> holds all your translations</p>
+    <p><strong>Controller</strong> holds all your controllers. All of them are available through the <code>App:Main:index</code> syntax.</p>
+    <p><strong>Tests</strong> holds all your tests. The inner folder hierarchy should follow your project's one.</p>
+    <p><strong>translations</strong> holds all your translations</p>
     <p><strong>public</strong> holds all your public *.css, *.js and *.png files. This folder will be copied
     (symlinked) by <strong>assets:install</strong> command.</p>
-    <p><strong>views</strong> holds your application views.</p>
-    
-    <p><strong>P.S.:</strong> If you want to split routing or services in multiple files, just put them into
-    <em>config/routing</em> or <em>config/services</em> folder with any name - they will be autoloaded too ;-)</p>
+    <p><strong>views</strong> holds your application views. All of them are available through the <code>App:Main:index.html.twig</code> syntax.</p>
+
+    <hr />
+    <h4><strong>Why</strong> not using default bundle structure ? - one may say.</h4>
+    <p>
+        That's mainly because <strong>you ain't gonna need it</strong>.
+    </p>
+    <p>
+        Bundles were invented for resusability, and to package a single feature.
+    </p>
+    <p>
+        But experience proves that most of the time you don't reuse application specific code
+        and that you end up with a shitload of coupled, badly named bundles.
+    </p>
+    <p>
+        As a result, you gain in complexity, not in reusability.
+    </p>
+    <p>
+        So, to answer the initial question, the main reason of using this kind of structure is to focus on <strong>project</strong>,
+        and not on artificial bundled project structure.
+    </p>
+    <p>
+        Additionaly, unlike usual third party bundles, your assets and views are as important as any other part of your code.
+        That's why the structure tries to flatten the distance between your code and these resources, by getting rid of a <i>3 depth</i> folder hierarchy.
+    </p>
 </section>
