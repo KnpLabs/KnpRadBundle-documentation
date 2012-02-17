@@ -144,9 +144,21 @@ test:
 
         <section class="feature">
             <h3 id="views">Views mapped to controller actions</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu euismod magna. Etiam gravida commodo tincidunt. Etiam aliquet elit diam, et faucibus nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent eu urna neque. Ut dignissim lobortis interdum. Donec mauris diam, condimentum eu tincidunt at, congue ac justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam a enim non lorem pellentesque mollis ac eu dui. Nullam sit amet est justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas non nibh at erat mollis tincidunt. Ut non est nulla, tempus laoreet eros. Nunc vehicula vehicula ligula ullamcorper sodales. Vestibulum odio odio, aliquam eu rhoncus ut, ultrices ut ante. Proin molestie tristique mi, at mollis quam gravida a.
-            </p>
+            <p>There's no need to specify view name in controller action anymore.
+            You can simply return array of view data:</p>
+            <pre><code>namespace Acme\Hello\Frontend\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class DefaultController extends Controller
+{
+    public function index($name)
+    {
+        return compact('name');
+    }
+}
+            </code></pre>
+            <p>Appropriate view <strong>views/CONTROLLER_NAME/ACTION_NAME._FORMAT.twig</strong> will be loaded for you.</p>
         </section>
 
         <section class="feature">
