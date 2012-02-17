@@ -2,5 +2,5 @@
 #= require libs/highlight
 #= require plugins
 
-hljs initHighlightingOnLoad
+hljs.initHighlightingOnLoad
 
