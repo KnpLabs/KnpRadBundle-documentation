@@ -1,28 +1,30 @@
 <section class="feature">
     <h3 id="app-configs">Application configuration</h3>
 
-<pre><code>
-├── config
+<pre style="float:right; width:30%"><code>├── config
 │   ├── routing.yml
-│   │── services.yml
-</code></pre>
+│   │── services.yml</code></pre>
 
-    <p>
-        <strong>config</strong> holds all your application configurations, including routing and DIC. And those
-        configurations will be autoloaded.
-    </p>
-    <p>
-        Yup, no need to include `routing.yml` in your project
-        <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong>.
-    </p>
+    <div style="float:left; width:60%">
         <p>
-            The only requirement - they should be named <em>routing.yml</em> OR <em>services.yml</em>.
+            <strong>config</strong> holds all your application configurations, including routing and DIC. And those
+            configurations will be autoloaded.
         </p>
-    <ul>
-        <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
-        <li><strong>config/services.yml</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
-    </ul>
-    <p>
-        That's all!
-    </p>
+        <p>
+            Yup, no need to include `routing.yml` in your project
+            <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong>.
+        </p>
+            <p>
+                The only requirement - they should be named <em>routing.yml</em> OR <em>services.yml</em>.
+            </p>
+        <ul>
+            <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
+            <li><strong>config/services.yml</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
+        </ul>
+        <p>
+            That's all!
+        </p>
+    </div>
+
+    <div style="clear:both"></div>
 </section>
