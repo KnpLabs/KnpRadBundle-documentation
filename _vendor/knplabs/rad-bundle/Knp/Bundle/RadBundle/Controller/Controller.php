@@ -158,4 +158,88 @@ class Controller extends BaseController
 
         return $response;
     }
+
+    /**
+     * Finds the entity matching the specified id or throws a NotFoundHttpException
+     *
+     * @param  string $class       The entity class name
+     * @param  mixed  $id          The entity identifier
+     * @param  string $managerName The entity manager to use
+     *
+     * @return object The found entity
+     *
+     * @throws NotFoundHttpException if the entity was not found
+     */
+    public function findEntityOr404($class, $id, $managerName = null)
+    {
+        $entity = $this->getEntityRepository($class, $managerName)->find($id);
+
+        if (null === $entity) {
+            throw $this->createNotFoundException(sprintf(
+                'The %s entity with id "%s" was not found.',
+                $class,
+                is_array($id) ? implode(' ', $id) : $id
+            ));
+        }
+
+        return $entity;
+    }
+
+    /**
+     * Finds the document matching the specified id or throws a NotFoundHttpException
+     *
+     * @param  string $class       The document class name
+     * @param  string $id          The document class name
+     * @param  string $managerName The document manager to use
+     *
+     * @return object The found document
+     *
+     * @throws NotFoundHttpException if the document was not found
+     */
+    public function findDocumentOr404($class, $id, $managerName = null)
+    {
+        $document = $this->getDocumentRepository($class, $managerName)->find($id);
+
+        if (null === $document) {
+            throw $this->createNotFoundException(sprintf(
+                'The %s document with id "%s" was not found.',
+                $class,
+                $id
+            ));
+        }
+
+        return $document;
+    }
+
+    /**
+     * Adds some dynamic shortcuts
+     *
+     * @method find{EntityName}EntityOr404($entityId, $managerName = null)
+     */
+    public function __call($method, array $arguments)
+    {
+        if (preg_match('/^find(\w+)(Entity|Document)Or404$/', $method, $matches)) {
+            if (0 === count($arguments)) {
+                throw new \BadMethodCallException(
+                    'You must pass an id as first argument.'
+                );
+            }
+
+            $name    = sprintf('App:%s', $matches[1]);
+            $id      = $arguments[0];
+            $manager = isset($arguments[1]) ? $arguments[1] : null;
+
+            switch ($matches[2]) {
+                case 'Entity':
+                    return $this->findEntityOr404($name, $id, $manager);
+                case 'Document':
+                    return $this->findDocumentOr404($name, $id, $manager);
+            }
+        }
+
+        throw new \BadMethodCallException(sprintf(
+            'The method %s does not exist.',
+            $method
+        ));
+    }
 }
