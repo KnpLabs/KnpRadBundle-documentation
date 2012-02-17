@@ -368,6 +368,10 @@ class Controller extends BaseController
      *
      * @method find{Class}Document($id, $managerName = null)
      * @method find{Class}DocumentOr404($id, $managerName = null)
+     *
+     * @method get{Class}EntityRepository($managerName = null)
+     *
+     * @method get{Class}DocumentRepository($managerName = null)
      */
     public function __call($method, array $arguments)
     {
@@ -394,6 +398,12 @@ class Controller extends BaseController
             }
 
             return $this->$finder($class, $value, $manager);
+        } elseif (preg_match('/^get(\w+)(Entity|Document)Repository$/', $method, $matches)) {
+            $class   = sprintf('App:%s', $matches[1]);
+            $manager = empty($arguments[1]) ? null : $arguments[1];
+            $getter  = sprintf('get%sRepository', $matches[2]);
+
+            return $this->$getter($class, $manager);
         }
 
         throw new \BadMethodCallException(sprintf(

@@ -69,6 +69,34 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($burgerRecipe, $controller->findBurgerRecipeDocumentOr404('mongoid123'));
     }
 
+    public function testGetEntityRepositoryCalls()
+    {
+        $repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')->disableOriginalConstructor()->getMock();
+        $controller = $this->getControllerMock(array('getEntityRepository'));
+        $controller
+            ->expects($this->once())
+            ->method('getEntityRepository')
+            ->with($this->equalTo('App:BurgerRecipe'))
+            ->will($this->returnValue($repository))
+        ;
+
+        $this->assertEquals($repository, $controller->getBurgerRecipeEntityRepository());
+    }
+
+    public function getDocumentRepositoryCalls()
+    {
+        $repository = $this->getMockBuilder('Doctrine\ODM\MongoDB\DocumentRepository')->disableOriginalConstructor()->getMock();
+        $controller = $this->getControllerMock(array('getDocumentRepository'));
+        $controller
+            ->expects($this->once())
+            ->method('getDocumentRepository')
+            ->with($this->equalTo('App:BurgerRecipe'))
+            ->will($this->returnValue($repository))
+        ;
+
+        $this->assertEquals($repository, $controller->getBurgerRecipeDocumentRepository());
+    }
+
     private function getControllerMock($methods = array())
     {
         return $this->getMock('Knp\Bundle\RadBundle\Controller\Controller', $methods);
