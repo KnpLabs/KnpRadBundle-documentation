@@ -90,6 +90,26 @@ class Controller extends BaseController
     }
 
     /**
+     * Ensures the user is granted or throws an AccessDeniedException
+     *
+     * @exemple
+     *
+     *      $this->isGrantedOr403('EDIT', $article);
+     *
+     * @param  array  $attributes
+     * @param  mixed  $object
+     * @param  string $message
+     *
+     * @throws AccessDeniedException
+     */
+    public function isGrantedOr403($attributes, $object = null, $message = 'Access Denied')
+    {
+        if (!$this->isGranted($attributes, $object)) {
+            throw $this->createAccessDeniedException($message);
+        }
+    }
+
+    /**
      * Shortcut to return Doctrine EntityManager service.
      *
      * @param string $name The entity manager name (null for the default one)
