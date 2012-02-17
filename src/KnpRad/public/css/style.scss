@@ -69,7 +69,7 @@ body {
           overflow:hidden;
 
           opacity:0.2;
-          background:url(/bundles/app/img/overview.png) no-repeat;
+          background:url(../bundles/app/img/overview.png) no-repeat;
 
           &:hover { opacity:0.6; }
 
@@ -118,10 +118,10 @@ body {
         }
 
         li.dir {
-          background:url(/bundles/app/img/dir.png) no-repeat left 0px;
+          background:url(../bundles/app/img/dir.png) no-repeat left 0px;
         }
         li.file {
-          background:url(/bundles/app/img/file.png) no-repeat left 0px;
+          background:url(../bundles/app/img/file.png) no-repeat left 0px;
         }
       }
     }
@@ -131,7 +131,7 @@ body {
     margin-top:50px;
 
     > section {
-      background:url(/bundles/app/img/bg-page-static.jpg) no-repeat top right;
+      background:url(../bundles/app/img/bg-page-static.jpg) no-repeat top right;
 
       > header {
         margin-top:50px;

@@ -11,7 +11,7 @@
 
     <meta name="viewport" content="width=device-width">
     {% block stylesheets %}
-        {% stylesheets '|style' -%}
+        {% stylesheets '|style' filter="cssrewrite" -%}
             <link rel="stylesheet" href="{{ asset_url }}">
         {%- endstylesheets %}
     {% endblock %}
@@ -26,7 +26,7 @@
 
     <header>
         <a href="/" title="KnpRadBundle" id="radbundle-logo">
-            <img src="/bundles/app/img/logo.png" alt="KnpRadBundle" width="317" height="58">
+            <img src="{{ asset('bundles/app/img/logo.png') }}" alt="KnpRadBundle" width="317" height="58">
             <div class="baseline"><strong>Knp</strong>Labs flawored Symfony2 Edition</div>
         </a>
         {% block header %}{% endblock %}

@@ -63,7 +63,7 @@ class PipelineAssetFactory extends BaseFactory
                 $asset = new FileAsset(
                     $formula['root'].'/'.$formula['file'],
                     $filters,
-                    $options['root'],
+                    $options['root'][0],
                     $formula['file']
                 );
                 $asset->setTargetPath($formula['file']);
