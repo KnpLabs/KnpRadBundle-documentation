@@ -180,6 +180,34 @@ class Controller extends BaseController
     }
 
     /**
+     * Shortcut to find an entity by its identifier
+     *
+     * @param  string $class       The entity class name
+     * @param  mixed  $id          The entity identifier
+     * @param  string $managerName The document manager to use
+     *
+     * @return object or NULL if the entity was not found
+     */
+    public function findEntity($class, $id, $managerName = null)
+    {
+        return $this->getEntityRepository($class, $managerName)->find($id);
+    }
+
+    /**
+     * Shortcut to find an entity by criteria
+     *
+     * @param  string $class       The entity class name
+     * @param  array  $criteria    An array of criteria (field => value)
+     * @param  string $managerName The entity manager to use
+     *
+     * @return object or NULL if the entity was not found
+     */
+    public function findEntityBy($class, array $criteria, $managerName = null)
+    {
+        return $this->getEntityRepository($class, $managerName)->findOneBy($criteria);
+    }
+
+    /**
      * Finds the entity matching the specified id or throws a NotFoundHttpException
      *
      * @param  string $class       The entity class name
@@ -192,7 +220,7 @@ class Controller extends BaseController
      */
     public function findEntityOr404($class, $id, $managerName = null)
     {
-        $entity = $this->getEntityRepository($class, $managerName)->find($id);
+        $entity = $this->findEntity($class, $id, $managerName);
 
         if (null === $entity) {
             throw $this->createNotFoundException(sprintf(
@@ -203,6 +231,64 @@ class Controller extends BaseController
         }
 
         return $entity;
+    }
+
+    /**
+     * Finds the entity matching the specified criteria or throws a NotFoundHttpException
+     *
+     * @param  string $class       The entity class name
+     * @param  mixed  $id          The entity identifier
+     * @param  string $class       The entity class name
+     *
+     * @return object The found entity
+     *
+     * @throws NotFoundHttpException if the entity was not found
+     */
+    public function findEntityByOr404($class, array $criteria, $managerName = null)
+    {
+        $entity = $this->findEntityBy($class, $criteria, $managerName);
+
+        if (null === $entity) {
+            throw $this->createNotFoundException(sprintf(
+                'The %s entity with %s was not found.',
+                $class,
+                implode(' and ', array_map(
+                    function ($k, $v) { sprintf('%s "%s"', $k, $v); },
+                    array_flip($criteria),
+                    $criteria
+                ))
+            ));
+        }
+
+        return $entity;
+    }
+
+    /**
+     * Shortcut to find a document by its identifier
+     *
+     * @param  string $class       The document class name
+     * @param  string $id          The document class name
+     * @param  string $managerName The document manager to use
+     *
+     * @return object or NULL if the document was not found
+     */
+    public function findDocument($class, $id, $managerName = null)
+    {
+        return $this->getDocumentRepository($class, $managerName)->find($id);
+    }
+
+    /**
+     * Shortcut to find a document by criteria
+     *
+     * @param  string $class       The document class name
+     * @param  array  $criteria    An array of criteria (field => value)
+     * @param  string $managerName The document manager to use
+     *
+     * @return object or NULL if the document was not found
+     */
+    public function findDocumentBy($class, array $criteria, $managerName = null)
+    {
+        return $this->getDocumentRepository($class, $managerName)->findOneBy($criteria);
     }
 
     /**
@@ -218,7 +304,7 @@ class Controller extends BaseController
      */
     public function findDocumentOr404($class, $id, $managerName = null)
     {
-        $document = $this->getDocumentRepository($class, $managerName)->find($id);
+        $document = $this->findDocument($class, $id, $managerName);
 
         if (null === $document) {
             throw $this->createNotFoundException(sprintf(
@@ -232,29 +318,82 @@ class Controller extends BaseController
     }
 
     /**
+     * Finds the document matching the specified criteria or throws a NotFoundHttpException
+     *
+     * @param  string $class       The document class name
+     * @param  array  $criteria    An array of criteria (field => value)
+     * @param  string $managerName The document manager to use
+     *
+     * @return object The found document
+     *
+     * @throws NotFoundHttpException if the document was not found
+     */
+    public function findDocumentByOr404($class, array $criteria, $managerName = null)
+    {
+        $document = $this->getDocumentRepository($class, $managerName)->findOneBy($criteria);
+
+        if (null === $document) {
+            throw $this->createNotFoundException(sprintf(
+                'The %s document with %s was not found.',
+                $class,
+                implode(' and ', array_map(
+                    function ($k, $v) { sprintf('%s "%s"', $k, $v); },
+                    array_flip($criteria),
+                    $criteria
+                ))
+            ));
+        }
+
+        return $document;
+    }
+
+    /**
      * Adds some dynamic shortcuts
      *
-     * @method find{EntityName}EntityOr404($entityId, $managerName = null)
+     * @exemple
+     *
+     *  // find a post by id
+     *  $entity = $this->findPostEntity(123);
+     *  $document = $this->findPostDocument('theMongoId');
+     *
+     *  // find a post by slug
+     *  $entity = $this->findPostEntityBySlug('the-slug');
+     *  $document = $this->findPostDocumentBySlug('the-slug');
+     *
+     * @method find{Class}Entity($id, $managerName = null)
+     * @method find{Class}EntityOr404($id, $managerName = null)
+     *
+     * @method find{Class}EntityBy{Property}($value, $managerName = null)
+     * @method find{Class}EntityBy{Property}Or404($value, $managerName = null)
+     *
+     * @method find{Class}Document($id, $managerName = null)
+     * @method find{Class}DocumentOr404($id, $managerName = null)
      */
     public function __call($method, array $arguments)
     {
-        if (preg_match('/^find(\w+)(Entity|Document)Or404$/', $method, $matches)) {
+        if (preg_match('/^find(\w+)(Entity|Document)(By(\w+?))?(Or404)?$/', $method, $matches)) {
             if (0 === count($arguments)) {
                 throw new \BadMethodCallException(
                     'You must pass an id as first argument.'
                 );
             }
 
-            $name    = sprintf('App:%s', $matches[1]);
-            $id      = $arguments[0];
-            $manager = isset($arguments[1]) ? $arguments[1] : null;
+            $class   = sprintf('App:%s', $matches[1]);
+            $manager = empty($arguments[1]) ? null : $arguments[1];
+            $finder  = sprintf(
+                'find%s%s%s',
+                $matches[2],
+                empty($matches[3]) ? '' : 'By',
+                empty($matches[5]) ? '' : 'Or404'
+            );
 
-            switch ($matches[2]) {
-                case 'Entity':
-                    return $this->findEntityOr404($name, $id, $manager);
-                case 'Document':
-                    return $this->findDocumentOr404($name, $id, $manager);
+            if (empty($matches[4])) {
+                $value = $arguments[0];
+            } else {
+                $value = array(lcfirst($matches[4]) => $arguments[0]);
             }
+
+            return $this->$finder($class, $value, $manager);
         }
 
         throw new \BadMethodCallException(sprintf(

@@ -4,90 +4,30 @@ namespace Knp\Bundle\RadBundle\Tests\Controller;
 
 class ControllerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFindEntityOr404()
+    public function testFindEntityCalls()
     {
-        $repository = $this->getEntityRepositoryMock();
-        $repository
-            ->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo(123))
-            ->will($this->returnValue($entity = new \stdClass))
-        ;
-        $controller = $this->getControllerMock(array('getEntityRepository'));
+        $controller = $this->getControllerMock(array('findEntity'));
         $controller
-            ->expects($this->any())
-            ->method('getEntityRepository')
-            ->with($this->equalTo('Knp\Blog\Post'))
-            ->will($this->returnValue($repository))
+            ->expects($this->once())
+            ->method('findEntity')
+            ->with($this->equalTo('App:BurgerRecipe'), $this->equalTo(123))
+            ->will($this->returnValue($burgerRecipe = new \stdClass))
         ;
 
-        $this->assertEquals($entity, $controller->findEntityOr404('Knp\Blog\Post', 123));
+        $this->assertEquals($burgerRecipe, $controller->findBurgerRecipeEntity(123));
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    public function testFindEntityOr404WhenTheEntityIsNotFound()
+    public function testFindEntityByCalls()
     {
-        $repository = $this->getEntityRepositoryMock();
-        $repository
-            ->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo(123))
-            ->will($this->returnValue(null))
-        ;
-        $controller = $this->getControllerMock(array('getEntityRepository'));
+        $controller = $this->getControllerMock(array('findEntityBy'));
         $controller
-            ->expects($this->any())
-            ->method('getEntityRepository')
-            ->with($this->equalTo('Knp\Blog\Post'))
-            ->will($this->returnValue($repository))
-        ;
-
-        $controller->findEntityOr404('Knp\Blog\Post', 123);
-    }
-
-    public function testFindDocumentOr404()
-    {
-        $repository = $this->getDocumentRepositoryMock();
-        $repository
             ->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo('mongoid123'))
-            ->will($this->returnValue($document = new \stdClass))
-        ;
-        $controller = $this->getControllerMock(array('getDocumentRepository'));
-        $controller
-            ->expects($this->any())
-            ->method('getDocumentRepository')
-            ->with($this->equalTo('Knp\Blog\Post'))
-            ->will($this->returnValue($repository))
+            ->method('findEntityBy')
+            ->with($this->equalTo('App:BurgerRecipe'), $this->equalTo(array('slug' => 'some-slug')))
+            ->will($this->returnValue($burgerRecipe = new \stdClass))
         ;
 
-        $this->assertEquals($document, $controller->findDocumentOr404('Knp\Blog\Post', 'mongoid123'));
-    }
-
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    public function testFindDocumentOr404WhenTheEntityIsNotFound()
-    {
-        $repository = $this->getDocumentRepositoryMock();
-        $repository
-            ->expects($this->once())
-            ->method('find')
-            ->with($this->equalTo('mongoid123'))
-            ->will($this->returnValue(null))
-        ;
-        $controller = $this->getControllerMock(array('getDocumentRepository'));
-        $controller
-            ->expects($this->any())
-            ->method('getDocumentRepository')
-            ->with($this->equalTo('Knp\Blog\Post'))
-            ->will($this->returnValue($repository))
-        ;
-
-        $controller->findDocumentOr404('Knp\Blog\Post', 'mongoid123');
+        $this->assertEquals($burgerRecipe, $controller->findBurgerRecipeEntityBySlug('some-slug'));
     }
 
     public function testFindEntityOr404Calls()
@@ -101,6 +41,19 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertEquals($burgerRecipe, $controller->findBurgerRecipeEntityOr404(123));
+    }
+
+    public function testFindEntityByOr404Calls()
+    {
+        $controller = $this->getControllerMock(array('findEntityByOr404'));
+        $controller
+            ->expects($this->once())
+            ->method('findEntityByOr404')
+            ->with($this->equalTo('App:BurgerRecipe'), $this->equalTo(array('slug' => 'some-slug')))
+            ->will($this->returnValue($burgerRecipe = new \stdClass))
+        ;
+
+        $this->assertEquals($burgerRecipe, $controller->findBurgerRecipeEntityBySlugOr404('some-slug'));
     }
 
     public function testFindDocumentOr404Calls()
@@ -119,23 +72,5 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     private function getControllerMock($methods = array())
     {
         return $this->getMock('Knp\Bundle\RadBundle\Controller\Controller', $methods);
-    }
-
-    private function getEntityRepositoryMock()
-    {
-        return $this
-            ->getMockBuilder('Doctrine\ORM\EntityRepository')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-    }
-
-    private function getDocumentRepositoryMock()
-    {
-        return $this
-            ->getMockBuilder('Doctrine\ORM\EntityRepository')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
     }
 }
