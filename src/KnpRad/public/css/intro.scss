@@ -1,0 +1,29 @@
+section#intro {
+  width:100%;
+  height:700px;
+  background:#faf7e9 url(../bundles/app/img/intro2overview.png) repeat-x bottom left;
+
+  .logo {
+    width:320px;
+    height:80px;
+
+    margin:0px auto;
+    margin-top:300px;
+
+    a {
+      text-decoration:none;
+    }
+
+    p {
+      font-style:italic;
+      margin-left:45px;
+      margin-top:-2px;
+      color:#625d50;
+
+      a {
+        color:#625d50;
+        text-decoration:underline;
+      }
+    }
+  }
+}

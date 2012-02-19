@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{% block title %}{% endblock %} &mdash; KnpRadBundle</title>
+    <title>KnpRadBundle</title>
     <meta name="description" content="">
 
     <meta name="viewport" content="width=device-width">
@@ -22,27 +22,8 @@
 </head>
 <body>
       <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-{% block container %}
 
-    <header>
-        <a href="/" title="KnpRadBundle" id="radbundle-logo">
-            <img src="{{ asset('bundles/app/img/logo.png') }}" alt="KnpRadBundle" width="317" height="58">
-            <div class="baseline"><strong>Knp</strong>Labs flawored Symfony2 Edition</div>
-        </a>
-        {% block header %}{% endblock %}
-    </header>
-
-    {% block free %}{% endblock %}
-
-    <div role="main">
-        {% block main %}{% endblock %}
-    </div>
-
-    <footer>
-        {% block footer %}{% endblock %}
-    </footer>
-
-{% endblock container %}
+{% block content %}{% endblock %}
 
 {% block javascripts %}
     {% javascripts '|script' -%}
