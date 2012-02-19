@@ -4,81 +4,87 @@
   background-position:0-$x 0-$y;
 }
 
-#overview {
-  width:910px;
-  margin:60px auto;
+.fs-container {
+  margin:0px auto;
 
-  .overview-container {
-    margin:0px auto;
+  ul {
+    list-style:none;
+    padding:0px;
+    margin:0px;
+    color:#000;
+
+    &.fs-tree {
+      position:relative;
+    }
+
+    li {
+      padding-left:22px;
+      margin-bottom:3px !important;
+      font-size:13px !important;
+    }
 
     ul {
-      &.fs-tree {
-        margin-left:350px;
-        position:relative;
-      }
+      padding-top:4px;
+    }
 
-      .overview {
-        display:block;
-        position:absolute;
+    li.dir {
+      background:url(../bundles/app/img/dir.png) no-repeat left 0px;
+    }
+    li.file {
+      background:url(../bundles/app/img/file.png) no-repeat left 0px;
+    }
+  }
+}
 
-        text-indent:-9999px;
-        overflow:hidden;
+#overview {
+  width:910px;
+  padding-top:60px;
+  padding-bottom:60px;
+  margin:0px auto;
 
-        opacity:0.2;
-        background:url(../bundles/app/img/overview.png) no-repeat;
+  .fs-tree {
+    margin-left:350px;
+  }
 
-        &:hover { opacity:0.6; }
+  .overview {
+    display:block;
+    position:absolute;
 
-        &.config {
-          @include sprite(165px, 18px, 156px, 130px); left:-158px; top:-5px;
-        }
-        &.kernel {
-          @include sprite(440px, 10px, 280px, 54px); left:115px; top:-10px;
-        }
-        &.bundles {
-          @include sprite(480px, 84px, 245px, 120px); left:155px; top:68px;
-        }
-        &.app-bundle {
-          @include sprite(65px, 715px, 364px, 170px); left:-260px; top:145px;
-          z-index:3;
-        }
-        &.resources {
-          @include sprite(108px, 274px, 266px, 244px); left:-220px; top:255px;
-          z-index:2; }
-        &.pipeline {
-          @include sprite(456px, 302px, 328px, 95px); left:125px; top:290px;
-        }
-        &.app-configs {
-          @include sprite(502px, 437px, 380px, 65px); left:175px; top:418px;
-        }
-        &.views {
-          @include sprite(530px, 534px, 310px, 116px); left:205px; top:515px;
-        }
-        &.structure {
-          @include sprite(140px, 590px, 184px, 74px); left:-185px; top:572px;
-        }
-      }
+    text-indent:-9999px;
+    overflow:hidden;
 
-      list-style:none;
-      padding:0px;
-      margin:0px;
-      color:#000;
+    opacity:0.2;
+    background:url(../bundles/app/img/overview.png) no-repeat;
 
-      li {
-        padding-left:22px;
-        margin-bottom:3px;
-      }
+    &:hover { opacity:0.6; }
 
-      ul {
-        padding-top:4px;
-      }
-
-      li.dir {
-        background:url(../bundles/app/img/dir.png) no-repeat left 0px;
-      }
-      li.file {
-        background:url(../bundles/app/img/file.png) no-repeat left 0px;
-      }
+    &.config {
+      @include sprite(165px, 18px, 156px, 130px); left:-158px; top:-5px;
+    }
+    &.kernel {
+      @include sprite(440px, 10px, 280px, 54px); left:115px; top:-10px;
+    }
+    &.bundles {
+      @include sprite(480px, 84px, 245px, 120px); left:155px; top:68px;
+    }
+    &.app-bundle {
+      @include sprite(65px, 715px, 364px, 170px); left:-260px; top:145px;
+      z-index:3;
+    }
+    &.resources {
+      @include sprite(108px, 274px, 266px, 244px); left:-220px; top:255px;
+      z-index:2; }
+    &.pipeline {
+      @include sprite(456px, 302px, 328px, 95px); left:125px; top:290px;
+    }
+    &.app-configs {
+      @include sprite(502px, 437px, 380px, 65px); left:175px; top:418px;
+    }
+    &.views {
+      @include sprite(530px, 534px, 310px, 116px); left:205px; top:515px;
+    }
+    &.structure {
+      @include sprite(140px, 590px, 184px, 74px); left:-185px; top:572px;
     }
   }
 }

@@ -3,5 +3,5 @@
 #= require plugins
 
 $ ->
-  hljs.initHighlightingOnLoad
+  hljs.initHighlightingOnLoad()
 

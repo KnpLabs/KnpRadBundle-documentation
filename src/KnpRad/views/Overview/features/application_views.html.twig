@@ -1,25 +1,23 @@
 <section class="feature">
     <h3 id="views">Views mapped to controller actions</h3>
 
-    <div style="width:60%;float:left">
-        <p>
-            In application bundle, your views get mapped one-to-one to specific controller actions.
-            It means, that you don't need to write:
-        </p>
-        <pre><code>return $this->render('App:Overview:index.html.twig', array('name' => $name));</code></pre>
-        <p>
-            anymore. Just returning context array <code>return array('name' => $name);</code> is
-            enough for RadKernel to understand what view you're refering to. It's like famous
-            ExtraBundle, but without annotations :-)
-        </p>
-        <p>
-            In order to help you feel connection between view and action even more, we've
-            made <code>Action</code> suffix of actions optionable. As a matter of fact,
-            <code>rad:generate:controller</code> command will generate actions without suffix for you.
-        </p>
-    </div>
+    <p>
+        In application bundle, your views get mapped one-to-one to specific controller actions.
+        It means, that you don't need to write:
+    </p>
+    <pre><code>return $this-&gt;render('App:Overview:index.html.twig', array('name' =&gt; $name));</code></pre>
+    <p>
+        anymore. Just returning context array <code>return array('name' =&gt; $name);</code> is
+        enough for RadKernel to understand what view you're refering to. It's like famous
+        ExtraBundle, but without annotations :-)
+    </p>
+    <p>
+        In order to help you feel connection between view and action even more, we've
+        made <code>Action</code> suffix of actions optionable. As a matter of fact,
+        <code>rad:generate:controller</code> command will generate actions without suffix for you.
+    </p>
 
-    <pre style="width:35%;float:right"><code>/**
+    <pre class="code_block"><code>/**
  * hello action of Default controller.
  *
  * renders App:Default:hello.html.twig
@@ -29,4 +27,4 @@ public function hello($name)
     return array('name' => $name);
 }</code></pre>
 
-    <div style="clear:both"></div>
+</section>

@@ -1,7 +1,7 @@
 <section class="feature">
     <h3 id="app-bundle">Application (project) bundle</h3>
 
-    <pre style="float:left;width:35%"><code>src/KnpRad
+    <pre><code>src/KnpRad
 ├── Controller
 │   └── MainController.php
 ├── Tests
@@ -19,45 +19,41 @@
     │   └── index.html.twig
     └── base.html.twig</code></pre>
 
-    <div style="float:right;width:60%">
-        <p>
-            RAD organizes and treats application differently compared to 3-rd party
-            bundles.
-        </p>
-        <ol>
-            <li><code>Controller</code> holds all your controllers. All of them are available through the <code>App:CONTROLLER:ACTION</code> syntax.</li>
-            <li><code>Tests</code> holds all your tests. The inner folder hierarchy should follow your project's one.</li>
-            <li><code>translations</code> holds all your translations</li>
-            <li><code>public</code> holds all your public *.css, *.js and *.png files. This folder will be copied (symlinked) by <code>assets:install</code> (without arguments) command.</p>
-            </li>
-            <li><code>views</code> holds your application views. All of them are available through the <code>App:SUBFOLDER:NAME.html.twig</code> syntax.</li>
-        </ol>
+    <p>
+        RAD organizes and treats application differently compared to 3-rd party
+        bundles.
+    </p>
+    <ol>
+        <li><code>Controller</code> holds all your controllers. All of them are available through the <code>App:CONTROLLER:ACTION</code> syntax.</li>
+        <li><code>Tests</code> holds all your tests. The inner folder hierarchy should follow your project's one.</li>
+        <li><code>translations</code> holds all your translations</li>
+        <li><code>public</code> holds all your public *.css, *.js and *.png files. This folder will be copied (symlinked) by <code>assets:install</code> (without arguments) command.</p>
+        </li>
+        <li><code>views</code> holds your application views. All of them are available through the <code>App:SUBFOLDER:NAME.html.twig</code> syntax.</li>
+    </ol>
 
-        <hr />
+    <hr />
 
-        <h4><strong>Why</strong> not using default bundle structure ? - one may say.</h4>
-        <p>
-            That's mainly because <strong>you ain't gonna need it</strong>.
-        </p>
-        <p>
-            Bundles were invented for resusability, and to package a single feature.
-        </p>
-        <p>
-            But experience proves that most of the time you don't reuse application specific code
-            and that you end up with a shitload of coupled, badly named bundles.
-        </p>
-        <p>
-            As a result, you gain in complexity, not in reusability.
-        </p>
-        <p>
-            So, to answer the initial question, the main reason of using this kind of structure is to focus on <strong>project</strong>,
-            and not on artificial bundled project structure.
-        </p>
-        <p>
-            Additionaly, unlike usual third party bundles, your assets and views are as important as any other part of your code.
-            That's why the structure tries to flatten the distance between your code and these resources, by getting rid of a <i>3 depth</i> folder hierarchy.
-        </p>
-    </div>
-
-    <div style="clear:both"></div>
+    <h4><strong>Why</strong> not using default bundle structure ? - one may say.</h4>
+    <p>
+        That's mainly because <strong>you ain't gonna need it</strong>.
+    </p>
+    <p>
+        Bundles were invented for resusability, and to package a single feature.
+    </p>
+    <p>
+        But experience proves that most of the time you don't reuse application specific code
+        and that you end up with a shitload of coupled, badly named bundles.
+    </p>
+    <p>
+        As a result, you gain in complexity, not in reusability.
+    </p>
+    <p>
+        So, to answer the initial question, the main reason of using this kind of structure is to focus on <strong>project</strong>,
+        and not on artificial bundled project structure.
+    </p>
+    <p>
+        Additionaly, unlike usual third party bundles, your assets and views are as important as any other part of your code.
+        That's why the structure tries to flatten the distance between your code and these resources, by getting rid of a <i>3 depth</i> folder hierarchy.
+    </p>
 </section>
