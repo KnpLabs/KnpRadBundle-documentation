@@ -1,30 +1,35 @@
 <section class="feature">
     <h3 id="app-configs">Application configuration</h3>
 
-<pre style="float:right; width:30%"><code>├── config
-│   ├── routing.yml
-│   │── services.yml</code></pre>
-
-    <div style="float:left; width:60%">
-        <p>
-            <strong>config</strong> holds all your application configurations, including routing and DIC. And those
-            configurations will be autoloaded.
-        </p>
-        <p>
-            Yup, no need to include `routing.yml` in your project
-            <strong>config/routing/routing.yml</strong> or to create extension class just to load <strong>services.yml</strong>.
-        </p>
-            <p>
-                The only requirement - they should be named <em>routing.yml</em> OR <em>services.yml</em>.
-            </p>
-        <ul>
-            <li><strong>config/routing.yml</strong> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
-            <li><strong>config/services.yml</strong> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
+    <div class="fs-container float-left">
+        <ul class="fs-tree">
+            <li class="dir">
+                src/KnpRad/config
+                <ul>
+                    <li class="file yml">routing.yml</li>
+                    <li class="file yml">services.yml</li>
+                </ul>
+            </li>
         </ul>
-        <p>
-            That's all!
-        </p>
     </div>
 
-    <div style="clear:both"></div>
+    <p>
+        Application <code>config</code> folder holds all your application configurations,
+        including routing and DIC. And those configurations will be autoloaded.
+    </p>
+
+    <div class="clear"></div>
+
+    <p>
+        Yup, no need to include <code>routing.yml</code> in your project
+        <code>config/routing/all.yml</code> or create extension class just to load
+        <code>services.yml</code> - this will be done for you, automatically, whenever you
+        create files with <code>services.yml</code> or <code>routing.yml</code> names inside
+        application <code>config</code> folder.
+    </p>
+
+    <ul>
+        <li><code>config/routing.yml</code> - defines bundle routes. Will be autoloaded by <em>RadKernel</em> for you.</li>
+        <li><code>config/services.yml</code> - defines bundle services. Will be autoloaded by <em>RadKernel</em> for you.</li>
+    </ul>
 </section>

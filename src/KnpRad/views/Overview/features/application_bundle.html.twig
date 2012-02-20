@@ -1,28 +1,66 @@
 <section class="feature">
     <h3 id="app-bundle">Application (project) bundle</h3>
 
-    <pre><code>src/KnpRad
-├── Controller
-│   └── MainController.php
-├── Tests
-│   └── Controller
-│       └── MainControllerTest.php
-├── config
-│   ├── routing.yml
-│   │── services.yml
-├── translations
-│   └── messages.ru.yml
-├── public
-│   └── js/jquery.js
-└── views
-    ├── Main
-    │   └── index.html.twig
-    └── base.html.twig</code></pre>
+    <div class="fs-container float-left">
+        <ul class="fs-tree">
+            <li class="dir">
+                src/KnpRad
+                <ul>
+                    <li class="dir">
+                        Controller
+                        <ul>
+                            <li class="file php">MainController.php</li>
+                        </ul>
+                    </li>
+                    <li class="dir">
+                        Tests
+                        <ul>
+                            <li class="file php">SomeModelTest.php</li>
+                        </ul>
+                    </li>
+                    <li class="dir">
+                        config
+                        <ul>
+                            <li class="file yml">routing.yml</li>
+                            <li class="file yml">services.yml</li>
+                        </ul>
+                    </li>
+                    <li class="dir">
+                        translations
+                        <ul>
+                            <li class="file yml">messages.fr.yml</li>
+                        </ul>
+                    </li>
+                    <li class="dir">
+                        public
+                        <ul>
+                            <li class="file js">js/jquery.js</li>
+                            <li class="file css">css/style.scss</li>
+                        </ul>
+                    </li>
+                    <li class="dir">
+                        views
+                        <ul>
+                            <li class="dir">
+                                Main
+                                <ul>
+                                    <li class="file twig">index.html.twig</li>
+                                </ul>
+                            </li>
+                            <li class="file twig">layout.html.twig</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
+    <div style="float:right;width:58%;">
     <p>
         RAD organizes and treats application differently compared to 3-rd party
         bundles.
     </p>
+
     <ol>
         <li><code>Controller</code> holds all your controllers. All of them are available through the <code>App:CONTROLLER:ACTION</code> syntax.</li>
         <li><code>Tests</code> holds all your tests. The inner folder hierarchy should follow your project's one.</li>
@@ -31,27 +69,34 @@
         </li>
         <li><code>views</code> holds your application views. All of them are available through the <code>App:SUBFOLDER:NAME.html.twig</code> syntax.</li>
     </ol>
+    </div>
 
-    <hr />
+    <div class="clear"></div>
 
-    <h4><strong>Why</strong> not using default bundle structure ? - one may say.</h4>
+    <h4>Why not default bundle structure?</h4>
+
     <p>
         That's mainly because <strong>you ain't gonna need it</strong>.
     </p>
+
     <p>
         Bundles were invented for resusability, and to package a single feature.
     </p>
+
     <p>
         But experience proves that most of the time you don't reuse application specific code
         and that you end up with a shitload of coupled, badly named bundles.
     </p>
+
     <p>
         As a result, you gain in complexity, not in reusability.
     </p>
+
     <p>
         So, to answer the initial question, the main reason of using this kind of structure is to focus on <strong>project</strong>,
         and not on artificial bundled project structure.
     </p>
+
     <p>
         Additionaly, unlike usual third party bundles, your assets and views are as important as any other part of your code.
         That's why the structure tries to flatten the distance between your code and these resources, by getting rid of a <i>3 depth</i> folder hierarchy.

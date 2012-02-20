@@ -1,52 +1,14 @@
 <section class="feature">
-    <h3 id="kernel">Kernel config file</h3>
+    <h3 id="kernel">Kernel configuration file</h3>
 
-    <div style="width:45%;float:right">
-        <p>
-            <code>config/kernel.yml</code> is the main configuration file fo your application.
-            It defines all the bundles, that your project requires, environment-depending
-            parameters and project namespace.
-        </p>
-        <p>
-            As <a href="#bundles">bundles configurations</a>, this config is splitted by
-            environments and has 3 main configuration options:
-        </p>
-        <ol>
-            <li>
-                <code>project</code> defines your porject name (namespace). This could be
-                either simple project name (<code>KnpRad</code>) or fully qualified namespace
-                (<code>Knp\Rad</code>). This option tells RadKernel where to find your
-                <a href="#app-bundle">application bundle</a>. In case of <code>KnpRad</code>,
-                your application code should live inside <code>src/KnpRad</code> folder and
-                have <code>KnpRad\</code> namespace. In case of <code>Knp\Rad</code> folder
-                would be <code>src/Knp/Rad</code> and namespace would be <code>Knp\Rad\</code>.
-            </li>
-            <li>
-                <code>parameters</code> defines environment-sensible project parameters, like
-                database connection or mailer configuration. It's like a good old <code>parameters.ini</code>.
-            </li>
-            <li>
-                <code>bundles</code> defines what bundle classes RadKernel should activate
-                for each environment. Every environment could have own set of bundles, but
-                all environment will have same set of bundles, defined in <code>all</code>
-                environment section.
-            </li>
-        </ol>
-        <p>
-            After loading <code>config/kernel.yml</code>, RadKernel will look for <code>config/kernel.custom.yml</code>
-            file, which should be ignored in your VCS and could redefine any parameter of initial
-            <code>config/kernel.yml</code>:
-            <pre><code># config/kernel.custom.yml
-all:
-    parameters:
-        locale: ru</code></pre>
-        </p>
-    </div>
+    <p>
+        <code>config/kernel.yml</code> is the main configuration file for your application.
+        It defines all the bundles, that your project requires, environment-depending
+        parameters and project namespace.
+    </p>
 
-    <pre style="width:50%;float:left"><code># config/kernel.yml
-
+    <pre><code># config/kernel.yml
 project: KnpRad
-
 all:
     bundles:
         - Symfony\Bundle\FrameworkBundle\FrameworkBundle
@@ -62,14 +24,48 @@ all:
         locale:  en
         secret:  ThisTokenIsNotSoSecretChangeIt
         ...
-
 dev:
     bundles:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle
-
 test:
     bundles:
         - Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</code></pre>
 
-    <div style="clear:both"></div>
+    <p>
+        As <a href="#config">any other config in RAD edition</a>, this config is splitted by
+        environments and has 3 main configuration options:
+    </p>
+
+    <ol>
+        <li>
+            <code>project</code> defines your porject name (namespace). This could be
+            either simple project name (<code>KnpRad</code>) or fully qualified namespace
+            (<code>Knp\Rad</code>). This option tells RadKernel where to find your
+            <a href="#app-bundle">application bundle</a>. In case of <code>KnpRad</code>,
+            your application code should live inside <code>src/KnpRad</code> folder and
+            have <code>KnpRad\</code> namespace. In case of <code>Knp\Rad</code> folder
+            would be <code>src/Knp/Rad</code> and namespace would be <code>Knp\Rad\</code>.
+        </li>
+        <li>
+            <code>parameters</code> defines environment-sensible project parameters, like
+            database connection or mailer configuration. It's like a good old <code>parameters.ini</code>.
+        </li>
+        <li>
+            <code>bundles</code> defines what bundle classes RadKernel should activate
+            for each environment. Every environment could have own set of bundles, but
+            all environment will have same set of bundles, defined in <code>all</code>
+            environment section.
+        </li>
+    </ol>
+    <p>
+        After loading <code>config/kernel.yml</code>, RadKernel will look for <code>config/kernel.custom.yml</code>
+        file, which should be ignored in your VCS and could redefine any parameter of initial
+        <code>config/kernel.yml</code>:
+        <pre><code># config/kernel.custom.yml
+all:
+    parameters:
+        locale: ru</code></pre>
+    </p>
+
+
 </section>

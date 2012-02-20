@@ -35,6 +35,15 @@
       font-family:'MetaMediumRegular',sans-serif;
     }
 
+    h4 {
+      padding-top:15px;
+      padding-bottom:20px;
+
+      color:#000;
+      font-size:20px;
+      font-family:'MetaMediumRegular',sans-serif;
+    }
+
     * {
       font-size:14px;
       line-height:20px;
@@ -47,7 +56,7 @@
     p, li {
       code {
         padding:1px;
-        background:#fff;
+        background:#f4f2e3;
         color:#625D50;
         border:0px;
       }
@@ -59,11 +68,15 @@
 
     pre {
       padding:0px;
-      border:0px;
+      background:#FDF6E3;
+      border-radius:0px;
+      -webkit-border-radius:0px;
+      -moz-border-radius:0px;
+      margin-bottom:20px;
 
       code {
-        background:#fff;
         padding:5px 10px !important;
+        border:0px;
       }
     }
 
@@ -76,12 +89,16 @@
       float:left;
       margin-right:15px;
       margin-bottom:15px;
+      padding-right:15px;
+      border-right:1px solid #ccc;
     }
 
     .float-right {
       float:right;
       margin-left:15px;
       margin-bottom:15px;
+      padding-left:15px;
+      border-left:1px solid #ccc;
     }
 
     .clear {

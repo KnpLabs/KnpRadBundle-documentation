@@ -5,11 +5,13 @@
         In application bundle, your views get mapped one-to-one to specific controller actions.
         It means, that you don't need to write:
     </p>
-    <pre><code>return $this-&gt;render('App:Overview:index.html.twig', array('name' =&gt; $name));</code></pre>
+    <pre><code>return $this-&gt;render('App:Overview:index.html.twig', array(
+    'name' =&gt; $name
+));</code></pre>
     <p>
         anymore. Just returning context array <code>return array('name' =&gt; $name);</code> is
         enough for RadKernel to understand what view you're refering to. It's like famous
-        ExtraBundle, but without annotations :-)
+        <code>SensioExtraBundle</code>, but without annotations :-)
     </p>
     <p>
         In order to help you feel connection between view and action even more, we've
@@ -24,7 +26,7 @@
  */
 public function hello($name)
 {
-    return array('name' => $name);
+    return array('name' =&gt; $name);
 }</code></pre>
 
 </section>
