@@ -57,35 +57,35 @@
 
     <div style="float:right;width:58%;">
     <p>
-        RAD organizes and treats application differently compared to 3-rd party
-        bundles.
+        Instead of having many bundles that house your application code,
+        RAD creates a single, "application" bundle for your code. This bundle
+        is special compared to 3rd party bundles.
     </p>
 
     <ol>
-        <li><code>Controller</code> holds all your controllers. All of them are available through the <code>App:CONTROLLER:ACTION</code> syntax.</li>
+        <li><code>Controller</code> holds all your controllers. Refer to them via the shorter <code>App:CONTROLLER:ACTION</code> syntax.</li>
         <li><code>Tests</code> holds all your tests. The inner folder hierarchy should follow your project's one.</li>
-        <li><code>translations</code> holds all your translations</li>
-        <li><code>public</code> holds all your public *.css, *.js and *.png files. This folder will be copied (symlinked) by <code>assets:install</code> (without arguments) command.</p>
-        </li>
+        <li><code>translations</code> holds your translations</li>
+        <li><code>public</code> holds all your public *.css, *.js and *.png files. This folder will be copied (symlinked) by the <code>assets:install</code> (without arguments) command.</li>
         <li><code>views</code> holds your application views. All of them are available through the <code>App:SUBFOLDER:NAME.html.twig</code> syntax.</li>
     </ol>
     </div>
 
     <div class="clear"></div>
 
-    <h4>Why not default bundle structure?</h4>
+    <h4>Why don't we use the default bundle structure?</h4>
 
     <p>
-        That's mainly because <strong>you ain't gonna need it</strong>.
+        Mainly because <strong>you ain't gonna need it</strong>!
     </p>
 
     <p>
-        Bundles were invented for resusability, and to package a single feature.
+        Bundles were invented for resusability and to package a single feature.
     </p>
 
     <p>
         But experience proves that most of the time you don't reuse application specific code
-        and that you end up with a shitload of coupled, badly named bundles.
+        and that you end up with a shitload of coupled, badly-named bundles.
     </p>
 
     <p>
@@ -93,7 +93,7 @@
     </p>
 
     <p>
-        So, to answer the initial question, the main reason of using this kind of structure is to focus on <strong>project</strong>,
+        So, the main reason for this kind of structure is to focus on <strong>your project</strong>,
         and not on artificial bundled project structure.
     </p>
 

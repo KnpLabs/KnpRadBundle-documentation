@@ -1,5 +1,5 @@
 <section class="feature">
-    <h3 id="config">All configs in one place</h3>
+    <h3 id="config">All your configuration in one place</h3>
 
     <div class="fs-container float-left">
         <ul class="fs-tree">
@@ -32,30 +32,36 @@
     </div>
 
     <p>
-        In <strong>RAD</strong> edition, there's no kernel class. All kernel or project
-        configuraion lives inside <code>config/kernel.yml</code> config file (read about it
-        <a href="#kernel">here</a>). Generally, it holds environment-dependant parameters,
-        project bundles list and project name.
+        In the <strong>RAD</strong> edition, there's no kernel class. Instead,
+        all your kernel or project configuraion lives inside the <code>config/kernel.yml</code>
+        file (read about it <a href="#kernel">here</a>). Generally, it holds
+        environment-dependant parameters, a list of your project's bundles,
+        and project name.
     </p>
 
     <p>
-        In addition to <a href="#kernel">kernel configuration</a>, every bundle have its
-        <a href="#bundles">own configuration file</a> too (<code>framework.yml</code> for
-        <code>FrameworkBundle</code> or even <code>fos_user.yml</code> for <code>FOSUserBundle</code>)
-        inside <code>config/bundles</code> folder.
+        Instead of a single <code>config.yml</code> file, every bundle has
+        its <a href="#bundles">own configuration file</a> (e.g. <code>framework.yml</code>
+        for the <code>FrameworkBundle</code> or even <code>fos_user.yml</code>
+        for <code>FOSUserBundle</code>). These all live inside the <code>config/bundles</code>
+        folder.
     </p>
 
     <p>
-        Last child of <code>config</code> folder is <code>routing</code> subdirectory.
-        It holds routing configuration for bundles and only for bundles. For application-wide
-        routing use project <code>routing.yml</code>, which will be <a href="app-configs">autoloaded
-        for you</a>.
+        Finally, the <code>routing</code> subdirectory works pretty much
+        like the normal <code>app/config/routing.yml</code> and <code>app/config/routing_dev.yml</code>
+        files in the Symfony2 Standard Edition. The <code>all.yml</code> file
+        is loaded in every environment and you'll use it to import routes
+        from any 3rd party bundles. But don't put <strong>your</strong> routes
+        here! Those should live inside your application bundle's <code>routing.yml</code>
+        file, which is nicely <a href="#app-configs">autoloaded for you</a>.
     </p>
 
     <div class="clear"></div>
 
     <p>
-        <a href="#kernel">Kernel</a> and <a href="#bundles">bundles</a> configuration files 
+        Customizing your app for each environment is now super easy! The
+        <a href="#kernel">kernel</a> and <a href="#bundles">bundle</a> configuration files
         consists of environment sections.
     </p>
 
@@ -66,17 +72,18 @@ prod: ~</code></pre>
 
     <p>
         The most
-        significant is <code>all</code> environment section - kernel loads it first of all
-        and its like a default to all environments.
+        significant is the <code>all</code> environment section. Any configuration
+        under this key is loaded first any every environment.
     </p>
     
     <p>
-        Other sections should be adjusted for your environmental differences: <code>dev</code>,
+        Other sections should be adjusted for your specific environments: <code>dev</code>,
         <code>test</code>, <code>prod</code>.
     </p>
     
     <p>
-        This concept is proven, eye friendly and does not force you to browse more files
-        in order to lookup the specific configuration values used.
+        This concept is proven, easy on the eyes, and does not force you
+        to browse more files in order to lookup the specific configuration
+        values used.
     </p>
 </section>
