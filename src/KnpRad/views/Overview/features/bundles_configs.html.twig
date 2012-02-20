@@ -1,5 +1,5 @@
 <section class="feature">
-    <h3 id="bundles">Bundles configuration files</h3>
+    <h3 id="bundles">Bundle configuration files</h3>
 
     <div class="fs-container float-left">
         <ul class="fs-tree">
@@ -22,26 +22,39 @@
     </div>
 
     <p>
-        The <code>config/bundles</code> directory primary consern is to configure
-        all bundles used by the project. You can check the configurations
-        which comes with <em>RAD</em> distribution, most of configs contains very
-        detailed comments which can guide you through your most bizzare cases.
+        The <code>config/bundles</code> directory is concerned with configuring
+        all bundles used by the project. You can check the configuration files
+        which come with the <em>RAD</em> distribution: most contain very
+        detailed comments which can guide you through your more bizzare cases.
     </p>
 
     <p>
-        Secondary, there is one significant configuration file - <code>app.yml</code>.
+        Secondly, there is one special configuration file - <code>app.yml</code>.
         This is your project based (<a href="#app-bundle">application bundle</a>) configuration.
+        Anything here becomes a paramter, prefixed with <code>app.</code>.
+        For example, the following code would result in a <code>app.foo</code>
+        parameter:
     </p>
 
+    <div class="clear"></div>
+
+<pre><code># config/bundles/app.yml
+all:
+    foo: bar</code></pre>
+
     <p>
-        <a href="#bundles">Bundles</a> configuration files consists of environment sections, same
-        as <a href="#kernel">kernel configuration</a>.
+        Every <a href="#bundles">bundle</a> configuration file consists of environment sections, the same
+        as the <a href="#kernel">kernel configuration</a>.
     </p>
     
     <p>
-        In addition to that, <strong>KnpRadBundle</strong> will generate configuration files
-        with sensible defaults for you after calling <code>bin/vendors</code> or
-        <code>bin/configs</code> commands. for most used bundles out of the box.
+        In addition to that, the <strong>KnpRadBundle</strong> will generate configuration files
+        with sensible defaults for you after calling the <code>bin/vendors</code> or
+        <code>bin/configs</code> commands. This works for the most-used
+        bundles out of the box. In other words, after installing a new bundle
+        and running <code>bin/vendors</code>, you'll automatically have a
+        new configuration file for that bundle. If it's a well-supported bundle,
+        you'll aready have some sensible default configuration. Woh!
     </p>
 
     <div style="clear:both"></div>

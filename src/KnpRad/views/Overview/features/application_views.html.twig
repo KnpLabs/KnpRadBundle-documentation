@@ -2,21 +2,21 @@
     <h3 id="views">Views mapped to controller actions</h3>
 
     <p>
-        In application bundle, your views get mapped one-to-one to specific controller actions.
+        In the application bundle, your views get mapped one-to-one to specific controller actions.
         It means, that you don't need to write:
     </p>
     <pre><code>return $this-&gt;render('App:Overview:index.html.twig', array(
     'name' =&gt; $name
 ));</code></pre>
     <p>
-        anymore. Just returning context array <code>return array('name' =&gt; $name);</code> is
-        enough for RadKernel to understand what view you're refering to. It's like famous
-        <code>SensioExtraBundle</code>, but without annotations :-)
+        anymore. Just returning the context array <code>return array('name' =&gt; $name);</code> is
+        enough for RadKernel to understand what view you're referring to. It's like the famous
+        <code>SensioFrameworkExtraBundle</code>, but without annotations :-)
     </p>
     <p>
-        In order to help you feel connection between view and action even more, we've
-        made <code>Action</code> suffix of actions optionable. As a matter of fact,
-        <code>rad:generate:controller</code> command will generate actions without suffix for you.
+        In order to help you feel the connection between the view and action even more, we've
+        made the <code>Action</code> suffix of optional. As a matter of fact,
+        <code>rad:generate:controller</code> command will generate actions without the suffix for you.
     </p>
 
     <pre class="code_block"><code>/**

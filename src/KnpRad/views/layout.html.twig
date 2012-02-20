@@ -11,11 +11,13 @@
 
     <meta name="viewport" content="width=device-width">
     {% block stylesheets %}
+        {# This uses the "assetic pipeline" - it loads style.* from the application bundle #}
         {% stylesheets '|style' filter="cssrewrite" -%}
             <link rel="stylesheet" href="{{ asset_url }}">
         {%- endstylesheets %}
     {% endblock %}
 
+    {# This uses the "assetic pipeline" - it loads modernizr.* from vendor/assets/js/libs #}
     {% javascripts '|libs/modernizr' -%}
         <script src="{{ asset_url }}"></script>
     {%- endjavascripts %}
@@ -26,6 +28,7 @@
 {% block content %}{% endblock %}
 
 {% block javascripts %}
+    {# This uses the "assetic pipeline" - it loads script.* from the application bundle #}
     {% javascripts '|script' -%}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
