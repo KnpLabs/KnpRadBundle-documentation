@@ -12,25 +12,30 @@ section#intro {
   border-bottom:10px solid #e7e4d6;
   @include shadow(0px, 0px, 15px, 0px, #000);
 
-  .logo {
-    width:320px;
-    height:80px;
+  .container {
+    width:680px;
+    position:relative;
 
-    margin:0px auto;
+    .logo {
+      width:320px;
+      height:80px;
 
-    a {
-      text-decoration:none;
-    }
-
-    p {
-      font-style:italic;
-      margin-left:45px;
-      margin-top:-2px;
-      color:#625d50;
+      # margin:0px auto;
 
       a {
+        text-decoration:none;
+      }
+
+      p {
+        font-style:italic;
+        margin-left:45px;
+        margin-top:-2px;
         color:#625d50;
-        text-decoration:underline;
+
+        a {
+          color:#625d50;
+          text-decoration:underline;
+        }
       }
     }
   }
