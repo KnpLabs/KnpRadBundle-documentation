@@ -2,6 +2,30 @@
     <h3 id="base-controller">Base Controller</h3>
 
     <p>
-        
+        RAD edition comes with extended base controller, which provides more controller shortcuts
+        for your RAD development:
     </p>
+
+    <ul>
+        <li><code>getValidator()</code></li>
+        <li><code>validate($object, $groups = null)</code></li>
+        <li><code>getSession()</code></li>
+        <li><code>getSecurityContext()</code></li>
+        <li><code>isGranted($attributes, $object = null)</code></li>
+        <li><code>createAccessDeniedException($message = 'Access Denied', \Exception $previous = null)</code></li>
+        <li><code>isGrantedOr403($attributes, $object = null, $message = 'Access Denied')</code></li>
+        <li><code>getEntityManager($name = null)</code></li>
+        <li><code>getEntityRepository($repositoryName, $managerName = null)</code></li>
+        <li><code>getDocumentManager($name = null)</code></li>
+        <li><code>getDocumentRepository($repositoryName, $managerName = null)</code></li>
+        <li><code>renderJson(array $hash, Response $response = null)</code></li>
+        <li><code>findEntity($class, $id, $managerName = null)</code></li>
+        <li><code>findEntityBy($class, array $criteria, $managerName = null)</code></li>
+        <li><code>findEntityOr404($class, $id, $managerName = null)</code></li>
+        <li><code>findEntityByOr404($class, array $criteria, $managerName = null)</code></li>
+        <li><code>findDocument($class, $id, $managerName = null)</code></li>
+        <li><code>findDocumentBy($class, array $criteria, $managerName = null)</code></li>
+        <li><code>findDocumentOr404($class, $id, $managerName = null)</code></li>
+        <li><code>findDocumentByOr404($class, array $criteria, $managerName = null)</code></li>
+    </ul>
 </section>

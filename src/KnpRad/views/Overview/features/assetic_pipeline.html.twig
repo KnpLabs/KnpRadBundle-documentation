@@ -1,7 +1,137 @@
 <section class="feature">
-    <h3 id="pipeline">Assetic Pipeline</h3>
+    <h3 id="pipeline">Assetic pipeline</h3>
 
     <p>
-        
+        Scripts and styles management was always a pain in almost any framework. And it got
+        even worse with increasing usage of 3rd-party javascript or stylesheet libraries and
+        even their preprocessors.
     </p>
+    <p>
+        Thanks amazing community generally and Kriss Wallsmith particulary, in Symfony2 we have 
+        Assetic - amazing piece of code, that manages all those preprocessor and management stuff.
+        It takes <code>view</code>-centric approach, where assets become part of the view and
+        template becomes responsible for assets management and dependencies solving.
+    </p>
+    <p>
+        While this <code>view</code>-centric approach works for old school backend-driven
+        applications, it could fail shortly for applications, where main part <strong>is</strong>
+        the frontend:
+    </p>
+    <pre><code>{{ '{%' }} javascripts
+    "bundles/someapp/js/lib/jasmine-1.1.0/jasmine.js"
+    "bundles/someapp/js/lib/jasmine-1.1.0/jasmine-html.js"
+    
+    "bundles/someapp/js/utils.js"
+    "bundles/someapp/js/someapp-date.js"
+    "bundles/someapp/js/period.js"
+    "bundles/someapp/js/period-pair.js"
+    
+    "bundles/someapp/js/model/model.js"
+    "bundles/someapp/js/model/site.js"
+    
+    "bundles/someapp/js/chart/raphael-min.js"
+    "bundles/someapp/js/chart/chart.js"
+    "bundles/someapp/js/chart/bar-chart.js"
+    "bundles/someapp/js/chart/line-chart.js"
+    
+    "bundles/someapp/js/spec/*.js"
+    "bundles/someapp/js/spec/model/*.js"
+    "bundles/someapp/js/spec/chart/*.js"
+    output="js/tests/jasmine.js" {{ '%}' }}
+    &lt;script type="text/javascript" src="{{ '{{' }} asset_url {{ '}}' }}"&gt;&lt;/script&gt;
+{{ '{%' }} endjavascripts {{ '%}' }}</code></pre>
+    <p>
+        It's not so readable anymore, right? It become a mess. Because we're trying to solve
+        dependencies from the wrong place. It's like trying to drive a car from airplane cockpit.
+        But what if i <strong>want</strong> to build clean Rich Internet Application and do it in
+        <a href="http://symfony.com">Symfony2</a>?
+    </p>
+
+    <h4>Assets Pipeline</h4>
+
+    <p>
+        Taking seriously, Assets Pipeline is one of the key features of Rails 3.1. But we liked
+        it so much, that we ported it to our KnpRadBundle.
+    </p>
+
+    <p>
+        What is Assets Pipeline actually? It's the modern assets management system, built on top
+        of 3 important concepts:
+    </p>
+
+    <ol>
+        <li>
+            Relative loadpath. Every asset in pipeline has relative loadpaths registered. For
+            example, our RAD edition comes out of the box with <code>src/Your/AppBundle/public</code>,
+            <code>vendor/assets</code> and <code>AnyBundle/Resources/public</code> support.
+            All those folders have <code>js</code> and <code>css</code> subfolders (or could have).
+            So every time, you're requiring <code>subdir/script</code> (note no extension) script
+            (with <code>javascripts</code> tag), pipeline locator will search for it in:
+
+            <ul>
+                <li><code>src/YourAppBundle/public/js/subdir/script.js</code></li>
+                <li><code>src/YourAppBundle/public/js/subdir/script.coffee</code></li>
+                <li><code>src/YourAppBundle/public/js/subdir/script.anyOtherFilter</code></li>
+                <li><code>vendor/assets/js/subdir/script.js</code></li>
+                <li><code>vendor/assets/js/subdir/script.coffee</code></li>
+                <li><code>vendor/assets/js/subdir/script.anyOtherFilter</code></li>
+                <li><code>AnyBundle/Resources/public/js/subdir/script.js</code></li>
+                <li><code>AnyBundle/Resources/public/js/subdir/script.coffee</code></li>
+                <li><code>AnyBundle/Resources/public/js/subdir/script.anyOtherFilter</code></li>
+            </ul>
+
+            Yep, that's right, now some bundle could come with <code>lib/jquery.js</code> out of
+            the box. And you could require it in your app as easy as <code>lib/jquery</code>.
+            And when you'll want to update jquery - just put new version in your <code>vendor/assets/js/lib</code> folder - it will be used automatically.
+        </li>
+
+        <li>
+            Automatic filter applying. Have you noticed, that pipeline locator searches for
+            <code>*.coffee</code>, <code>*.anyOtherFilter</code> (including <code>*.sass</code>)
+            too? If locator finds that your <code>lib/jquery</code> is <code>vendor/assets/js/lib/jquery.coffee</code>
+            - it will not only load it for you, it will also implicitly ensure that this asset
+            will be <code>CoffeeScript</code> preprocessed. How awesome is that?
+        </li>
+
+        <li>
+            Asset dependencies directives. Now the most interesting part. Most of your scripts
+            doesn't come along. They come grouped by nature (jasmine spec with backbone model).
+            And we strongly believe, that assets should manage those dependencies on their own
+            (well, actually Rails community believe, but we totally agree with them). So, pipeline
+            locator supports 5 types of inline directives:
+
+            <ul>
+                <li><code>require lib/jquery</code> requires another asset from pipeline</li>
+                <li><code>require_directory lib</code> requires whole directory from pipeline (1
+                level)</li>
+                <li><code>require_tree lib</code> recursively requires directory tree from pipeline
+                </li>
+                <li><code>require_self</code> puts current asset in the place between two other
+                assets in requirement tree</li>
+            </ul>
+
+            Yep, you hear us right. You can specify asset dependencies in assets themselves!
+        </li>
+    </ol>
+
+    <p>
+        That's basically all main parts to understand. But how to use this shiny pipeline locator
+        in your RAD project? With special pipe (<code>|</code>) prefix:
+    </p>
+
+    <pre><code>{{ '{%' }} javascripts "|script" {{ '%}' }}
+    &lt;script src="{{ '{{' }} asset_url {{ '}}' }}"&gt;&lt;/script&gt;
+{{ '{%' }} endjavascripts {{ '%}' }}</code></pre>
+
+    <p>
+        It will force Assetic to use pipeline locator to find this asset <strong>and</strong> to
+        evaluate its require directives (if it has some).
+    </p>
+
+    <p>
+        Assetic Pipeline is almost exact copy of Rails Assets Pipeline. You could read more about
+        it <a href="http://guides.rubyonrails.org/asset_pipeline.html">here</a> or even
+        <a href="http://www.youtube.com/watch?v=cGdCI2HhfAU">watch DHH presentation</a> from YouTube.
+    </p>
+
 </section>
