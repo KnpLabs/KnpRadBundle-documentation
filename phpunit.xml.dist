@@ -14,8 +14,8 @@
     bootstrap                   = "vendor/.composer/autoload.php" >
 
     <testsuites>
-        <testsuite name="Acme Hello Test Suite">
-            <directory>src/Acme/Hello/</directory>
+        <testsuite name="Knp Rad intro suite">
+            <directory suffix="Test.php">src/KnpRad/</directory>
         </testsuite>
     </testsuites>
 
