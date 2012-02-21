@@ -1,15 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-/*
- * This file is part of the Symfony Standard Edition.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 set_time_limit(0);
 chdir($rootDir = dirname(__DIR__));
 
@@ -47,11 +38,13 @@ $interpreter = defined('PHP_WINDOWS_VERSION_BUILD') ? 'php.exe' : 'php';
 // Install/update dependencies
 system(sprintf('%s %s %s', $interpreter, escapeshellarg($cacheDir.'/composer.phar'), $command));
 
-// Update configs and routings
-system(sprintf('%s %s', $interpreter, escapeshellarg($rootDir.'/bin/configs')));
+// Update configs and routings on --configs
+if (in_array('--configs', $argv)) {
+    system(sprintf('%s %s', $interpreter, escapeshellarg($rootDir.'/bin/configs')));
+}
 
 // Update assets
-system(sprintf('%s %s assets:install', $interpreter, escapeshellarg($rootDir.'/bin/console')));
+system(sprintf('%s %s assets:install', $interpreter, escapeshellarg($rootDir.'/sf')));
 
 // Remove the cache
-system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/bin/console')));
+system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($rootDir.'/sf')));
