@@ -110,7 +110,10 @@
                 assets in requirement tree</li>
             </ul>
 
-            Yep, you hear us right. You can specify asset dependencies in assets themselves!
+            Yep, you hear us right. You can specify asset dependencies in assets themselves! The
+            one requirement though, your asset should stay valid with those assets, so you need
+            to put them in comment blocks. <code>#= require...</code>, <code>//= require...</code>,
+            <code> *= require...</code> are all supported.
         </li>
     </ol>
 
@@ -125,7 +128,25 @@
 
     <p>
         It will force Assetic to use pipeline locator to find this asset <strong>and</strong> to
-        evaluate its require directives (if it has some).
+        evaluate its require directives (if it has some). Lets pretend, that we have <code>src/Your/Project/public/js/script.coffee</code>, that contains:
+    </p>
+
+    <pre><code>#= require jquery/date-plugin
+#= require jquery/month-plugin</code></pre>
+
+    <p>
+        Both those plugins are in <code>vendor/assets/js/jquery</code> folder and have
+        <code>//require jquery</code> at the begining. In this case, you'll finish with
+        assets list like:
+    </p>
+
+    <pre><code>vendor/assets/js/jquery.js
+vendor/assets/js/jquery/date-plugin.js
+vendor/assets/js/jquery/month-plugin.js
+src/Your/Project/js/script.coffee</code></pre>
+
+    <p>
+        And <code>script.coffee</code> will be automatically preprocessed by CoffeeScript!
     </p>
 
     <p>
