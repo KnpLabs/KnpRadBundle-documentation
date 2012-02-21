@@ -47,8 +47,33 @@
 
         <section class="feature">
             <h3 id="installation">Installation</h3>
+
+            <ol>
+                <li>Create project folder and move into it</li>
+                <li>
+                    Create <code>composer.json</code> file:<br/><br/>
+                    <pre><code>{
+    "require": {
+        "knp/rad-bundle": "&gt;=0.1"
+    }
+}</code></pre>
+                </li>
+                <li>Run <code>wget http://getcomposer.org/composer.phar &amp;&amp; php composer.phar install</code></li>
+                <li>Generate project with generator: <code>php vendor/bin/generate-rad-project NAME_OF_PROJECT</code></li>
+                <li>Generate configs with <code>php bin/configs</code></li>
+            </ol>
+
             <p>
-                TBD
+                After you'll do this steps, you'll have empty project, generated for you with
+                really useful defaults, like default view, based on
+                <a href="http://html5boilerplate.com/">HTML5 Boilerplate 3.0</a> and Twitter Bootstrap 2.0
+                forms layout. Then you'll just need to create action:
+            </p>
+
+            <pre><code>./sf rad:generate:controller Default:index</code></pre>
+
+            <p>
+                And you'll have your first RAD action up and ready :-)
             </p>
         </section>
 
