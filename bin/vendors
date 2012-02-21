@@ -5,6 +5,7 @@ set_time_limit(0);
 chdir($rootDir = dirname(__DIR__));
 
 $cacheDir  = $rootDir.'/cache';
+$logsDir   = $rootDir.'/logs';
 $vendorDir = $rootDir.'/vendor';
 
 array_shift($argv);
@@ -19,6 +20,13 @@ Specify a command to run:
 
 EOF
     );
+}
+
+if (!file_exists($cacheDir)) {
+    mkdir($cacheDir, 0777, true);
+}
+if (!file_exists($logsDir)) {
+    mkdir($logsDir, 0777, true);
 }
 
 if (!in_array($command = array_shift($argv), array('install', 'update'))) {
