@@ -37,7 +37,7 @@
 }
 
 #overview {
-  width:910px;
+  width:990px;
   padding-top:60px;
   padding-bottom:60px;
   margin:0px auto;
@@ -65,11 +65,14 @@
       @include sprite(440px, 10px, 280px, 54px); left:115px; top:-10px;
     }
     &.bundles {
-      @include sprite(480px, 84px, 245px, 120px); left:155px; top:68px;
+      @include sprite(480px, 84px, 264px, 120px); left:155px; top:68px;
     }
     &.app-bundle {
       @include sprite(65px, 715px, 364px, 170px); left:-260px; top:145px;
       z-index:3;
+    }
+    &.base-controller {
+      @include sprite(470px, 205px, 295px, 55px); left:185px; top:192px;
     }
     &.resources {
       @include sprite(108px, 274px, 266px, 244px); left:-220px; top:255px;
