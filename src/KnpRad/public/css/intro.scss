@@ -40,3 +40,15 @@ section#intro {
     }
   }
 }
+
+#knplabs {
+  position:absolute;
+  right:0px;
+  bottom:20px;
+
+  &:before {
+    content:'by ';
+    color:#666666;
+    font-family:'MetaMediumRegular',sans-serif;
+  }
+}
