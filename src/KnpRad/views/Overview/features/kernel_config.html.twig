@@ -2,6 +2,21 @@
     <h3 id="kernel">Kernel configuration file</h3>
 
     <p>
+        In RAD edition, there's not custom project kernel class. Mainly because you ain't gonna
+        need it. In your front controllers (including <code>console</code>) you'll just initialize
+        RadAppKernel:
+    </p>
+
+    <pre><code>&lt;?php
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Bundle\RadBundle\HttpKernel\RadKernel;
+
+$loader =require(__DIR__.'/../vendor/.composer/autoload.php');
+$kernel = RadKernel::createAppKernel($loader, 'prod', false);
+$kernel-&gt;loadClassCache();
+$kernel-&gt;handle(Request::createFromGlobals())-&gt;send();</code></pre>
+
+    <p>
         <code>config/kernel.yml</code> is the main configuration file for your application.
         It defines all the bundles that your project requires, environment-dependant
         parameters and a project namespace.
