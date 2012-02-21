@@ -1,2 +1,0 @@
-    AsseticBundle default configuration just have been added
-    for you.
