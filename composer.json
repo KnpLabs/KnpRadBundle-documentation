@@ -1,5 +1,6 @@
 {
     "require": {
-        "knplabs/rad-bundle": "dev-master"
+        "knplabs/rad-bundle": "dev-master",
+        "doctrine/common":    "2.1.4"
     }
 }
